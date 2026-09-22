@@ -19,8 +19,11 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-v2",
+        "certificate": "isolated-straight-lines-max3-v3",
         "heaps": [
+          1
+        ],
+        "grundies": [
           1
         ],
         "xor": 1
@@ -79,8 +82,11 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-v2",
+        "certificate": "isolated-straight-lines-max3-v3",
         "heaps": [
+          2
+        ],
+        "grundies": [
           2
         ],
         "xor": 2
@@ -168,8 +174,13 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-v2",
+        "certificate": "isolated-straight-lines-max3-v3",
         "heaps": [
+          1,
+          2,
+          4
+        ],
+        "grundies": [
           1,
           2,
           4
@@ -179,9 +190,9 @@
       "nimSum": 7,
       "gravityWitness": null,
       "trapProof": null,
-      "legalMoves": 14,
+      "legalMoves": 13,
       "winningCount": 4,
-      "losingCount": 10,
+      "losingCount": 9,
       "winningMoves": [
         {
           "move": [
@@ -231,7 +242,7 @@
           ],
           "nextId": "static:4x5:f0201",
           "winning": false,
-          "depth": 4
+          "depth": 6
         },
         {
           "move": [
@@ -248,7 +259,7 @@
           ],
           "nextId": "static:4x5:f0101",
           "winning": false,
-          "depth": 4
+          "depth": 6
         },
         {
           "move": [
@@ -266,17 +277,6 @@
             18
           ],
           "nextId": "static:4x5:80301",
-          "winning": false,
-          "depth": 4
-        },
-        {
-          "move": [
-            16,
-            17,
-            18,
-            19
-          ],
-          "nextId": "static:4x5:301",
           "winning": false,
           "depth": 4
         },
@@ -314,7 +314,7 @@
       ],
       "optimalLabel": "r5c1",
       "solutionDepth": 7,
-      "minimumTerminalDepth": 3,
+      "minimumTerminalDepth": 4,
       "replyCertificate": [
         {
           "aiMove": [
@@ -727,8 +727,13 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-v2",
+        "certificate": "isolated-straight-lines-max3-v3",
         "heaps": [
+          2,
+          1,
+          2
+        ],
+        "grundies": [
           2,
           1,
           2
@@ -1058,8 +1063,13 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-v2",
+        "certificate": "isolated-straight-lines-max3-v3",
         "heaps": [
+          3,
+          4,
+          6
+        ],
+        "grundies": [
           3,
           4,
           6
@@ -1069,9 +1079,9 @@
       "nimSum": 1,
       "gravityWitness": null,
       "trapProof": null,
-      "legalMoves": 37,
+      "legalMoves": 30,
       "winningCount": 2,
-      "losingCount": 35,
+      "losingCount": 28,
       "winningMoves": [
         {
           "move": [
@@ -1133,7 +1143,7 @@
           ],
           "nextId": "static:6x5:3f00e007",
           "winning": false,
-          "depth": 8
+          "depth": 12
         },
         {
           "move": [
@@ -1142,7 +1152,7 @@
           ],
           "nextId": "static:6x5:3f00c007",
           "winning": false,
-          "depth": 8
+          "depth": 12
         },
         {
           "move": [
@@ -1152,18 +1162,7 @@
           ],
           "nextId": "static:6x5:3f008007",
           "winning": false,
-          "depth": 8
-        },
-        {
-          "move": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "nextId": "static:6x5:3f000007",
-          "winning": false,
-          "depth": 8
+          "depth": 10
         },
         {
           "move": [
@@ -1171,7 +1170,7 @@
           ],
           "nextId": "static:6x5:3f00d007",
           "winning": false,
-          "depth": 8
+          "depth": 12
         },
         {
           "move": [
@@ -1190,7 +1189,7 @@
           ],
           "nextId": "static:6x5:3f001007",
           "winning": false,
-          "depth": 8
+          "depth": 10
         },
         {
           "move": [
@@ -1198,7 +1197,7 @@
           ],
           "nextId": "static:6x5:3f00b007",
           "winning": false,
-          "depth": 8
+          "depth": 12
         },
         {
           "move": [
@@ -1207,7 +1206,7 @@
           ],
           "nextId": "static:6x5:3f003007",
           "winning": false,
-          "depth": 8
+          "depth": 12
         },
         {
           "move": [
@@ -1215,7 +1214,7 @@
           ],
           "nextId": "static:6x5:3f007007",
           "winning": false,
-          "depth": 8
+          "depth": 12
         },
         {
           "move": [
@@ -1242,43 +1241,7 @@
           ],
           "nextId": "static:6x5:3800f007",
           "winning": false,
-          "depth": 8
-        },
-        {
-          "move": [
-            24,
-            25,
-            26,
-            27
-          ],
-          "nextId": "static:6x5:3000f007",
-          "winning": false,
-          "depth": 8
-        },
-        {
-          "move": [
-            24,
-            25,
-            26,
-            27,
-            28
-          ],
-          "nextId": "static:6x5:2000f007",
-          "winning": false,
-          "depth": 8
-        },
-        {
-          "move": [
-            24,
-            25,
-            26,
-            27,
-            28,
-            29
-          ],
-          "nextId": "static:6x5:f007",
-          "winning": false,
-          "depth": 8
+          "depth": 10
         },
         {
           "move": [
@@ -1305,30 +1268,7 @@
           ],
           "nextId": "static:6x5:3100f007",
           "winning": false,
-          "depth": 8
-        },
-        {
-          "move": [
-            25,
-            26,
-            27,
-            28
-          ],
-          "nextId": "static:6x5:2100f007",
-          "winning": false,
           "depth": 10
-        },
-        {
-          "move": [
-            25,
-            26,
-            27,
-            28,
-            29
-          ],
-          "nextId": "static:6x5:100f007",
-          "winning": false,
-          "depth": 8
         },
         {
           "move": [
@@ -1355,18 +1295,7 @@
           ],
           "nextId": "static:6x5:2300f007",
           "winning": false,
-          "depth": 8
-        },
-        {
-          "move": [
-            26,
-            27,
-            28,
-            29
-          ],
-          "nextId": "static:6x5:300f007",
-          "winning": false,
-          "depth": 8
+          "depth": 10
         },
         {
           "move": [
@@ -1393,7 +1322,7 @@
           ],
           "nextId": "static:6x5:700f007",
           "winning": false,
-          "depth": 8
+          "depth": 10
         },
         {
           "move": [
@@ -1426,7 +1355,7 @@
       ],
       "optimalLabel": "r1c1",
       "solutionDepth": 13,
-      "minimumTerminalDepth": 3,
+      "minimumTerminalDepth": 5,
       "replyCertificate": [
         {
           "aiMove": [
@@ -1452,7 +1381,7 @@
             "id": "static:6x5:3f00f004"
           },
           "playerMove": [
-            24
+            25
           ],
           "afterPlayer": {
             "width": 6,
@@ -1464,13 +1393,13 @@
               13,
               14,
               15,
-              25,
+              24,
               26,
               27,
               28,
               29
             ],
-            "id": "static:6x5:3e00f004"
+            "id": "static:6x5:3d00f004"
           }
         },
         {
@@ -1541,7 +1470,7 @@
             "id": "static:6x5:3f00f002"
           },
           "playerMove": [
-            24
+            25
           ],
           "afterPlayer": {
             "width": 6,
@@ -1553,13 +1482,13 @@
               13,
               14,
               15,
-              25,
+              24,
               26,
               27,
               28,
               29
             ],
-            "id": "static:6x5:3e00f002"
+            "id": "static:6x5:3d00f002"
           }
         },
         {
@@ -1586,11 +1515,7 @@
             "id": "static:6x5:3f00e006"
           },
           "playerMove": [
-            24,
-            25,
-            26,
-            27,
-            28
+            24
           ],
           "afterPlayer": {
             "width": 6,
@@ -1602,9 +1527,13 @@
               13,
               14,
               15,
+              25,
+              26,
+              27,
+              28,
               29
             ],
-            "id": "static:6x5:2000e006"
+            "id": "static:6x5:3e00e006"
           }
         },
         {
@@ -1631,12 +1560,8 @@
             "id": "static:6x5:3f00c006"
           },
           "playerMove": [
-            24,
-            25,
             26,
-            27,
-            28,
-            29
+            27
           ],
           "afterPlayer": {
             "width": 6,
@@ -1646,9 +1571,13 @@
               1,
               2,
               14,
-              15
+              15,
+              24,
+              25,
+              28,
+              29
             ],
-            "id": "static:6x5:c006"
+            "id": "static:6x5:3300c006"
           }
         },
         {
@@ -1696,48 +1625,6 @@
         },
         {
           "aiMove": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "afterAI": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              24,
-              25,
-              26,
-              27,
-              28,
-              29
-            ],
-            "id": "static:6x5:3f000006"
-          },
-          "playerMove": [
-            24,
-            25,
-            26,
-            27
-          ],
-          "afterPlayer": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              28,
-              29
-            ],
-            "id": "static:6x5:30000006"
-          }
-        },
-        {
-          "aiMove": [
             13
           ],
           "afterAI": {
@@ -1760,11 +1647,7 @@
             "id": "static:6x5:3f00d006"
           },
           "playerMove": [
-            24,
-            25,
-            26,
-            27,
-            28
+            24
           ],
           "afterPlayer": {
             "width": 6,
@@ -1776,9 +1659,13 @@
               12,
               14,
               15,
+              25,
+              26,
+              27,
+              28,
               29
             ],
-            "id": "static:6x5:2000d006"
+            "id": "static:6x5:3e00d006"
           }
         },
         {
@@ -1805,10 +1692,8 @@
             "id": "static:6x5:3f009006"
           },
           "playerMove": [
-            24,
             25,
-            26,
-            27
+            26
           ],
           "afterPlayer": {
             "width": 6,
@@ -1819,10 +1704,12 @@
               2,
               12,
               15,
+              24,
+              27,
               28,
               29
             ],
-            "id": "static:6x5:30009006"
+            "id": "static:6x5:39009006"
           }
         },
         {
@@ -1892,11 +1779,7 @@
             "id": "static:6x5:3f00b006"
           },
           "playerMove": [
-            24,
-            25,
-            26,
-            27,
-            28
+            24
           ],
           "afterPlayer": {
             "width": 6,
@@ -1908,9 +1791,13 @@
               12,
               13,
               15,
+              25,
+              26,
+              27,
+              28,
               29
             ],
-            "id": "static:6x5:2000b006"
+            "id": "static:6x5:3e00b006"
           }
         },
         {
@@ -1937,12 +1824,8 @@
             "id": "static:6x5:3f003006"
           },
           "playerMove": [
-            24,
-            25,
             26,
-            27,
-            28,
-            29
+            27
           ],
           "afterPlayer": {
             "width": 6,
@@ -1952,9 +1835,13 @@
               1,
               2,
               12,
-              13
+              13,
+              24,
+              25,
+              28,
+              29
             ],
-            "id": "static:6x5:3006"
+            "id": "static:6x5:33003006"
           }
         },
         {
@@ -1981,11 +1868,7 @@
             "id": "static:6x5:3f007006"
           },
           "playerMove": [
-            24,
-            25,
-            26,
-            27,
-            28
+            24
           ],
           "afterPlayer": {
             "width": 6,
@@ -1997,9 +1880,13 @@
               12,
               13,
               14,
+              25,
+              26,
+              27,
+              28,
               29
             ],
-            "id": "static:6x5:20007006"
+            "id": "static:6x5:3e007006"
           }
         },
         {
@@ -2026,15 +1913,15 @@
             "id": "static:6x5:3e00f006"
           },
           "playerMove": [
-            1
+            12
           ],
           "afterPlayer": {
             "width": 6,
             "height": 5,
             "world": "static",
             "cells": [
+              1,
               2,
-              12,
               13,
               14,
               15,
@@ -2044,7 +1931,7 @@
               28,
               29
             ],
-            "id": "static:6x5:3e00f004"
+            "id": "static:6x5:3e00e006"
           }
         },
         {
@@ -2136,129 +2023,6 @@
         },
         {
           "aiMove": [
-            24,
-            25,
-            26,
-            27
-          ],
-          "afterAI": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              12,
-              13,
-              14,
-              15,
-              28,
-              29
-            ],
-            "id": "static:6x5:3000f006"
-          },
-          "playerMove": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "afterPlayer": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              28,
-              29
-            ],
-            "id": "static:6x5:30000006"
-          }
-        },
-        {
-          "aiMove": [
-            24,
-            25,
-            26,
-            27,
-            28
-          ],
-          "afterAI": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              12,
-              13,
-              14,
-              15,
-              29
-            ],
-            "id": "static:6x5:2000f006"
-          },
-          "playerMove": [
-            12
-          ],
-          "afterPlayer": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              13,
-              14,
-              15,
-              29
-            ],
-            "id": "static:6x5:2000e006"
-          }
-        },
-        {
-          "aiMove": [
-            24,
-            25,
-            26,
-            27,
-            28,
-            29
-          ],
-          "afterAI": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              12,
-              13,
-              14,
-              15
-            ],
-            "id": "static:6x5:f006"
-          },
-          "playerMove": [
-            12,
-            13
-          ],
-          "afterPlayer": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              14,
-              15
-            ],
-            "id": "static:6x5:c006"
-          }
-        },
-        {
-          "aiMove": [
             25
           ],
           "afterAI": {
@@ -2326,10 +2090,8 @@
             "id": "static:6x5:3900f006"
           },
           "playerMove": [
-            12,
             13,
-            14,
-            15
+            14
           ],
           "afterPlayer": {
             "width": 6,
@@ -2338,12 +2100,14 @@
             "cells": [
               1,
               2,
+              12,
+              15,
               24,
               27,
               28,
               29
             ],
-            "id": "static:6x5:39000006"
+            "id": "static:6x5:39009006"
           }
         },
         {
@@ -2387,89 +2151,6 @@
               29
             ],
             "id": "static:6x5:31008006"
-          }
-        },
-        {
-          "aiMove": [
-            25,
-            26,
-            27,
-            28
-          ],
-          "afterAI": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              12,
-              13,
-              14,
-              15,
-              24,
-              29
-            ],
-            "id": "static:6x5:2100f006"
-          },
-          "playerMove": [
-            12,
-            13
-          ],
-          "afterPlayer": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              14,
-              15,
-              24,
-              29
-            ],
-            "id": "static:6x5:2100c006"
-          }
-        },
-        {
-          "aiMove": [
-            25,
-            26,
-            27,
-            28,
-            29
-          ],
-          "afterAI": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              12,
-              13,
-              14,
-              15,
-              24
-            ],
-            "id": "static:6x5:100f006"
-          },
-          "playerMove": [
-            12
-          ],
-          "afterPlayer": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              13,
-              14,
-              15,
-              24
-            ],
-            "id": "static:6x5:100e006"
           }
         },
         {
@@ -2606,48 +2287,6 @@
         },
         {
           "aiMove": [
-            26,
-            27,
-            28,
-            29
-          ],
-          "afterAI": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              12,
-              13,
-              14,
-              15,
-              24,
-              25
-            ],
-            "id": "static:6x5:300f006"
-          },
-          "playerMove": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "afterPlayer": {
-            "width": 6,
-            "height": 5,
-            "world": "static",
-            "cells": [
-              1,
-              2,
-              24,
-              25
-            ],
-            "id": "static:6x5:3000006"
-          }
-        },
-        {
-          "aiMove": [
             27
           ],
           "afterAI": {
@@ -2715,10 +2354,8 @@
             "id": "static:6x5:2700f006"
           },
           "playerMove": [
-            12,
             13,
-            14,
-            15
+            14
           ],
           "afterPlayer": {
             "width": 6,
@@ -2727,12 +2364,14 @@
             "cells": [
               1,
               2,
+              12,
+              15,
               24,
               25,
               26,
               29
             ],
-            "id": "static:6x5:27000006"
+            "id": "static:6x5:27009006"
           }
         },
         {
@@ -2891,15 +2530,15 @@
             "id": "static:6x5:1f00f006"
           },
           "playerMove": [
-            1
+            12
           ],
           "afterPlayer": {
             "width": 6,
             "height": 5,
             "world": "static",
             "cells": [
+              1,
               2,
-              12,
               13,
               14,
               15,
@@ -2909,7 +2548,7 @@
               27,
               28
             ],
-            "id": "static:6x5:1f00f004"
+            "id": "static:6x5:1f00e006"
           }
         }
       ],
@@ -2933,23 +2572,23 @@
         {
           "stateId": "static:6x5:3f00f004",
           "move": [
-            24
+            25
           ],
-          "nextId": "static:6x5:3e00f004",
+          "nextId": "static:6x5:3d00f004",
           "winning": true
         },
         {
-          "stateId": "static:6x5:3e00f004",
+          "stateId": "static:6x5:3d00f004",
           "move": [
             2
           ],
-          "nextId": "static:6x5:3e00f000",
+          "nextId": "static:6x5:3d00f000",
           "winning": false
         },
         {
-          "stateId": "static:6x5:3e00f000",
+          "stateId": "static:6x5:3d00f000",
           "move": [
-            25
+            24
           ],
           "nextId": "static:6x5:3c00f000",
           "winning": true
@@ -3190,7 +2829,7 @@
         ],
         "nextId": "gravity:4x3:f00",
         "winning": false,
-        "depth": 2
+        "depth": 4
       },
       "trapProof": null,
       "legalMoves": 10,
@@ -3214,7 +2853,7 @@
           ],
           "nextId": "gravity:4x3:f00",
           "winning": false,
-          "depth": 2
+          "depth": 4
         },
         {
           "move": [
@@ -3283,7 +2922,7 @@
           ],
           "nextId": "gravity:4x3:f00",
           "winning": false,
-          "depth": 2
+          "depth": 4
         }
       ],
       "optimalFirstMove": [
@@ -3857,7 +3496,6 @@
       },
       "trapProof": {
         "move": [
-          0,
           1,
           2,
           3
@@ -3867,13 +3505,15 @@
           "height": 3,
           "world": "gravity",
           "cells": [
+            0,
             4,
             8,
             11
           ],
-          "id": "gravity:4x3:910"
+          "id": "gravity:4x3:911"
         },
         "aiResponse": [
+          0,
           4
         ],
         "aiSendsTo": {
@@ -3887,9 +3527,9 @@
           "id": "gravity:4x3:900"
         }
       },
-      "legalMoves": 17,
+      "legalMoves": 16,
       "winningCount": 2,
-      "losingCount": 15,
+      "losingCount": 14,
       "winningMoves": [
         {
           "move": [
@@ -3918,7 +3558,7 @@
           ],
           "nextId": "gravity:4x3:f90",
           "winning": false,
-          "depth": 4
+          "depth": 6
         },
         {
           "move": [
@@ -3926,17 +3566,6 @@
             1
           ],
           "nextId": "gravity:4x3:d90",
-          "winning": false,
-          "depth": 4
-        },
-        {
-          "move": [
-            0,
-            1,
-            2,
-            3
-          ],
-          "nextId": "gravity:4x3:910",
           "winning": false,
           "depth": 4
         },
@@ -4017,7 +3646,7 @@
           ],
           "nextId": "gravity:4x3:f90",
           "winning": false,
-          "depth": 4
+          "depth": 6
         },
         {
           "move": [
@@ -4042,7 +3671,7 @@
           ],
           "nextId": "gravity:4x3:f90",
           "winning": false,
-          "depth": 4
+          "depth": 6
         }
       ],
       "optimalFirstMove": [
@@ -4284,18 +3913,19 @@
           2,
           3,
           4,
+          5,
           6,
-          7,
           8,
-          12
+          9,
+          10
         ],
-        "id": "gravity:4x4:11df"
+        "id": "gravity:4x4:77f"
       },
       "rows": [
         "####",
-        "#.##",
-        "#...",
-        "#..."
+        "###.",
+        "###.",
+        "...."
       ],
       "outcome": "N / winning",
       "nim": null,
@@ -4303,35 +3933,34 @@
       "gravityWitness": {
         "move": [
           0,
-          1,
-          2
+          1
         ],
-        "nextId": "gravity:4x4:d910",
+        "nextId": "gravity:4x4:f740",
         "winning": false,
-        "depth": 4
+        "depth": 6
       },
       "trapProof": null,
-      "legalMoves": 24,
+      "legalMoves": 30,
       "winningCount": 2,
-      "losingCount": 22,
+      "losingCount": 28,
       "winningMoves": [
         {
           "move": [
-            2,
-            3
+            1,
+            5
           ],
-          "nextId": "gravity:4x4:f111",
+          "nextId": "gravity:4x4:f550",
           "winning": true,
-          "depth": 7
+          "depth": 9
         },
         {
           "move": [
-            6,
-            7
+            5,
+            9
           ],
-          "nextId": "gravity:4x4:f111",
+          "nextId": "gravity:4x4:f550",
           "winning": true,
-          "depth": 7
+          "depth": 9
         }
       ],
       "losingMoves": [
@@ -4339,7 +3968,7 @@
           "move": [
             0
           ],
-          "nextId": "gravity:4x4:fd10",
+          "nextId": "gravity:4x4:f760",
           "winning": false,
           "depth": 6
         },
@@ -4348,7 +3977,7 @@
             0,
             1
           ],
-          "nextId": "gravity:4x4:dd10",
+          "nextId": "gravity:4x4:f740",
           "winning": false,
           "depth": 6
         },
@@ -4358,18 +3987,7 @@
             1,
             2
           ],
-          "nextId": "gravity:4x4:d910",
-          "winning": false,
-          "depth": 4
-        },
-        {
-          "move": [
-            0,
-            1,
-            2,
-            3
-          ],
-          "nextId": "gravity:4x4:d110",
+          "nextId": "gravity:4x4:f700",
           "winning": false,
           "depth": 6
         },
@@ -4378,7 +3996,7 @@
             0,
             4
           ],
-          "nextId": "gravity:4x4:fd00",
+          "nextId": "gravity:4x4:f660",
           "winning": false,
           "depth": 6
         },
@@ -4388,37 +4006,26 @@
             4,
             8
           ],
-          "nextId": "gravity:4x4:fc00",
+          "nextId": "gravity:4x4:e660",
           "winning": false,
-          "depth": 4
-        },
-        {
-          "move": [
-            0,
-            4,
-            8,
-            12
-          ],
-          "nextId": "gravity:4x4:ec00",
-          "winning": false,
-          "depth": 4
+          "depth": 6
         },
         {
           "move": [
             1
           ],
-          "nextId": "gravity:4x4:dd11",
+          "nextId": "gravity:4x4:f750",
           "winning": false,
-          "depth": 6
+          "depth": 8
         },
         {
           "move": [
             1,
             2
           ],
-          "nextId": "gravity:4x4:d911",
+          "nextId": "gravity:4x4:f710",
           "winning": false,
-          "depth": 4
+          "depth": 6
         },
         {
           "move": [
@@ -4426,24 +4033,53 @@
             2,
             3
           ],
-          "nextId": "gravity:4x4:d111",
+          "nextId": "gravity:4x4:7710",
           "winning": false,
           "depth": 6
         },
         {
           "move": [
-            2
+            1,
+            5,
+            9
           ],
-          "nextId": "gravity:4x4:f911",
+          "nextId": "gravity:4x4:d550",
           "winning": false,
           "depth": 8
+        },
+        {
+          "move": [
+            2
+          ],
+          "nextId": "gravity:4x4:f730",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            2,
+            3
+          ],
+          "nextId": "gravity:4x4:7730",
+          "winning": false,
+          "depth": 6
         },
         {
           "move": [
             2,
             6
           ],
-          "nextId": "gravity:4x4:b911",
+          "nextId": "gravity:4x4:f330",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            2,
+            6,
+            10
+          ],
+          "nextId": "gravity:4x4:b330",
           "winning": false,
           "depth": 6
         },
@@ -4451,24 +4087,34 @@
           "move": [
             3
           ],
-          "nextId": "gravity:4x4:f511",
+          "nextId": "gravity:4x4:7770",
           "winning": false,
-          "depth": 8
-        },
-        {
-          "move": [
-            3,
-            7
-          ],
-          "nextId": "gravity:4x4:7511",
-          "winning": false,
-          "depth": 4
+          "depth": 6
         },
         {
           "move": [
             4
           ],
-          "nextId": "gravity:4x4:fd10",
+          "nextId": "gravity:4x4:f760",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            4,
+            5
+          ],
+          "nextId": "gravity:4x4:f740",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            4,
+            5,
+            6
+          ],
+          "nextId": "gravity:4x4:f700",
           "winning": false,
           "depth": 6
         },
@@ -4477,73 +4123,254 @@
             4,
             8
           ],
-          "nextId": "gravity:4x4:fd00",
+          "nextId": "gravity:4x4:f660",
           "winning": false,
           "depth": 6
         },
         {
           "move": [
-            4,
-            8,
-            12
+            5
           ],
-          "nextId": "gravity:4x4:fc00",
+          "nextId": "gravity:4x4:f750",
           "winning": false,
-          "depth": 4
+          "depth": 8
+        },
+        {
+          "move": [
+            5,
+            6
+          ],
+          "nextId": "gravity:4x4:f710",
+          "winning": false,
+          "depth": 6
         },
         {
           "move": [
             6
           ],
-          "nextId": "gravity:4x4:f911",
+          "nextId": "gravity:4x4:f730",
           "winning": false,
           "depth": 8
         },
         {
           "move": [
-            7
+            6,
+            10
           ],
-          "nextId": "gravity:4x4:f511",
+          "nextId": "gravity:4x4:f330",
           "winning": false,
-          "depth": 8
+          "depth": 6
         },
         {
           "move": [
             8
           ],
-          "nextId": "gravity:4x4:fd10",
+          "nextId": "gravity:4x4:f760",
           "winning": false,
           "depth": 6
         },
         {
           "move": [
             8,
-            12
+            9
           ],
-          "nextId": "gravity:4x4:fd00",
+          "nextId": "gravity:4x4:f740",
           "winning": false,
           "depth": 6
         },
         {
           "move": [
-            12
+            8,
+            9,
+            10
           ],
-          "nextId": "gravity:4x4:fd10",
+          "nextId": "gravity:4x4:f700",
           "winning": false,
           "depth": 6
+        },
+        {
+          "move": [
+            9
+          ],
+          "nextId": "gravity:4x4:f750",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            9,
+            10
+          ],
+          "nextId": "gravity:4x4:f710",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            10
+          ],
+          "nextId": "gravity:4x4:f730",
+          "winning": false,
+          "depth": 8
         }
       ],
       "optimalFirstMove": [
-        2,
-        3
+        1,
+        5
       ],
-      "optimalLabel": "r1c3–r1c4",
-      "solutionDepth": 7,
-      "minimumTerminalDepth": 3,
+      "optimalLabel": "r1c2–r2c2",
+      "solutionDepth": 9,
+      "minimumTerminalDepth": 4,
       "replyCertificate": [
         {
           "aiMove": [
-            0
+            4
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              6,
+              8,
+              10,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f540"
+          },
+          "playerMove": [
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              10,
+              12,
+              14
+            ],
+            "id": "gravity:4x4:5500"
+          }
+        },
+        {
+          "aiMove": [
+            4,
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              6,
+              10,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f440"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              10,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:c400"
+          }
+        },
+        {
+          "aiMove": [
+            4,
+            8,
+            12
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              6,
+              10,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:e440"
+          },
+          "playerMove": [
+            6,
+            10,
+            14
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              13,
+              15
+            ],
+            "id": "gravity:4x4:a000"
+          }
+        },
+        {
+          "aiMove": [
+            6
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              10,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f510"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            6,
+            10
           ],
           "afterAI": {
             "width": 4,
@@ -4578,344 +4405,8 @@
         },
         {
           "aiMove": [
-            0,
-            4
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              8,
-              12,
-              13,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:f100"
-          },
-          "playerMove": [
-            12,
-            13,
-            14
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              12,
-              15
-            ],
-            "id": "gravity:4x4:9000"
-          }
-        },
-        {
-          "aiMove": [
-            0,
-            4,
-            8
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              12,
-              13,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:f000"
-          },
-          "playerMove": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [],
-            "id": "gravity:4x4:0"
-          }
-        },
-        {
-          "aiMove": [
-            0,
-            4,
-            8,
-            12
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              13,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:e000"
-          },
-          "playerMove": [
-            13,
-            14,
-            15
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [],
-            "id": "gravity:4x4:0"
-          }
-        },
-        {
-          "aiMove": [
-            4
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              4,
-              8,
-              12,
-              13,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:f110"
-          },
-          "playerMove": [
-            12,
-            13
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              8,
-              12,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:d100"
-          }
-        },
-        {
-          "aiMove": [
-            4,
-            8
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              8,
-              12,
-              13,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:f100"
-          },
-          "playerMove": [
-            12,
-            13,
-            14
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              12,
-              15
-            ],
-            "id": "gravity:4x4:9000"
-          }
-        },
-        {
-          "aiMove": [
-            4,
-            8,
-            12
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              12,
-              13,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:f000"
-          },
-          "playerMove": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [],
-            "id": "gravity:4x4:0"
-          }
-        },
-        {
-          "aiMove": [
-            8
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              4,
-              8,
-              12,
-              13,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:f110"
-          },
-          "playerMove": [
-            12,
-            13
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              8,
-              12,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:d100"
-          }
-        },
-        {
-          "aiMove": [
-            8,
-            12
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              8,
-              12,
-              13,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:f100"
-          },
-          "playerMove": [
-            12,
-            13,
-            14
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              12,
-              15
-            ],
-            "id": "gravity:4x4:9000"
-          }
-        },
-        {
-          "aiMove": [
-            12
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              4,
-              8,
-              12,
-              13,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:f110"
-          },
-          "playerMove": [
-            12,
-            13
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              8,
-              12,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:d100"
-          }
-        },
-        {
-          "aiMove": [
-            12,
-            13
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              4,
-              8,
-              12,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:d110"
-          },
-          "playerMove": [
-            4
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              8,
-              12,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:d100"
-          }
-        },
-        {
-          "aiMove": [
-            12,
-            13,
+            6,
+            10,
             14
           ],
           "afterAI": {
@@ -4926,177 +4417,12 @@
               4,
               8,
               12,
-              15
-            ],
-            "id": "gravity:4x4:9110"
-          },
-          "playerMove": [
-            4,
-            8
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              12,
-              15
-            ],
-            "id": "gravity:4x4:9000"
-          }
-        },
-        {
-          "aiMove": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              4,
-              8,
-              12
-            ],
-            "id": "gravity:4x4:1110"
-          },
-          "playerMove": [
-            4,
-            8,
-            12
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [],
-            "id": "gravity:4x4:0"
-          }
-        },
-        {
-          "aiMove": [
-            13
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              0,
-              4,
-              8,
-              12,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:d111"
-          },
-          "playerMove": [
-            0,
-            4
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              8,
-              12,
-              14,
-              15
-            ],
-            "id": "gravity:4x4:d100"
-          }
-        },
-        {
-          "aiMove": [
-            13,
-            14
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              0,
-              4,
-              8,
-              12,
-              15
-            ],
-            "id": "gravity:4x4:9111"
-          },
-          "playerMove": [
-            0,
-            4,
-            8
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              12,
-              15
-            ],
-            "id": "gravity:4x4:9000"
-          }
-        },
-        {
-          "aiMove": [
-            13,
-            14,
-            15
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              0,
-              4,
-              8,
-              12
-            ],
-            "id": "gravity:4x4:1111"
-          },
-          "playerMove": [
-            0,
-            4,
-            8,
-            12
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [],
-            "id": "gravity:4x4:0"
-          }
-        },
-        {
-          "aiMove": [
-            14
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 4,
-            "world": "gravity",
-            "cells": [
-              0,
-              4,
-              8,
-              12,
               13,
               15
             ],
-            "id": "gravity:4x4:b111"
+            "id": "gravity:4x4:b110"
           },
           "playerMove": [
-            0,
             4,
             8,
             12
@@ -5114,25 +4440,100 @@
         },
         {
           "aiMove": [
-            14,
-            15
+            8
           ],
           "afterAI": {
             "width": 4,
             "height": 4,
             "world": "gravity",
             "cells": [
-              0,
-              4,
+              6,
               8,
+              10,
               12,
-              13
+              13,
+              14,
+              15
             ],
-            "id": "gravity:4x4:3111"
+            "id": "gravity:4x4:f540"
           },
           "playerMove": [
-            0,
-            4
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              10,
+              12,
+              14
+            ],
+            "id": "gravity:4x4:5500"
+          }
+        },
+        {
+          "aiMove": [
+            8,
+            12
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              6,
+              10,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f440"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              10,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:c400"
+          }
+        },
+        {
+          "aiMove": [
+            10
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              10,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f510"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
           ],
           "afterPlayer": {
             "width": 4,
@@ -5141,9 +4542,335 @@
             "cells": [
               8,
               12,
-              13
+              14,
+              15
             ],
-            "id": "gravity:4x4:3100"
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            10,
+            14
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f110"
+          },
+          "playerMove": [
+            12,
+            13
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            12
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              6,
+              8,
+              10,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f540"
+          },
+          "playerMove": [
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              10,
+              12,
+              14
+            ],
+            "id": "gravity:4x4:5500"
+          }
+        },
+        {
+          "aiMove": [
+            12,
+            13
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              6,
+              8,
+              10,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d540"
+          },
+          "playerMove": [
+            6,
+            10
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            12,
+            13,
+            14
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              10,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d500"
+          },
+          "playerMove": [
+            8,
+            12
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              10,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:c400"
+          }
+        },
+        {
+          "aiMove": [
+            13
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              6,
+              8,
+              10,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d550"
+          },
+          "playerMove": [
+            15
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              6,
+              8,
+              10,
+              12,
+              14
+            ],
+            "id": "gravity:4x4:5550"
+          }
+        },
+        {
+          "aiMove": [
+            13,
+            14
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              10,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d510"
+          },
+          "playerMove": [
+            4,
+            8,
+            12
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              10,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:c400"
+          }
+        },
+        {
+          "aiMove": [
+            13,
+            14,
+            15
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              10,
+              12,
+              14
+            ],
+            "id": "gravity:4x4:5510"
+          },
+          "playerMove": [
+            4
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              10,
+              12,
+              14
+            ],
+            "id": "gravity:4x4:5500"
+          }
+        },
+        {
+          "aiMove": [
+            14
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              10,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f510"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            14,
+            15
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              10,
+              12,
+              13,
+              14
+            ],
+            "id": "gravity:4x4:7510"
+          },
+          "playerMove": [
+            4,
+            8,
+            12
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              10,
+              13,
+              14
+            ],
+            "id": "gravity:4x4:6400"
           }
         },
         {
@@ -5155,88 +4882,105 @@
             "height": 4,
             "world": "gravity",
             "cells": [
-              0,
               4,
+              6,
               8,
+              10,
               12,
               13,
               14
             ],
-            "id": "gravity:4x4:7111"
+            "id": "gravity:4x4:7550"
           },
           "playerMove": [
-            0
+            4,
+            8
           ],
           "afterPlayer": {
             "width": 4,
             "height": 4,
             "world": "gravity",
             "cells": [
-              4,
-              8,
+              6,
+              10,
               12,
               13,
               14
             ],
-            "id": "gravity:4x4:7110"
+            "id": "gravity:4x4:7440"
           }
         }
       ],
       "continuation": [
         {
-          "stateId": "gravity:4x4:11df",
+          "stateId": "gravity:4x4:77f",
           "move": [
-            2,
-            3
+            1,
+            5
           ],
-          "nextId": "gravity:4x4:f111",
+          "nextId": "gravity:4x4:f550",
           "winning": true
         },
         {
-          "stateId": "gravity:4x4:f111",
+          "stateId": "gravity:4x4:f550",
           "move": [
-            0
+            13
           ],
-          "nextId": "gravity:4x4:f110",
+          "nextId": "gravity:4x4:d550",
           "winning": false
         },
         {
-          "stateId": "gravity:4x4:f110",
+          "stateId": "gravity:4x4:d550",
           "move": [
-            12,
-            13
+            15
           ],
-          "nextId": "gravity:4x4:d100",
+          "nextId": "gravity:4x4:5550",
           "winning": true
         },
         {
-          "stateId": "gravity:4x4:d100",
+          "stateId": "gravity:4x4:5550",
+          "move": [
+            4
+          ],
+          "nextId": "gravity:4x4:5540",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:4x4:5540",
+          "move": [
+            6
+          ],
+          "nextId": "gravity:4x4:5500",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:4x4:5500",
           "move": [
             8
           ],
-          "nextId": "gravity:4x4:d000",
+          "nextId": "gravity:4x4:5400",
           "winning": false
         },
         {
-          "stateId": "gravity:4x4:d000",
+          "stateId": "gravity:4x4:5400",
           "move": [
-            14
+            10
           ],
-          "nextId": "gravity:4x4:9000",
+          "nextId": "gravity:4x4:5000",
           "winning": true
         },
         {
-          "stateId": "gravity:4x4:9000",
+          "stateId": "gravity:4x4:5000",
           "move": [
             12
           ],
-          "nextId": "gravity:4x4:8000",
+          "nextId": "gravity:4x4:4000",
           "winning": false
         },
         {
-          "stateId": "gravity:4x4:8000",
+          "stateId": "gravity:4x4:4000",
           "move": [
-            15
+            14
           ],
           "nextId": "gravity:4x4:0",
           "winning": true

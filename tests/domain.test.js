@@ -5,7 +5,7 @@ import { isLegalMove, removePieces, lineBetween } from '../src/domain/RuleEngine
 import { generateLegalMoves } from '../src/domain/MoveGenerator.js';
 import { applyMove } from '../src/domain/TransformationSystem.js';
 import { Solver } from '../src/domain/Solver.js';
-import { nimAnalysis } from '../src/domain/Nim.js';
+import { nimAnalysis, straightRunGrundy } from '../src/domain/Nim.js';
 
 test('rules reject gaps, diagonals, duplicates, wrapping and empty moves', () => {
   const s = fromRows(['###', '#.#']);
@@ -15,6 +15,10 @@ test('rules reject gaps, diagonals, duplicates, wrapping and empty moves', () =>
   assert.deepEqual(lineBetween(s, 3, 5), []);
   assert.throws(() => removePieces(s, [3, 5]));
   assert.equal(cellsOf(s).length, 5);
+  const long = fromRows(['####']);
+  assert.equal(isLegalMove(long, [0, 1, 2, 3]), false);
+  assert.deepEqual(lineBetween(long, 0, 3), []);
+  assert(generateLegalMoves(long).every(move => move.length <= 3));
 });
 test('generator exactly matches independently enumerated valid subsets on all 3×2 boards', () => {
   for (let mask = 0; mask < 64; mask++) {
@@ -22,7 +26,7 @@ test('generator exactly matches independently enumerated valid subsets on all 3�
     const s = createState(3, 2, cells), expected = [];
     for (let sub = 1; sub < 64; sub++) {
       const move = cells.filter(i => sub & (1 << i));
-      if ((sub & mask) !== sub) continue;
+      if ((sub & mask) !== sub || move.length > 3) continue;
       const row = move.every(i => Math.floor(i / 3) === Math.floor(move[0] / 3));
       const col = move.every(i => i % 3 === move[0] % 3);
       if ((row && move.at(-1) - move[0] + 1 === move.length) || (col && (move.at(-1) - move[0]) / 3 + 1 === move.length)) expected.push(move.join(','));
@@ -56,7 +60,7 @@ test('isolated runs of lengths 1–5 agree with solver and remain certified', ()
   const solver = new Solver();
   for (let a = 1; a <= 5; a++) for (let b = 1; b <= 5; b++) {
     const s = fromRows(['#'.repeat(a).padEnd(5, '.'), '.....', '#'.repeat(b).padEnd(5, '.')]);
-    assert.equal(solver.solve(s).winning, (a ^ b) !== 0);
+    assert.equal(solver.solve(s).winning, nimAnalysis(s).xor !== 0);
     for (const move of generateLegalMoves(s)) {
       const next = applyMove(s, move);
       assert.equal(solver.solve(next).winning, nimAnalysis(next).xor !== 0);
@@ -74,7 +78,7 @@ test('arbitrary straight lengths are certified; bends, branches, crosses and gra
   for (const n of [3, 4, 6, 16, 64]) {
     for (const rows of [['#'.repeat(n)], Array(n).fill('#')]) {
       assert.deepEqual(nimAnalysis(fromRows(rows)), {
-        certificate: 'isolated-straight-lines-v2', heaps: [n], xor: n,
+        certificate: 'isolated-straight-lines-max3-v3', heaps: [n], grundies: [straightRunGrundy(n)], xor: straightRunGrundy(n),
       });
     }
   }

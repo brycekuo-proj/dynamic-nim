@@ -1,4 +1,5 @@
 import { cellsOf, occupied } from './GameState.js';
+import { MAX_REMOVAL } from './RuleEngine.js';
 export function generateLegalMoves(state) {
   const moves = [];
   for (const start of cellsOf(state)) {
@@ -11,6 +12,7 @@ export function generateLegalMoves(state) {
         if (!occupied(state, i)) break;
         move.push(i);
         moves.push([...move]);
+        if (move.length >= MAX_REMOVAL) break;
       }
     }
   }

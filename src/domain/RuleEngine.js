@@ -1,6 +1,7 @@
 import { bit, occupied, withMask } from './GameState.js';
+export const MAX_REMOVAL = 3;
 export function isLegalMove(state, move) {
-  if (!Array.isArray(move) || !move.length || move.some(i => !Number.isInteger(i) || !occupied(state, i)) || new Set(move).size !== move.length) return false;
+  if (!Array.isArray(move) || !move.length || move.length > MAX_REMOVAL || move.some(i => !Number.isInteger(i) || !occupied(state, i)) || new Set(move).size !== move.length) return false;
   const sorted = [...move].sort((a, b) => a - b);
   const horizontal = sorted.every(i => Math.floor(i / state.width) === Math.floor(sorted[0] / state.width));
   const vertical = sorted.every(i => i % state.width === sorted[0] % state.width);

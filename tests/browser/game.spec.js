@@ -79,7 +79,7 @@ test('play all ten levels through browser input against AI, including chapter tr
   }
   const save = await page.evaluate(()=>JSON.parse(localStorage.getItem('dynamic-nim:v1')));
   expect(save.highestUnlocked).toBe(10); expect(save.completed).toHaveLength(10);
-  await page.locator('#analyze-button').click(); await expect(page.locator('#trace li')).toHaveCount(7);
+  await page.locator('#analyze-button').click(); await expect(page.locator('#trace li')).toHaveCount(9);
   await page.screenshot({ path:`artifacts/completed-${testInfo.project.name}.png`, fullPage:true });
   expect(errors).toEqual([]);
 });
@@ -93,14 +93,15 @@ for (const { id, heaps, xor } of [
     await expect(page.locator('#math-data')).toContainText(`NIM SUM        ${xor}`);
     if (heaps) await expect(page.locator('#math-data')).toContainText(`HEAPS          ${heaps}`);
     else await expect(page.locator('#math-data')).not.toContainText('HEAPS');
-    if (id === 5) await expect(page.locator('#math-data')).toContainText('LEGAL MOVES    37');
+    if (id === 5) await expect(page.locator('#math-data')).toContainText('LEGAL MOVES    30');
   });
 }
-test('illegal diagonal, gap, bent drag and outside release cancel without a turn', async ({ page }) => {
+test('illegal diagonal, gap, over-limit, bent drag and outside release cancel without a turn', async ({ page }) => {
   await seed(page,3);
   const original = await page.locator('#board').getAttribute('data-state');
   await drag(page,[0,9]); // diagonal across rows
   await drag(page,[0,8]); // vertical gap
+  await drag(page,[16,19]); // four contiguous circles exceeds the per-turn limit of three
   const first = await point(page,16), end = await point(page,19);
   await page.mouse.move(first.x,first.y); await page.mouse.down();
   await page.mouse.move(first.x+60,first.y-60); await page.mouse.move(end.x,end.y); await page.mouse.up();
