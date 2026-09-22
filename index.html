@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#080d0a"><meta name="description" content="Dynamic Nim — a deterministic mathematical strategy terminal."><title>Dynamic Nim · Strategy terminal</title></head>
+<body>
+<div class="ambient" aria-hidden="true"></div>
+<main class="terminal">
+  <header class="masthead"><span><i class="signal"></i> STRATEGY SYSTEM / 1977</span><span>DN—01</span></header>
+  <div class="identity"><h1>DYNAMIC<span>NIM<span class="cursor">_</span></span></h1><p>REMOVE.<br>REARRANGE.<br>OUTTHINK.</p></div>
+  <nav class="toolbar" aria-label="遊戲選單"><button id="levels-button">關卡 <span id="progress">01 / 10</span></button><button id="math-button" aria-pressed="false">MATH <kbd>D</kbd></button><button id="effects-button" aria-pressed="true">CRT ON</button></nav>
+  <section class="game" aria-label="遊戲區域">
+    <div class="level-heading"><div><p id="chapter" class="eyebrow"></p><h2><span id="level-number"></span> <span id="level-name"></span></h2></div><span id="world" class="world"></span></div>
+    <p id="lesson" class="lesson"></p>
+    <div class="board-wrap"><div class="board-corner top-left"></div><div class="board-corner bottom-right"></div><svg id="board" role="application" aria-label="圓圈盤面：沿水平或垂直直線拖曳；鍵盤方向鍵移動，空白鍵起點，Enter 移除，Escape 取消" tabindex="0"></svg><div id="chapter-transition" class="chapter-transition" hidden><span>WORLD PARAMETERS CHANGED</span><strong>GRAVITY ↓</strong><span>重新學會平衡。</span></div></div>
+    <div class="turn-bar"><span id="status" role="status" aria-live="polite"></span><span id="piece-count"></span></div>
+    <div id="outcome" class="outcome" hidden><p id="outcome-text"></p><button id="next-button" class="primary">下一關 →</button><button id="analyze-button">查看回合紀錄</button></div>
+    <div class="controls"><button id="restart-button">↺ 重新開始</button><span>劃過直線 · 放開移除</span><button id="hint-button" aria-expanded="false">提示 +</button></div>
+    <p id="hint" class="hint" hidden></p>
+  </section>
+  <section id="math" class="math" hidden aria-label="數學除錯資訊"><div class="eyebrow">MATH / LOCAL SOLVER</div><pre id="math-data"></pre></section>
+  <section id="analysis" class="analysis" hidden><h3>SESSION TRACE</h3><p>N = 輪到此方可勝 · P = 輪到此方必敗</p><ol id="trace"></ol></section>
+  <footer><span>最後拿走圓圈的一方獲勝。</span><span>LOCAL / DETERMINISTIC</span></footer>
+</main>
+<dialog id="level-dialog"><div class="dialog-heading"><h2>SELECT SIGNAL</h2><button id="close-levels" aria-label="關閉關卡選單">×</button></div><p>STATIC 01—05 / GRAVITY 06—10</p><div id="level-list"></div></dialog>
+<script type="module" src="/src/main.js"></script>
+</body></html>

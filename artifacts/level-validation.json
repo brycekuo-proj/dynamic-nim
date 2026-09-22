@@ -1,0 +1,5247 @@
+{
+  "depthDefinition": "Plies: winner minimizes, loser maximizes; stable move order breaks ties. Minimum terminal depth ignores optimal play. No probabilistic expected depth.",
+  "levels": [
+    {
+      "level": 1,
+      "name": "REMOVE",
+      "world": "static",
+      "initial": {
+        "width": 1,
+        "height": 1,
+        "world": "static",
+        "cells": [
+          0
+        ],
+        "id": "static:1x1:1"
+      },
+      "rows": [
+        "#"
+      ],
+      "outcome": "N / winning",
+      "nim": {
+        "certificate": "isolated-straight-lines-v2",
+        "heaps": [
+          1
+        ],
+        "xor": 1
+      },
+      "nimSum": 1,
+      "gravityWitness": null,
+      "trapProof": null,
+      "legalMoves": 1,
+      "winningCount": 1,
+      "losingCount": 0,
+      "winningMoves": [
+        {
+          "move": [
+            0
+          ],
+          "nextId": "static:1x1:0",
+          "winning": true,
+          "depth": 1
+        }
+      ],
+      "losingMoves": [],
+      "optimalFirstMove": [
+        0
+      ],
+      "optimalLabel": "r1c1",
+      "solutionDepth": 1,
+      "minimumTerminalDepth": 1,
+      "replyCertificate": [],
+      "continuation": [
+        {
+          "stateId": "static:1x1:1",
+          "move": [
+            0
+          ],
+          "nextId": "static:1x1:0",
+          "winning": true
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "name": "LINE",
+      "world": "static",
+      "initial": {
+        "width": 2,
+        "height": 1,
+        "world": "static",
+        "cells": [
+          0,
+          1
+        ],
+        "id": "static:2x1:3"
+      },
+      "rows": [
+        "##"
+      ],
+      "outcome": "N / winning",
+      "nim": {
+        "certificate": "isolated-straight-lines-v2",
+        "heaps": [
+          2
+        ],
+        "xor": 2
+      },
+      "nimSum": 2,
+      "gravityWitness": null,
+      "trapProof": null,
+      "legalMoves": 3,
+      "winningCount": 1,
+      "losingCount": 2,
+      "winningMoves": [
+        {
+          "move": [
+            0,
+            1
+          ],
+          "nextId": "static:2x1:0",
+          "winning": true,
+          "depth": 1
+        }
+      ],
+      "losingMoves": [
+        {
+          "move": [
+            0
+          ],
+          "nextId": "static:2x1:2",
+          "winning": false,
+          "depth": 2
+        },
+        {
+          "move": [
+            1
+          ],
+          "nextId": "static:2x1:1",
+          "winning": false,
+          "depth": 2
+        }
+      ],
+      "optimalFirstMove": [
+        0,
+        1
+      ],
+      "optimalLabel": "r1c1–r1c2",
+      "solutionDepth": 1,
+      "minimumTerminalDepth": 1,
+      "replyCertificate": [],
+      "continuation": [
+        {
+          "stateId": "static:2x1:3",
+          "move": [
+            0,
+            1
+          ],
+          "nextId": "static:2x1:0",
+          "winning": true
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "name": "NIM",
+      "world": "static",
+      "initial": {
+        "width": 4,
+        "height": 5,
+        "world": "static",
+        "cells": [
+          0,
+          8,
+          9,
+          16,
+          17,
+          18,
+          19
+        ],
+        "id": "static:4x5:f0301"
+      },
+      "rows": [
+        "#...",
+        "....",
+        "##..",
+        "....",
+        "####"
+      ],
+      "outcome": "N / winning",
+      "nim": {
+        "certificate": "isolated-straight-lines-v2",
+        "heaps": [
+          1,
+          2,
+          4
+        ],
+        "xor": 7
+      },
+      "nimSum": 7,
+      "gravityWitness": null,
+      "trapProof": null,
+      "legalMoves": 14,
+      "winningCount": 4,
+      "losingCount": 10,
+      "winningMoves": [
+        {
+          "move": [
+            16
+          ],
+          "nextId": "static:4x5:e0301",
+          "winning": true,
+          "depth": 7
+        },
+        {
+          "move": [
+            17
+          ],
+          "nextId": "static:4x5:d0301",
+          "winning": true,
+          "depth": 7
+        },
+        {
+          "move": [
+            18
+          ],
+          "nextId": "static:4x5:b0301",
+          "winning": true,
+          "depth": 7
+        },
+        {
+          "move": [
+            19
+          ],
+          "nextId": "static:4x5:70301",
+          "winning": true,
+          "depth": 7
+        }
+      ],
+      "losingMoves": [
+        {
+          "move": [
+            0
+          ],
+          "nextId": "static:4x5:f0300",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            8
+          ],
+          "nextId": "static:4x5:f0201",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            8,
+            9
+          ],
+          "nextId": "static:4x5:f0001",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            9
+          ],
+          "nextId": "static:4x5:f0101",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            16,
+            17
+          ],
+          "nextId": "static:4x5:c0301",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            16,
+            17,
+            18
+          ],
+          "nextId": "static:4x5:80301",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            16,
+            17,
+            18,
+            19
+          ],
+          "nextId": "static:4x5:301",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            17,
+            18
+          ],
+          "nextId": "static:4x5:90301",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            17,
+            18,
+            19
+          ],
+          "nextId": "static:4x5:10301",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            18,
+            19
+          ],
+          "nextId": "static:4x5:30301",
+          "winning": false,
+          "depth": 6
+        }
+      ],
+      "optimalFirstMove": [
+        16
+      ],
+      "optimalLabel": "r5c1",
+      "solutionDepth": 7,
+      "minimumTerminalDepth": 3,
+      "replyCertificate": [
+        {
+          "aiMove": [
+            0
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              8,
+              9,
+              17,
+              18,
+              19
+            ],
+            "id": "static:4x5:e0300"
+          },
+          "playerMove": [
+            17
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              8,
+              9,
+              18,
+              19
+            ],
+            "id": "static:4x5:c0300"
+          }
+        },
+        {
+          "aiMove": [
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              9,
+              17,
+              18,
+              19
+            ],
+            "id": "static:4x5:e0201"
+          },
+          "playerMove": [
+            17,
+            18,
+            19
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              9
+            ],
+            "id": "static:4x5:201"
+          }
+        },
+        {
+          "aiMove": [
+            8,
+            9
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              17,
+              18,
+              19
+            ],
+            "id": "static:4x5:e0001"
+          },
+          "playerMove": [
+            17,
+            18
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              19
+            ],
+            "id": "static:4x5:80001"
+          }
+        },
+        {
+          "aiMove": [
+            9
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              8,
+              17,
+              18,
+              19
+            ],
+            "id": "static:4x5:e0101"
+          },
+          "playerMove": [
+            17,
+            18,
+            19
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              8
+            ],
+            "id": "static:4x5:101"
+          }
+        },
+        {
+          "aiMove": [
+            17
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              8,
+              9,
+              18,
+              19
+            ],
+            "id": "static:4x5:c0301"
+          },
+          "playerMove": [
+            0
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              8,
+              9,
+              18,
+              19
+            ],
+            "id": "static:4x5:c0300"
+          }
+        },
+        {
+          "aiMove": [
+            17,
+            18
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              8,
+              9,
+              19
+            ],
+            "id": "static:4x5:80301"
+          },
+          "playerMove": [
+            8,
+            9
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              19
+            ],
+            "id": "static:4x5:80001"
+          }
+        },
+        {
+          "aiMove": [
+            17,
+            18,
+            19
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              8,
+              9
+            ],
+            "id": "static:4x5:301"
+          },
+          "playerMove": [
+            8
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              9
+            ],
+            "id": "static:4x5:201"
+          }
+        },
+        {
+          "aiMove": [
+            18
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              8,
+              9,
+              17,
+              19
+            ],
+            "id": "static:4x5:a0301"
+          },
+          "playerMove": [
+            8
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              9,
+              17,
+              19
+            ],
+            "id": "static:4x5:a0201"
+          }
+        },
+        {
+          "aiMove": [
+            18,
+            19
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              8,
+              9,
+              17
+            ],
+            "id": "static:4x5:20301"
+          },
+          "playerMove": [
+            8,
+            9
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              17
+            ],
+            "id": "static:4x5:20001"
+          }
+        },
+        {
+          "aiMove": [
+            19
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              0,
+              8,
+              9,
+              17,
+              18
+            ],
+            "id": "static:4x5:60301"
+          },
+          "playerMove": [
+            0
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              8,
+              9,
+              17,
+              18
+            ],
+            "id": "static:4x5:60300"
+          }
+        }
+      ],
+      "continuation": [
+        {
+          "stateId": "static:4x5:f0301",
+          "move": [
+            16
+          ],
+          "nextId": "static:4x5:e0301",
+          "winning": true
+        },
+        {
+          "stateId": "static:4x5:e0301",
+          "move": [
+            0
+          ],
+          "nextId": "static:4x5:e0300",
+          "winning": false
+        },
+        {
+          "stateId": "static:4x5:e0300",
+          "move": [
+            17
+          ],
+          "nextId": "static:4x5:c0300",
+          "winning": true
+        },
+        {
+          "stateId": "static:4x5:c0300",
+          "move": [
+            8
+          ],
+          "nextId": "static:4x5:c0200",
+          "winning": false
+        },
+        {
+          "stateId": "static:4x5:c0200",
+          "move": [
+            18
+          ],
+          "nextId": "static:4x5:80200",
+          "winning": true
+        },
+        {
+          "stateId": "static:4x5:80200",
+          "move": [
+            9
+          ],
+          "nextId": "static:4x5:80000",
+          "winning": false
+        },
+        {
+          "stateId": "static:4x5:80000",
+          "move": [
+            19
+          ],
+          "nextId": "static:4x5:0",
+          "winning": true
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "name": "MIRROR",
+      "world": "static",
+      "initial": {
+        "width": 4,
+        "height": 5,
+        "world": "static",
+        "cells": [
+          1,
+          2,
+          9,
+          17,
+          18
+        ],
+        "id": "static:4x5:60206"
+      },
+      "rows": [
+        ".##.",
+        "....",
+        ".#..",
+        "....",
+        ".##."
+      ],
+      "outcome": "N / winning",
+      "nim": {
+        "certificate": "isolated-straight-lines-v2",
+        "heaps": [
+          2,
+          1,
+          2
+        ],
+        "xor": 1
+      },
+      "nimSum": 1,
+      "gravityWitness": null,
+      "trapProof": null,
+      "legalMoves": 7,
+      "winningCount": 1,
+      "losingCount": 6,
+      "winningMoves": [
+        {
+          "move": [
+            9
+          ],
+          "nextId": "static:4x5:60006",
+          "winning": true,
+          "depth": 5
+        }
+      ],
+      "losingMoves": [
+        {
+          "move": [
+            1
+          ],
+          "nextId": "static:4x5:60204",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            1,
+            2
+          ],
+          "nextId": "static:4x5:60200",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            2
+          ],
+          "nextId": "static:4x5:60202",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            17
+          ],
+          "nextId": "static:4x5:40206",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            17,
+            18
+          ],
+          "nextId": "static:4x5:206",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            18
+          ],
+          "nextId": "static:4x5:20206",
+          "winning": false,
+          "depth": 4
+        }
+      ],
+      "optimalFirstMove": [
+        9
+      ],
+      "optimalLabel": "r3c2",
+      "solutionDepth": 5,
+      "minimumTerminalDepth": 3,
+      "replyCertificate": [
+        {
+          "aiMove": [
+            1
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              17,
+              18
+            ],
+            "id": "static:4x5:60004"
+          },
+          "playerMove": [
+            17
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              18
+            ],
+            "id": "static:4x5:40004"
+          }
+        },
+        {
+          "aiMove": [
+            1,
+            2
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              17,
+              18
+            ],
+            "id": "static:4x5:60000"
+          },
+          "playerMove": [
+            17,
+            18
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [],
+            "id": "static:4x5:0"
+          }
+        },
+        {
+          "aiMove": [
+            2
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              17,
+              18
+            ],
+            "id": "static:4x5:60002"
+          },
+          "playerMove": [
+            17
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              18
+            ],
+            "id": "static:4x5:40002"
+          }
+        },
+        {
+          "aiMove": [
+            17
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              18
+            ],
+            "id": "static:4x5:40006"
+          },
+          "playerMove": [
+            1
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              18
+            ],
+            "id": "static:4x5:40004"
+          }
+        },
+        {
+          "aiMove": [
+            17,
+            18
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2
+            ],
+            "id": "static:4x5:6"
+          },
+          "playerMove": [
+            1,
+            2
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [],
+            "id": "static:4x5:0"
+          }
+        },
+        {
+          "aiMove": [
+            18
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              17
+            ],
+            "id": "static:4x5:20006"
+          },
+          "playerMove": [
+            1
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              17
+            ],
+            "id": "static:4x5:20004"
+          }
+        }
+      ],
+      "continuation": [
+        {
+          "stateId": "static:4x5:60206",
+          "move": [
+            9
+          ],
+          "nextId": "static:4x5:60006",
+          "winning": true
+        },
+        {
+          "stateId": "static:4x5:60006",
+          "move": [
+            1
+          ],
+          "nextId": "static:4x5:60004",
+          "winning": false
+        },
+        {
+          "stateId": "static:4x5:60004",
+          "move": [
+            17
+          ],
+          "nextId": "static:4x5:40004",
+          "winning": true
+        },
+        {
+          "stateId": "static:4x5:40004",
+          "move": [
+            2
+          ],
+          "nextId": "static:4x5:40000",
+          "winning": false
+        },
+        {
+          "stateId": "static:4x5:40000",
+          "move": [
+            18
+          ],
+          "nextId": "static:4x5:0",
+          "winning": true
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "name": "BALANCE",
+      "world": "static",
+      "initial": {
+        "width": 6,
+        "height": 5,
+        "world": "static",
+        "cells": [
+          0,
+          1,
+          2,
+          12,
+          13,
+          14,
+          15,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "id": "static:6x5:3f00f007"
+      },
+      "rows": [
+        "###...",
+        "......",
+        "####..",
+        "......",
+        "######"
+      ],
+      "outcome": "N / winning",
+      "nim": {
+        "certificate": "isolated-straight-lines-v2",
+        "heaps": [
+          3,
+          4,
+          6
+        ],
+        "xor": 1
+      },
+      "nimSum": 1,
+      "gravityWitness": null,
+      "trapProof": null,
+      "legalMoves": 37,
+      "winningCount": 2,
+      "losingCount": 35,
+      "winningMoves": [
+        {
+          "move": [
+            0
+          ],
+          "nextId": "static:6x5:3f00f006",
+          "winning": true,
+          "depth": 13
+        },
+        {
+          "move": [
+            2
+          ],
+          "nextId": "static:6x5:3f00f003",
+          "winning": true,
+          "depth": 13
+        }
+      ],
+      "losingMoves": [
+        {
+          "move": [
+            0,
+            1
+          ],
+          "nextId": "static:6x5:3f00f004",
+          "winning": false,
+          "depth": 12
+        },
+        {
+          "move": [
+            0,
+            1,
+            2
+          ],
+          "nextId": "static:6x5:3f00f000",
+          "winning": false,
+          "depth": 10
+        },
+        {
+          "move": [
+            1
+          ],
+          "nextId": "static:6x5:3f00f005",
+          "winning": false,
+          "depth": 12
+        },
+        {
+          "move": [
+            1,
+            2
+          ],
+          "nextId": "static:6x5:3f00f001",
+          "winning": false,
+          "depth": 12
+        },
+        {
+          "move": [
+            12
+          ],
+          "nextId": "static:6x5:3f00e007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            12,
+            13
+          ],
+          "nextId": "static:6x5:3f00c007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            12,
+            13,
+            14
+          ],
+          "nextId": "static:6x5:3f008007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "nextId": "static:6x5:3f000007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            13
+          ],
+          "nextId": "static:6x5:3f00d007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            13,
+            14
+          ],
+          "nextId": "static:6x5:3f009007",
+          "winning": false,
+          "depth": 10
+        },
+        {
+          "move": [
+            13,
+            14,
+            15
+          ],
+          "nextId": "static:6x5:3f001007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            14
+          ],
+          "nextId": "static:6x5:3f00b007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            14,
+            15
+          ],
+          "nextId": "static:6x5:3f003007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            15
+          ],
+          "nextId": "static:6x5:3f007007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            24
+          ],
+          "nextId": "static:6x5:3e00f007",
+          "winning": false,
+          "depth": 12
+        },
+        {
+          "move": [
+            24,
+            25
+          ],
+          "nextId": "static:6x5:3c00f007",
+          "winning": false,
+          "depth": 10
+        },
+        {
+          "move": [
+            24,
+            25,
+            26
+          ],
+          "nextId": "static:6x5:3800f007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            24,
+            25,
+            26,
+            27
+          ],
+          "nextId": "static:6x5:3000f007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            24,
+            25,
+            26,
+            27,
+            28
+          ],
+          "nextId": "static:6x5:2000f007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "nextId": "static:6x5:f007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            25
+          ],
+          "nextId": "static:6x5:3d00f007",
+          "winning": false,
+          "depth": 12
+        },
+        {
+          "move": [
+            25,
+            26
+          ],
+          "nextId": "static:6x5:3900f007",
+          "winning": false,
+          "depth": 10
+        },
+        {
+          "move": [
+            25,
+            26,
+            27
+          ],
+          "nextId": "static:6x5:3100f007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            25,
+            26,
+            27,
+            28
+          ],
+          "nextId": "static:6x5:2100f007",
+          "winning": false,
+          "depth": 10
+        },
+        {
+          "move": [
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "nextId": "static:6x5:100f007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            26
+          ],
+          "nextId": "static:6x5:3b00f007",
+          "winning": false,
+          "depth": 12
+        },
+        {
+          "move": [
+            26,
+            27
+          ],
+          "nextId": "static:6x5:3300f007",
+          "winning": false,
+          "depth": 12
+        },
+        {
+          "move": [
+            26,
+            27,
+            28
+          ],
+          "nextId": "static:6x5:2300f007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            26,
+            27,
+            28,
+            29
+          ],
+          "nextId": "static:6x5:300f007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            27
+          ],
+          "nextId": "static:6x5:3700f007",
+          "winning": false,
+          "depth": 12
+        },
+        {
+          "move": [
+            27,
+            28
+          ],
+          "nextId": "static:6x5:2700f007",
+          "winning": false,
+          "depth": 10
+        },
+        {
+          "move": [
+            27,
+            28,
+            29
+          ],
+          "nextId": "static:6x5:700f007",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            28
+          ],
+          "nextId": "static:6x5:2f00f007",
+          "winning": false,
+          "depth": 12
+        },
+        {
+          "move": [
+            28,
+            29
+          ],
+          "nextId": "static:6x5:f00f007",
+          "winning": false,
+          "depth": 10
+        },
+        {
+          "move": [
+            29
+          ],
+          "nextId": "static:6x5:1f00f007",
+          "winning": false,
+          "depth": 12
+        }
+      ],
+      "optimalFirstMove": [
+        0
+      ],
+      "optimalLabel": "r1c1",
+      "solutionDepth": 13,
+      "minimumTerminalDepth": 3,
+      "replyCertificate": [
+        {
+          "aiMove": [
+            1
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f00f004"
+          },
+          "playerMove": [
+            24
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              12,
+              13,
+              14,
+              15,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3e00f004"
+          }
+        },
+        {
+          "aiMove": [
+            1,
+            2
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f00f000"
+          },
+          "playerMove": [
+            24,
+            25
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              12,
+              13,
+              14,
+              15,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3c00f000"
+          }
+        },
+        {
+          "aiMove": [
+            2
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f00f002"
+          },
+          "playerMove": [
+            24
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              12,
+              13,
+              14,
+              15,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3e00f002"
+          }
+        },
+        {
+          "aiMove": [
+            12
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f00e006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26,
+            27,
+            28
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              13,
+              14,
+              15,
+              29
+            ],
+            "id": "static:6x5:2000e006"
+          }
+        },
+        {
+          "aiMove": [
+            12,
+            13
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f00c006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              14,
+              15
+            ],
+            "id": "static:6x5:c006"
+          }
+        },
+        {
+          "aiMove": [
+            12,
+            13,
+            14
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f008006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              15,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:38008006"
+          }
+        },
+        {
+          "aiMove": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f000006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26,
+            27
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              28,
+              29
+            ],
+            "id": "static:6x5:30000006"
+          }
+        },
+        {
+          "aiMove": [
+            13
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f00d006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26,
+            27,
+            28
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              14,
+              15,
+              29
+            ],
+            "id": "static:6x5:2000d006"
+          }
+        },
+        {
+          "aiMove": [
+            13,
+            14
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f009006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26,
+            27
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              15,
+              28,
+              29
+            ],
+            "id": "static:6x5:30009006"
+          }
+        },
+        {
+          "aiMove": [
+            13,
+            14,
+            15
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f001006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:38001006"
+          }
+        },
+        {
+          "aiMove": [
+            14
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f00b006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26,
+            27,
+            28
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              15,
+              29
+            ],
+            "id": "static:6x5:2000b006"
+          }
+        },
+        {
+          "aiMove": [
+            14,
+            15
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f003006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13
+            ],
+            "id": "static:6x5:3006"
+          }
+        },
+        {
+          "aiMove": [
+            15
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3f007006"
+          },
+          "playerMove": [
+            24,
+            25,
+            26,
+            27,
+            28
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              29
+            ],
+            "id": "static:6x5:20007006"
+          }
+        },
+        {
+          "aiMove": [
+            24
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3e00f006"
+          },
+          "playerMove": [
+            1
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              12,
+              13,
+              14,
+              15,
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3e00f004"
+          }
+        },
+        {
+          "aiMove": [
+            24,
+            25
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3c00f006"
+          },
+          "playerMove": [
+            1,
+            2
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              12,
+              13,
+              14,
+              15,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3c00f000"
+          }
+        },
+        {
+          "aiMove": [
+            24,
+            25,
+            26
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3800f006"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              15,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:38008006"
+          }
+        },
+        {
+          "aiMove": [
+            24,
+            25,
+            26,
+            27
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              28,
+              29
+            ],
+            "id": "static:6x5:3000f006"
+          },
+          "playerMove": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              28,
+              29
+            ],
+            "id": "static:6x5:30000006"
+          }
+        },
+        {
+          "aiMove": [
+            24,
+            25,
+            26,
+            27,
+            28
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              29
+            ],
+            "id": "static:6x5:2000f006"
+          },
+          "playerMove": [
+            12
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              13,
+              14,
+              15,
+              29
+            ],
+            "id": "static:6x5:2000e006"
+          }
+        },
+        {
+          "aiMove": [
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "static:6x5:f006"
+          },
+          "playerMove": [
+            12,
+            13
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              14,
+              15
+            ],
+            "id": "static:6x5:c006"
+          }
+        },
+        {
+          "aiMove": [
+            25
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3d00f006"
+          },
+          "playerMove": [
+            1
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              26,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3d00f004"
+          }
+        },
+        {
+          "aiMove": [
+            25,
+            26
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3900f006"
+          },
+          "playerMove": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              24,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:39000006"
+          }
+        },
+        {
+          "aiMove": [
+            25,
+            26,
+            27
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              28,
+              29
+            ],
+            "id": "static:6x5:3100f006"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              15,
+              24,
+              28,
+              29
+            ],
+            "id": "static:6x5:31008006"
+          }
+        },
+        {
+          "aiMove": [
+            25,
+            26,
+            27,
+            28
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              29
+            ],
+            "id": "static:6x5:2100f006"
+          },
+          "playerMove": [
+            12,
+            13
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              14,
+              15,
+              24,
+              29
+            ],
+            "id": "static:6x5:2100c006"
+          }
+        },
+        {
+          "aiMove": [
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24
+            ],
+            "id": "static:6x5:100f006"
+          },
+          "playerMove": [
+            12
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              13,
+              14,
+              15,
+              24
+            ],
+            "id": "static:6x5:100e006"
+          }
+        },
+        {
+          "aiMove": [
+            26
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3b00f006"
+          },
+          "playerMove": [
+            12
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              13,
+              14,
+              15,
+              24,
+              25,
+              27,
+              28,
+              29
+            ],
+            "id": "static:6x5:3b00e006"
+          }
+        },
+        {
+          "aiMove": [
+            26,
+            27
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              28,
+              29
+            ],
+            "id": "static:6x5:3300f006"
+          },
+          "playerMove": [
+            12,
+            13
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              14,
+              15,
+              24,
+              25,
+              28,
+              29
+            ],
+            "id": "static:6x5:3300c006"
+          }
+        },
+        {
+          "aiMove": [
+            26,
+            27,
+            28
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              29
+            ],
+            "id": "static:6x5:2300f006"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              15,
+              24,
+              25,
+              29
+            ],
+            "id": "static:6x5:23008006"
+          }
+        },
+        {
+          "aiMove": [
+            26,
+            27,
+            28,
+            29
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25
+            ],
+            "id": "static:6x5:300f006"
+          },
+          "playerMove": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              24,
+              25
+            ],
+            "id": "static:6x5:3000006"
+          }
+        },
+        {
+          "aiMove": [
+            27
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              28,
+              29
+            ],
+            "id": "static:6x5:3700f006"
+          },
+          "playerMove": [
+            12
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              28,
+              29
+            ],
+            "id": "static:6x5:3700e006"
+          }
+        },
+        {
+          "aiMove": [
+            27,
+            28
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              29
+            ],
+            "id": "static:6x5:2700f006"
+          },
+          "playerMove": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              24,
+              25,
+              26,
+              29
+            ],
+            "id": "static:6x5:27000006"
+          }
+        },
+        {
+          "aiMove": [
+            27,
+            28,
+            29
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26
+            ],
+            "id": "static:6x5:700f006"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              15,
+              24,
+              25,
+              26
+            ],
+            "id": "static:6x5:7008006"
+          }
+        },
+        {
+          "aiMove": [
+            28
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              29
+            ],
+            "id": "static:6x5:2f00f006"
+          },
+          "playerMove": [
+            1
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              29
+            ],
+            "id": "static:6x5:2f00f004"
+          }
+        },
+        {
+          "aiMove": [
+            28,
+            29
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27
+            ],
+            "id": "static:6x5:f00f006"
+          },
+          "playerMove": [
+            1,
+            2
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27
+            ],
+            "id": "static:6x5:f00f000"
+          }
+        },
+        {
+          "aiMove": [
+            29
+          ],
+          "afterAI": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              1,
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28
+            ],
+            "id": "static:6x5:1f00f006"
+          },
+          "playerMove": [
+            1
+          ],
+          "afterPlayer": {
+            "width": 6,
+            "height": 5,
+            "world": "static",
+            "cells": [
+              2,
+              12,
+              13,
+              14,
+              15,
+              24,
+              25,
+              26,
+              27,
+              28
+            ],
+            "id": "static:6x5:1f00f004"
+          }
+        }
+      ],
+      "continuation": [
+        {
+          "stateId": "static:6x5:3f00f007",
+          "move": [
+            0
+          ],
+          "nextId": "static:6x5:3f00f006",
+          "winning": true
+        },
+        {
+          "stateId": "static:6x5:3f00f006",
+          "move": [
+            1
+          ],
+          "nextId": "static:6x5:3f00f004",
+          "winning": false
+        },
+        {
+          "stateId": "static:6x5:3f00f004",
+          "move": [
+            24
+          ],
+          "nextId": "static:6x5:3e00f004",
+          "winning": true
+        },
+        {
+          "stateId": "static:6x5:3e00f004",
+          "move": [
+            2
+          ],
+          "nextId": "static:6x5:3e00f000",
+          "winning": false
+        },
+        {
+          "stateId": "static:6x5:3e00f000",
+          "move": [
+            25
+          ],
+          "nextId": "static:6x5:3c00f000",
+          "winning": true
+        },
+        {
+          "stateId": "static:6x5:3c00f000",
+          "move": [
+            12
+          ],
+          "nextId": "static:6x5:3c00e000",
+          "winning": false
+        },
+        {
+          "stateId": "static:6x5:3c00e000",
+          "move": [
+            26
+          ],
+          "nextId": "static:6x5:3800e000",
+          "winning": true
+        },
+        {
+          "stateId": "static:6x5:3800e000",
+          "move": [
+            13
+          ],
+          "nextId": "static:6x5:3800c000",
+          "winning": false
+        },
+        {
+          "stateId": "static:6x5:3800c000",
+          "move": [
+            27
+          ],
+          "nextId": "static:6x5:3000c000",
+          "winning": true
+        },
+        {
+          "stateId": "static:6x5:3000c000",
+          "move": [
+            14
+          ],
+          "nextId": "static:6x5:30008000",
+          "winning": false
+        },
+        {
+          "stateId": "static:6x5:30008000",
+          "move": [
+            28
+          ],
+          "nextId": "static:6x5:20008000",
+          "winning": true
+        },
+        {
+          "stateId": "static:6x5:20008000",
+          "move": [
+            15
+          ],
+          "nextId": "static:6x5:20000000",
+          "winning": false
+        },
+        {
+          "stateId": "static:6x5:20000000",
+          "move": [
+            29
+          ],
+          "nextId": "static:6x5:0",
+          "winning": true
+        }
+      ]
+    },
+    {
+      "level": 6,
+      "name": "FALL",
+      "world": "gravity",
+      "initial": {
+        "width": 3,
+        "height": 3,
+        "world": "gravity",
+        "cells": [
+          0,
+          2,
+          7
+        ],
+        "id": "gravity:3x3:85"
+      },
+      "rows": [
+        "#.#",
+        "...",
+        ".#."
+      ],
+      "outcome": "N / winning",
+      "nim": null,
+      "nimSum": "N/A",
+      "gravityWitness": null,
+      "trapProof": null,
+      "legalMoves": 3,
+      "winningCount": 1,
+      "losingCount": 2,
+      "winningMoves": [
+        {
+          "move": [
+            7
+          ],
+          "nextId": "gravity:3x3:140",
+          "winning": true,
+          "depth": 3
+        }
+      ],
+      "losingMoves": [
+        {
+          "move": [
+            0
+          ],
+          "nextId": "gravity:3x3:180",
+          "winning": false,
+          "depth": 2
+        },
+        {
+          "move": [
+            2
+          ],
+          "nextId": "gravity:3x3:c0",
+          "winning": false,
+          "depth": 2
+        }
+      ],
+      "optimalFirstMove": [
+        7
+      ],
+      "optimalLabel": "r3c2",
+      "solutionDepth": 3,
+      "minimumTerminalDepth": 2,
+      "replyCertificate": [
+        {
+          "aiMove": [
+            6
+          ],
+          "afterAI": {
+            "width": 3,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8
+            ],
+            "id": "gravity:3x3:100"
+          },
+          "playerMove": [
+            8
+          ],
+          "afterPlayer": {
+            "width": 3,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:3x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            8
+          ],
+          "afterAI": {
+            "width": 3,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              6
+            ],
+            "id": "gravity:3x3:40"
+          },
+          "playerMove": [
+            6
+          ],
+          "afterPlayer": {
+            "width": 3,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:3x3:0"
+          }
+        }
+      ],
+      "continuation": [
+        {
+          "stateId": "gravity:3x3:85",
+          "move": [
+            7
+          ],
+          "nextId": "gravity:3x3:140",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:3x3:140",
+          "move": [
+            6
+          ],
+          "nextId": "gravity:3x3:100",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:3x3:100",
+          "move": [
+            8
+          ],
+          "nextId": "gravity:3x3:0",
+          "winning": true
+        }
+      ]
+    },
+    {
+      "level": 7,
+      "name": "REFORM",
+      "world": "gravity",
+      "initial": {
+        "width": 4,
+        "height": 3,
+        "world": "gravity",
+        "cells": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "id": "gravity:4x3:3e"
+      },
+      "rows": [
+        ".###",
+        "##..",
+        "...."
+      ],
+      "outcome": "N / winning",
+      "nim": null,
+      "nimSum": "N/A",
+      "gravityWitness": {
+        "move": [
+          1
+        ],
+        "nextId": "gravity:4x3:f00",
+        "winning": false,
+        "depth": 2
+      },
+      "trapProof": null,
+      "legalMoves": 10,
+      "winningCount": 1,
+      "losingCount": 9,
+      "winningMoves": [
+        {
+          "move": [
+            2,
+            3
+          ],
+          "nextId": "gravity:4x3:320",
+          "winning": true,
+          "depth": 3
+        }
+      ],
+      "losingMoves": [
+        {
+          "move": [
+            1
+          ],
+          "nextId": "gravity:4x3:f00",
+          "winning": false,
+          "depth": 2
+        },
+        {
+          "move": [
+            1,
+            2
+          ],
+          "nextId": "gravity:4x3:b00",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            1,
+            2,
+            3
+          ],
+          "nextId": "gravity:4x3:300",
+          "winning": false,
+          "depth": 2
+        },
+        {
+          "move": [
+            1,
+            5
+          ],
+          "nextId": "gravity:4x3:d00",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            2
+          ],
+          "nextId": "gravity:4x3:b20",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            3
+          ],
+          "nextId": "gravity:4x3:720",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            4
+          ],
+          "nextId": "gravity:4x3:e20",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            4,
+            5
+          ],
+          "nextId": "gravity:4x3:e00",
+          "winning": false,
+          "depth": 2
+        },
+        {
+          "move": [
+            5
+          ],
+          "nextId": "gravity:4x3:f00",
+          "winning": false,
+          "depth": 2
+        }
+      ],
+      "optimalFirstMove": [
+        2,
+        3
+      ],
+      "optimalLabel": "r1c3–r1c4",
+      "solutionDepth": 3,
+      "minimumTerminalDepth": 2,
+      "replyCertificate": [
+        {
+          "aiMove": [
+            5
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              9
+            ],
+            "id": "gravity:4x3:300"
+          },
+          "playerMove": [
+            8,
+            9
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            5,
+            9
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8
+            ],
+            "id": "gravity:4x3:100"
+          },
+          "playerMove": [
+            8
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              5,
+              9
+            ],
+            "id": "gravity:4x3:220"
+          },
+          "playerMove": [
+            5,
+            9
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            8,
+            9
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              9
+            ],
+            "id": "gravity:4x3:200"
+          },
+          "playerMove": [
+            9
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            9
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              9
+            ],
+            "id": "gravity:4x3:300"
+          },
+          "playerMove": [
+            8,
+            9
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        }
+      ],
+      "continuation": [
+        {
+          "stateId": "gravity:4x3:3e",
+          "move": [
+            2,
+            3
+          ],
+          "nextId": "gravity:4x3:320",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:4x3:320",
+          "move": [
+            5
+          ],
+          "nextId": "gravity:4x3:300",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:4x3:300",
+          "move": [
+            8,
+            9
+          ],
+          "nextId": "gravity:4x3:0",
+          "winning": true
+        }
+      ]
+    },
+    {
+      "level": 8,
+      "name": "PREDICT",
+      "world": "gravity",
+      "initial": {
+        "width": 4,
+        "height": 3,
+        "world": "gravity",
+        "cells": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "id": "gravity:4x3:7d"
+      },
+      "rows": [
+        "#.##",
+        "###.",
+        "...."
+      ],
+      "outcome": "N / winning",
+      "nim": null,
+      "nimSum": "N/A",
+      "gravityWitness": {
+        "move": [
+          4
+        ],
+        "nextId": "gravity:4x3:f40",
+        "winning": false,
+        "depth": 4
+      },
+      "trapProof": null,
+      "legalMoves": 12,
+      "winningCount": 1,
+      "losingCount": 11,
+      "winningMoves": [
+        {
+          "move": [
+            5,
+            6
+          ],
+          "nextId": "gravity:4x3:d10",
+          "winning": true,
+          "depth": 5
+        }
+      ],
+      "losingMoves": [
+        {
+          "move": [
+            0
+          ],
+          "nextId": "gravity:4x3:f40",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            0,
+            4
+          ],
+          "nextId": "gravity:4x3:e40",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            2
+          ],
+          "nextId": "gravity:4x3:f10",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            2,
+            3
+          ],
+          "nextId": "gravity:4x3:710",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            2,
+            6
+          ],
+          "nextId": "gravity:4x3:b10",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            3
+          ],
+          "nextId": "gravity:4x3:750",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            4
+          ],
+          "nextId": "gravity:4x3:f40",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            4,
+            5
+          ],
+          "nextId": "gravity:4x3:d40",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            4,
+            5,
+            6
+          ],
+          "nextId": "gravity:4x3:d00",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            5
+          ],
+          "nextId": "gravity:4x3:d50",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            6
+          ],
+          "nextId": "gravity:4x3:f10",
+          "winning": false,
+          "depth": 4
+        }
+      ],
+      "optimalFirstMove": [
+        5,
+        6
+      ],
+      "optimalLabel": "r2c2–r2c3",
+      "solutionDepth": 5,
+      "minimumTerminalDepth": 3,
+      "replyCertificate": [
+        {
+          "aiMove": [
+            4
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              10,
+              11
+            ],
+            "id": "gravity:4x3:d00"
+          },
+          "playerMove": [
+            10
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              11
+            ],
+            "id": "gravity:4x3:900"
+          }
+        },
+        {
+          "aiMove": [
+            4,
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              10,
+              11
+            ],
+            "id": "gravity:4x3:c00"
+          },
+          "playerMove": [
+            10,
+            11
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              10,
+              11
+            ],
+            "id": "gravity:4x3:d00"
+          },
+          "playerMove": [
+            10
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              11
+            ],
+            "id": "gravity:4x3:900"
+          }
+        },
+        {
+          "aiMove": [
+            10
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              11
+            ],
+            "id": "gravity:4x3:910"
+          },
+          "playerMove": [
+            4
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              11
+            ],
+            "id": "gravity:4x3:900"
+          }
+        },
+        {
+          "aiMove": [
+            10,
+            11
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              4,
+              8
+            ],
+            "id": "gravity:4x3:110"
+          },
+          "playerMove": [
+            4,
+            8
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            11
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              10
+            ],
+            "id": "gravity:4x3:510"
+          },
+          "playerMove": [
+            4
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              10
+            ],
+            "id": "gravity:4x3:500"
+          }
+        }
+      ],
+      "continuation": [
+        {
+          "stateId": "gravity:4x3:7d",
+          "move": [
+            5,
+            6
+          ],
+          "nextId": "gravity:4x3:d10",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:4x3:d10",
+          "move": [
+            4
+          ],
+          "nextId": "gravity:4x3:d00",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:4x3:d00",
+          "move": [
+            10
+          ],
+          "nextId": "gravity:4x3:900",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:4x3:900",
+          "move": [
+            8
+          ],
+          "nextId": "gravity:4x3:800",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:4x3:800",
+          "move": [
+            11
+          ],
+          "nextId": "gravity:4x3:0",
+          "winning": true
+        }
+      ]
+    },
+    {
+      "level": 9,
+      "name": "TRAP",
+      "world": "gravity",
+      "initial": {
+        "width": 4,
+        "height": 3,
+        "world": "gravity",
+        "cells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          7,
+          8
+        ],
+        "id": "gravity:4x3:19f"
+      },
+      "rows": [
+        "####",
+        "#..#",
+        "#..."
+      ],
+      "outcome": "N / winning",
+      "nim": null,
+      "nimSum": "N/A",
+      "gravityWitness": {
+        "move": [
+          1
+        ],
+        "nextId": "gravity:4x3:d91",
+        "winning": false,
+        "depth": 4
+      },
+      "trapProof": {
+        "move": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "after": {
+          "width": 4,
+          "height": 3,
+          "world": "gravity",
+          "cells": [
+            4,
+            8,
+            11
+          ],
+          "id": "gravity:4x3:910"
+        },
+        "aiResponse": [
+          4
+        ],
+        "aiSendsTo": {
+          "width": 4,
+          "height": 3,
+          "world": "gravity",
+          "cells": [
+            8,
+            11
+          ],
+          "id": "gravity:4x3:900"
+        }
+      },
+      "legalMoves": 17,
+      "winningCount": 2,
+      "losingCount": 15,
+      "winningMoves": [
+        {
+          "move": [
+            0,
+            1,
+            2
+          ],
+          "nextId": "gravity:4x3:990",
+          "winning": true,
+          "depth": 5
+        },
+        {
+          "move": [
+            3,
+            7
+          ],
+          "nextId": "gravity:4x3:711",
+          "winning": true,
+          "depth": 5
+        }
+      ],
+      "losingMoves": [
+        {
+          "move": [
+            0
+          ],
+          "nextId": "gravity:4x3:f90",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            0,
+            1
+          ],
+          "nextId": "gravity:4x3:d90",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "nextId": "gravity:4x3:910",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            0,
+            4
+          ],
+          "nextId": "gravity:4x3:f80",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            0,
+            4,
+            8
+          ],
+          "nextId": "gravity:4x3:e80",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            1
+          ],
+          "nextId": "gravity:4x3:d91",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            1,
+            2
+          ],
+          "nextId": "gravity:4x3:991",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            1,
+            2,
+            3
+          ],
+          "nextId": "gravity:4x3:911",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            2
+          ],
+          "nextId": "gravity:4x3:b91",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            2,
+            3
+          ],
+          "nextId": "gravity:4x3:b11",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            3
+          ],
+          "nextId": "gravity:4x3:f11",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            4
+          ],
+          "nextId": "gravity:4x3:f90",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            4,
+            8
+          ],
+          "nextId": "gravity:4x3:f80",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            7
+          ],
+          "nextId": "gravity:4x3:f11",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            8
+          ],
+          "nextId": "gravity:4x3:f90",
+          "winning": false,
+          "depth": 4
+        }
+      ],
+      "optimalFirstMove": [
+        0,
+        1,
+        2
+      ],
+      "optimalLabel": "r1c1–r1c2–r1c3",
+      "solutionDepth": 5,
+      "minimumTerminalDepth": 3,
+      "replyCertificate": [
+        {
+          "aiMove": [
+            4
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              7,
+              8,
+              11
+            ],
+            "id": "gravity:4x3:980"
+          },
+          "playerMove": [
+            7
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              11
+            ],
+            "id": "gravity:4x3:900"
+          }
+        },
+        {
+          "aiMove": [
+            4,
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              7,
+              11
+            ],
+            "id": "gravity:4x3:880"
+          },
+          "playerMove": [
+            7,
+            11
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            7
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              11
+            ],
+            "id": "gravity:4x3:910"
+          },
+          "playerMove": [
+            4
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              11
+            ],
+            "id": "gravity:4x3:900"
+          }
+        },
+        {
+          "aiMove": [
+            7,
+            11
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              4,
+              8
+            ],
+            "id": "gravity:4x3:110"
+          },
+          "playerMove": [
+            4,
+            8
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              7,
+              8,
+              11
+            ],
+            "id": "gravity:4x3:980"
+          },
+          "playerMove": [
+            7
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              11
+            ],
+            "id": "gravity:4x3:900"
+          }
+        },
+        {
+          "aiMove": [
+            11
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              11
+            ],
+            "id": "gravity:4x3:910"
+          },
+          "playerMove": [
+            4
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              11
+            ],
+            "id": "gravity:4x3:900"
+          }
+        }
+      ],
+      "continuation": [
+        {
+          "stateId": "gravity:4x3:19f",
+          "move": [
+            0,
+            1,
+            2
+          ],
+          "nextId": "gravity:4x3:990",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:4x3:990",
+          "move": [
+            4
+          ],
+          "nextId": "gravity:4x3:980",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:4x3:980",
+          "move": [
+            7
+          ],
+          "nextId": "gravity:4x3:900",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:4x3:900",
+          "move": [
+            8
+          ],
+          "nextId": "gravity:4x3:800",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:4x3:800",
+          "move": [
+            11
+          ],
+          "nextId": "gravity:4x3:0",
+          "winning": true
+        }
+      ]
+    },
+    {
+      "level": 10,
+      "name": "GRAVITY TEST",
+      "world": "gravity",
+      "initial": {
+        "width": 4,
+        "height": 4,
+        "world": "gravity",
+        "cells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          6,
+          7,
+          8,
+          12
+        ],
+        "id": "gravity:4x4:11df"
+      },
+      "rows": [
+        "####",
+        "#.##",
+        "#...",
+        "#..."
+      ],
+      "outcome": "N / winning",
+      "nim": null,
+      "nimSum": "N/A",
+      "gravityWitness": {
+        "move": [
+          0,
+          1,
+          2
+        ],
+        "nextId": "gravity:4x4:d910",
+        "winning": false,
+        "depth": 4
+      },
+      "trapProof": null,
+      "legalMoves": 24,
+      "winningCount": 2,
+      "losingCount": 22,
+      "winningMoves": [
+        {
+          "move": [
+            2,
+            3
+          ],
+          "nextId": "gravity:4x4:f111",
+          "winning": true,
+          "depth": 7
+        },
+        {
+          "move": [
+            6,
+            7
+          ],
+          "nextId": "gravity:4x4:f111",
+          "winning": true,
+          "depth": 7
+        }
+      ],
+      "losingMoves": [
+        {
+          "move": [
+            0
+          ],
+          "nextId": "gravity:4x4:fd10",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            0,
+            1
+          ],
+          "nextId": "gravity:4x4:dd10",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            0,
+            1,
+            2
+          ],
+          "nextId": "gravity:4x4:d910",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "nextId": "gravity:4x4:d110",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            0,
+            4
+          ],
+          "nextId": "gravity:4x4:fd00",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            0,
+            4,
+            8
+          ],
+          "nextId": "gravity:4x4:fc00",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            0,
+            4,
+            8,
+            12
+          ],
+          "nextId": "gravity:4x4:ec00",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            1
+          ],
+          "nextId": "gravity:4x4:dd11",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            1,
+            2
+          ],
+          "nextId": "gravity:4x4:d911",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            1,
+            2,
+            3
+          ],
+          "nextId": "gravity:4x4:d111",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            2
+          ],
+          "nextId": "gravity:4x4:f911",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            2,
+            6
+          ],
+          "nextId": "gravity:4x4:b911",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            3
+          ],
+          "nextId": "gravity:4x4:f511",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            3,
+            7
+          ],
+          "nextId": "gravity:4x4:7511",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            4
+          ],
+          "nextId": "gravity:4x4:fd10",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            4,
+            8
+          ],
+          "nextId": "gravity:4x4:fd00",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            4,
+            8,
+            12
+          ],
+          "nextId": "gravity:4x4:fc00",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            6
+          ],
+          "nextId": "gravity:4x4:f911",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            7
+          ],
+          "nextId": "gravity:4x4:f511",
+          "winning": false,
+          "depth": 8
+        },
+        {
+          "move": [
+            8
+          ],
+          "nextId": "gravity:4x4:fd10",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            8,
+            12
+          ],
+          "nextId": "gravity:4x4:fd00",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            12
+          ],
+          "nextId": "gravity:4x4:fd10",
+          "winning": false,
+          "depth": 6
+        }
+      ],
+      "optimalFirstMove": [
+        2,
+        3
+      ],
+      "optimalLabel": "r1c3–r1c4",
+      "solutionDepth": 7,
+      "minimumTerminalDepth": 3,
+      "replyCertificate": [
+        {
+          "aiMove": [
+            0
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f110"
+          },
+          "playerMove": [
+            12,
+            13
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            0,
+            4
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f100"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              12,
+              15
+            ],
+            "id": "gravity:4x4:9000"
+          }
+        },
+        {
+          "aiMove": [
+            0,
+            4,
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f000"
+          },
+          "playerMove": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x4:0"
+          }
+        },
+        {
+          "aiMove": [
+            0,
+            4,
+            8,
+            12
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:e000"
+          },
+          "playerMove": [
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x4:0"
+          }
+        },
+        {
+          "aiMove": [
+            4
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f110"
+          },
+          "playerMove": [
+            12,
+            13
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            4,
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f100"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              12,
+              15
+            ],
+            "id": "gravity:4x4:9000"
+          }
+        },
+        {
+          "aiMove": [
+            4,
+            8,
+            12
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f000"
+          },
+          "playerMove": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x4:0"
+          }
+        },
+        {
+          "aiMove": [
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f110"
+          },
+          "playerMove": [
+            12,
+            13
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            8,
+            12
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f100"
+          },
+          "playerMove": [
+            12,
+            13,
+            14
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              12,
+              15
+            ],
+            "id": "gravity:4x4:9000"
+          }
+        },
+        {
+          "aiMove": [
+            12
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              12,
+              13,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:f110"
+          },
+          "playerMove": [
+            12,
+            13
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            12,
+            13
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d110"
+          },
+          "playerMove": [
+            4
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            12,
+            13,
+            14
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              12,
+              15
+            ],
+            "id": "gravity:4x4:9110"
+          },
+          "playerMove": [
+            4,
+            8
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              12,
+              15
+            ],
+            "id": "gravity:4x4:9000"
+          }
+        },
+        {
+          "aiMove": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              12
+            ],
+            "id": "gravity:4x4:1110"
+          },
+          "playerMove": [
+            4,
+            8,
+            12
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x4:0"
+          }
+        },
+        {
+          "aiMove": [
+            13
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              0,
+              4,
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d111"
+          },
+          "playerMove": [
+            0,
+            4
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            13,
+            14
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              0,
+              4,
+              8,
+              12,
+              15
+            ],
+            "id": "gravity:4x4:9111"
+          },
+          "playerMove": [
+            0,
+            4,
+            8
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              12,
+              15
+            ],
+            "id": "gravity:4x4:9000"
+          }
+        },
+        {
+          "aiMove": [
+            13,
+            14,
+            15
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              0,
+              4,
+              8,
+              12
+            ],
+            "id": "gravity:4x4:1111"
+          },
+          "playerMove": [
+            0,
+            4,
+            8,
+            12
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x4:0"
+          }
+        },
+        {
+          "aiMove": [
+            14
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              0,
+              4,
+              8,
+              12,
+              13,
+              15
+            ],
+            "id": "gravity:4x4:b111"
+          },
+          "playerMove": [
+            0,
+            4,
+            8,
+            12
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              13,
+              15
+            ],
+            "id": "gravity:4x4:a000"
+          }
+        },
+        {
+          "aiMove": [
+            14,
+            15
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              0,
+              4,
+              8,
+              12,
+              13
+            ],
+            "id": "gravity:4x4:3111"
+          },
+          "playerMove": [
+            0,
+            4
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              13
+            ],
+            "id": "gravity:4x4:3100"
+          }
+        },
+        {
+          "aiMove": [
+            15
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              0,
+              4,
+              8,
+              12,
+              13,
+              14
+            ],
+            "id": "gravity:4x4:7111"
+          },
+          "playerMove": [
+            0
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              12,
+              13,
+              14
+            ],
+            "id": "gravity:4x4:7110"
+          }
+        }
+      ],
+      "continuation": [
+        {
+          "stateId": "gravity:4x4:11df",
+          "move": [
+            2,
+            3
+          ],
+          "nextId": "gravity:4x4:f111",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:4x4:f111",
+          "move": [
+            0
+          ],
+          "nextId": "gravity:4x4:f110",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:4x4:f110",
+          "move": [
+            12,
+            13
+          ],
+          "nextId": "gravity:4x4:d100",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:4x4:d100",
+          "move": [
+            8
+          ],
+          "nextId": "gravity:4x4:d000",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:4x4:d000",
+          "move": [
+            14
+          ],
+          "nextId": "gravity:4x4:9000",
+          "winning": true
+        },
+        {
+          "stateId": "gravity:4x4:9000",
+          "move": [
+            12
+          ],
+          "nextId": "gravity:4x4:8000",
+          "winning": false
+        },
+        {
+          "stateId": "gravity:4x4:8000",
+          "move": [
+            15
+          ],
+          "nextId": "gravity:4x4:0",
+          "winning": true
+        }
+      ]
+    }
+  ]
+}
