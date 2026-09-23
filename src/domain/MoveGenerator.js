@@ -1,18 +1,22 @@
 import { cellsOf, occupied } from './GameState.js';
 import { MAX_REMOVAL } from './RuleEngine.js';
+
+const DIRECTIONS = [[0, 1], [1, 0], [1, 1], [1, -1]];
+
 export function generateLegalMoves(state) {
   const moves = [];
   for (const start of cellsOf(state)) {
     moves.push([start]);
-    for (const horizontal of [true, false]) {
-      const step = horizontal ? 1 : state.width;
+    const startRow = Math.floor(start / state.width), startCol = start % state.width;
+    for (const [dr, dc] of DIRECTIONS) {
       const move = [start];
-      for (let i = start + step; i < state.width * state.height; i += step) {
-        if (horizontal && Math.floor(i / state.width) !== Math.floor(start / state.width)) break;
-        if (!occupied(state, i)) break;
-        move.push(i);
+      for (let distance = 1; distance < MAX_REMOVAL; distance++) {
+        const row = startRow + dr * distance, col = startCol + dc * distance;
+        if (row < 0 || col < 0 || row >= state.height || col >= state.width) break;
+        const cell = row * state.width + col;
+        if (!occupied(state, cell)) break;
+        move.push(cell);
         moves.push([...move]);
-        if (move.length >= MAX_REMOVAL) break;
       }
     }
   }

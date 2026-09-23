@@ -32,12 +32,17 @@ test('gravity solver agrees with independent bitmask oracle on all 3×3 states',
     if (!mask) return false;
     if (cache.has(mask)) return cache.get(mask);
     const children = [];
-    for (let a = 0; a < 9; a++) for (let b = a; b < 9; b++) {
-      const row = Math.floor(a / 3) === Math.floor(b / 3), col = a % 3 === b % 3;
-      if (!row && !col) continue;
-      let cut = 0;
-      for (let i = a; i <= b; i += row ? 1 : 3) cut |= 1 << i;
-      if ((mask & cut) !== cut) continue;
+    for (let cut = mask; cut; cut = (cut - 1) & mask) {
+      const move = Array.from({ length: 9 }, (_, i) => i).filter(i => cut & (1 << i));
+      if (move.length > 3) continue;
+      const points = move.map(i => ({ row: Math.floor(i / 3), col: i % 3 })), first = points[0];
+      const rows = points.map(p => p.row).sort((a,b)=>a-b), cols = points.map(p => p.col).sort((a,b)=>a-b);
+      const consecutive = values => values.every((v,i) => !i || v === values[i-1] + 1);
+      const straight = (points.every(p => p.row === first.row) && consecutive(cols))
+        || (points.every(p => p.col === first.col) && consecutive(rows))
+        || (points.every(p => p.row - p.col === first.row - first.col) && consecutive(rows))
+        || (points.every(p => p.row + p.col === first.row + first.col) && consecutive(rows));
+      if (!straight) continue;
       const remaining = mask ^ cut;
       let fallen = 0;
       for (let c = 0; c < 3; c++) {

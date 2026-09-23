@@ -10,10 +10,10 @@
   <section class="game" aria-label="遊戲區域">
     <div class="level-heading"><div><p id="chapter" class="eyebrow"></p><h2><span id="level-number"></span> <span id="level-name"></span></h2></div><span id="world" class="world"></span></div>
     <p id="lesson" class="lesson"></p>
-    <div class="board-wrap"><div class="board-corner top-left"></div><div class="board-corner bottom-right"></div><svg id="board" role="application" aria-label="圓圈盤面：沿水平或垂直直線拖曳，每回合最多移除 3 顆；鍵盤方向鍵移動，空白鍵起點，Enter 移除，Escape 取消" tabindex="0"></svg><div id="chapter-transition" class="chapter-transition" hidden><span>WORLD PARAMETERS CHANGED</span><strong>GRAVITY ↓</strong><span>重新學會平衡。</span></div></div>
+    <div class="board-wrap"><div class="board-corner top-left"></div><div class="board-corner bottom-right"></div><svg id="board" role="application" aria-label="圓圈盤面：可沿水平、垂直或 45 度斜線拖曳，每回合最多移除 3 顆；鍵盤方向鍵移動，Q/E/Z/C 斜向移動，空白鍵起點，Enter 移除，Escape 取消" tabindex="0"></svg><div id="chapter-transition" class="chapter-transition" hidden><span>WORLD PARAMETERS CHANGED</span><strong>GRAVITY ↓</strong><span>重新學會平衡。</span></div></div>
     <div class="turn-bar"><span id="status" role="status" aria-live="polite"></span><span id="piece-count"></span></div>
     <div id="outcome" class="outcome" hidden><p id="outcome-text"></p><button id="next-button" class="primary">下一關 →</button><button id="analyze-button">查看回合紀錄</button></div>
-    <div class="controls"><button id="restart-button">↺ 重新開始</button><span>劃過直線 · 最多 3 顆 · 放開移除</span><button id="hint-button" aria-expanded="false">提示 +</button></div>
+    <div class="controls"><button id="restart-button">↺ 重新開始</button><span>橫 · 直 · 45°斜線 · 最多 3 顆</span><button id="hint-button" aria-expanded="false">提示 +</button></div>
     <p id="hint" class="hint" hidden></p>
   </section>
   <section id="math" class="math" hidden aria-label="數學除錯資訊"><div class="eyebrow">MATH / LOCAL SOLVER</div><pre id="math-data"></pre></section>

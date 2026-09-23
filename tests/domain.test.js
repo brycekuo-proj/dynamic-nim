@@ -7,7 +7,7 @@ import { applyMove } from '../src/domain/TransformationSystem.js';
 import { Solver } from '../src/domain/Solver.js';
 import { nimAnalysis, straightRunGrundy } from '../src/domain/Nim.js';
 
-test('rules reject gaps, diagonals, duplicates, wrapping and empty moves', () => {
+test('rules allow horizontal, vertical and 45-degree lines while rejecting gaps, bends, duplicates and over-limit moves', () => {
   const s = fromRows(['###', '#.#']);
   for (const move of [[], [0, 0], [0, 4], [3, 5], [2, 3], [-1], [6]]) assert.equal(isLegalMove(s, move), false);
   for (const move of [[2, 1, 0], [0, 3], [5]]) assert.equal(isLegalMove(s, move), true);
@@ -15,6 +15,11 @@ test('rules reject gaps, diagonals, duplicates, wrapping and empty moves', () =>
   assert.deepEqual(lineBetween(s, 3, 5), []);
   assert.throws(() => removePieces(s, [3, 5]));
   assert.equal(cellsOf(s).length, 5);
+  const diagonals = fromRows(['#.#', '.#.', '#.#']);
+  assert.equal(isLegalMove(diagonals, [0, 4, 8]), true);
+  assert.equal(isLegalMove(diagonals, [2, 4, 6]), true);
+  assert.deepEqual(lineBetween(diagonals, 0, 8), [0, 4, 8]);
+  assert.deepEqual(lineBetween(diagonals, 2, 6), [2, 4, 6]);
   const long = fromRows(['####']);
   assert.equal(isLegalMove(long, [0, 1, 2, 3]), false);
   assert.deepEqual(lineBetween(long, 0, 3), []);
@@ -27,9 +32,14 @@ test('generator exactly matches independently enumerated valid subsets on all 3Ã
     for (let sub = 1; sub < 64; sub++) {
       const move = cells.filter(i => sub & (1 << i));
       if ((sub & mask) !== sub || move.length > 3) continue;
-      const row = move.every(i => Math.floor(i / 3) === Math.floor(move[0] / 3));
-      const col = move.every(i => i % 3 === move[0] % 3);
-      if ((row && move.at(-1) - move[0] + 1 === move.length) || (col && (move.at(-1) - move[0]) / 3 + 1 === move.length)) expected.push(move.join(','));
+      const points = move.map(i => ({ row: Math.floor(i / 3), col: i % 3 }));
+      const first = points[0], rows = points.map(p => p.row).sort((a,b)=>a-b), cols = points.map(p => p.col).sort((a,b)=>a-b);
+      const consecutive = values => values.every((v,i) => !i || v === values[i-1] + 1);
+      const row = points.every(p => p.row === first.row) && consecutive(cols);
+      const col = points.every(p => p.col === first.col) && consecutive(rows);
+      const diagDown = points.every(p => p.row - p.col === first.row - first.col) && consecutive(rows);
+      const diagUp = points.every(p => p.row + p.col === first.row + first.col) && consecutive(rows);
+      if (row || col || diagDown || diagUp) expected.push(move.join(','));
     }
     assert.deepEqual(generateLegalMoves(s).map(m => m.join(',')).sort(), expected.sort());
   }
@@ -40,12 +50,17 @@ test('solver agrees with independent brute-force oracle for all 3Ã—2 static stat
     if (!mask) return false;
     if (memo.has(mask)) return memo.get(mask);
     const options = [];
-    for (let a = 0; a < 6; a++) for (let b = a; b < 6; b++) {
-      const sameRow = Math.floor(a / 3) === Math.floor(b / 3), sameCol = a % 3 === b % 3;
-      if (!sameRow && !sameCol) continue;
-      let selected = 0;
-      for (let i = a; i <= b; i += sameRow ? 1 : 3) selected |= 1 << i;
-      if ((mask & selected) === selected) options.push(mask ^ selected);
+    for (let sub = mask; sub; sub = (sub - 1) & mask) {
+      const move = Array.from({ length: 6 }, (_, i) => i).filter(i => sub & (1 << i));
+      if (move.length > 3) continue;
+      const points = move.map(i => ({ row: Math.floor(i / 3), col: i % 3 })), first = points[0];
+      const rows = points.map(p => p.row).sort((a,b)=>a-b), cols = points.map(p => p.col).sort((a,b)=>a-b);
+      const consecutive = values => values.every((v,i) => !i || v === values[i-1] + 1);
+      const straight = (points.every(p => p.row === first.row) && consecutive(cols))
+        || (points.every(p => p.col === first.col) && consecutive(rows))
+        || (points.every(p => p.row - p.col === first.row - first.col) && consecutive(rows))
+        || (points.every(p => p.row + p.col === first.row + first.col) && consecutive(rows));
+      if (straight) options.push(mask ^ sub);
     }
     const win = options.some(next => !oracle(next)); memo.set(mask, win); return win;
   }
@@ -78,13 +93,17 @@ test('arbitrary straight lengths are certified; bends, branches, crosses and gra
   for (const n of [3, 4, 6, 16, 64]) {
     for (const rows of [['#'.repeat(n)], Array(n).fill('#')]) {
       assert.deepEqual(nimAnalysis(fromRows(rows)), {
-        certificate: 'isolated-straight-lines-max3-v3', heaps: [n], grundies: [straightRunGrundy(n)], xor: straightRunGrundy(n),
+        certificate: 'isolated-8-neighbor-straight-lines-max3-v4', heaps: [n], grundies: [straightRunGrundy(n)], xor: straightRunGrundy(n),
       });
     }
   }
-  for (const rows of [['##', '#.'], ['###', '.#.'], ['.#.', '###', '.#.']]) {
-    assert.equal(nimAnalysis(fromRows(rows)), null);
-  }
+  assert.deepEqual(nimAnalysis(fromRows(['#..', '.#.', '..#'])), {
+    certificate: 'isolated-8-neighbor-straight-lines-max3-v4', heaps: [3], grundies: [straightRunGrundy(3)], xor: straightRunGrundy(3),
+  });
+  assert.deepEqual(nimAnalysis(fromRows(['..#', '.#.', '#..'])), {
+    certificate: 'isolated-8-neighbor-straight-lines-max3-v4', heaps: [3], grundies: [straightRunGrundy(3)], xor: straightRunGrundy(3),
+  });
+  for (const rows of [['##', '#.'], ['###', '.#.'], ['.#.', '###', '.#.']]) assert.equal(nimAnalysis(fromRows(rows)), null);
   assert.equal(nimAnalysis(fromRows(['##'], 'gravity')), null);
 });
 

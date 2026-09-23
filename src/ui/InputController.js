@@ -41,19 +41,24 @@ export class InputController {
   }
   key(e) {
     if (!this.enabled) return;
-    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'Enter', 'Escape'].includes(e.key)) return;
+    const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'q', 'e', 'z', 'c', ' ', 'Enter', 'Escape'].includes(key)) return;
     e.preventDefault();
     const s = this.game.state;
     if (this.cursor >= s.width * s.height) this.cursor = cellsOf(s)[0] ?? 0;
     const row = Math.floor(this.cursor / s.width), col = this.cursor % s.width;
-    if (e.key === 'ArrowLeft' && col) this.cursor--;
-    if (e.key === 'ArrowRight' && col < s.width - 1) this.cursor++;
-    if (e.key === 'ArrowUp' && row) this.cursor -= s.width;
-    if (e.key === 'ArrowDown' && row < s.height - 1) this.cursor += s.width;
-    if (e.key === 'Escape') { this.cancel(); return; }
-    if (e.key === ' ' && occupied(s, this.cursor)) this.anchor = this.cursor;
+    if (key === 'ArrowLeft' && col) this.cursor--;
+    if (key === 'ArrowRight' && col < s.width - 1) this.cursor++;
+    if (key === 'ArrowUp' && row) this.cursor -= s.width;
+    if (key === 'ArrowDown' && row < s.height - 1) this.cursor += s.width;
+    if (key === 'q' && row && col) this.cursor -= s.width + 1;
+    if (key === 'e' && row && col < s.width - 1) this.cursor -= s.width - 1;
+    if (key === 'z' && row < s.height - 1 && col) this.cursor += s.width - 1;
+    if (key === 'c' && row < s.height - 1 && col < s.width - 1) this.cursor += s.width + 1;
+    if (key === 'Escape') { this.cancel(); return; }
+    if (key === ' ' && occupied(s, this.cursor)) this.anchor = this.cursor;
     const move = lineBetween(s, this.anchor ?? this.cursor, this.cursor);
-    if (e.key === 'Enter') { this.cancel(); if (move.length) void this.game.play(move); return; }
+    if (key === 'Enter') { this.cancel(); if (move.length) void this.game.play(move); return; }
     this.renderer.focus(this.cursor); this.renderer.select(this.anchor === null ? [] : move);
   }
 }

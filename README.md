@@ -25,11 +25,11 @@ npm run check    # 依序執行 test、validate、test:e2e、build
 
 ## 玩法
 
-- 滑鼠或手指從圓圈開始，沿水平或垂直方向拖曳，放開即移除。每回合可移除 1～3 顆連續圓圈；不可跨空格、轉彎、斜劃或一次選超過 3 顆。非法手勢取消，不消耗回合。
+- 滑鼠或手指從圓圈開始，可沿水平、垂直或 45° 斜向拖曳（↘ / ↙），放開即移除。每回合可移除 1～3 顆連續圓圈；不可跨空格、任意角度轉彎或一次選超過 3 顆。非法手勢取消，不消耗回合。
 - L1–L5 為 static；L6–L10 每次移除後各欄向下填滿空位。動畫與 AI 回合期間鎖定輸入。
 - 可重試、選擇已解鎖關卡、開啟提示與切換 CRT 效果。L5 後有 GRAVITY 章節轉場。
 - `D` 或 Math 按鈕顯示局面 ID、合法走法、勝負、最佳走法、深度及適用時的 heaps / Grundy / Nim sum。勝負是「輪到行動的一方」的評估。
-- 鍵盤：聚焦棋盤後方向鍵移動，Space 設起點，方向鍵延伸，Enter 移除，Escape 取消。
+- 鍵盤：聚焦棋盤後方向鍵做水平／垂直移動，Q/E/Z/C 做四個斜向移動；Space 設起點，Enter 移除，Escape 取消。
 - localStorage 記錄最高解鎖關卡、目前關卡、完成紀錄及 CRT 設定；不保存回合中盤面。儲存不可用時以記憶體模式繼續。
 - 通關後 Analyze 顯示本局行動及 N/P 轉換紀錄，作為後續教學分析的基礎。
 
@@ -65,14 +65,14 @@ Domain 不依賴 DOM。狀態以 immutable BigInt mask 表示；合法操作集�
 | L4 MIRROR | `.##./..../.#../..../.##.` | N / winning | 7 | 1 | r3c2 | 5 | 1 |
 | L5 BALANCE | `###.../....../####../....../######` | N / winning | 30 | 2 | r1c1 | 13 | 1 |
 | L6 FALL | `#.#/.../.#.` | N / winning | 3 | 1 | r3c2 | 3 | N/A |
-| L7 REFORM | `.###/##../....` | N / winning | 10 | 1 | r1c3–r1c4 | 3 | N/A |
-| L8 PREDICT | `#.##/###./....` | N / winning | 12 | 1 | r2c2–r2c3 | 5 | N/A |
-| L9 TRAP | `####/#..#/#...` | N / winning | 16 | 2 | r1c1–r1c2–r1c3 | 5 | N/A |
-| L10 GRAVITY TEST | `####/###./###./....` | N / winning | 30 | 2 | r1c2–r2c2 | 9 | N/A |
+| L7 REFORM | `.#.#/.##./#...` | N / winning | 10 | 1 | r1c4–r2c3 | 3 | N/A |
+| L8 PREDICT | `#.##/.#.#/#...` | N / winning | 13 | 1 | r1c3–r2c2 | 5 | N/A |
+| L9 TRAP | `####/#..#/#...` | N / winning | 18 | 2 | r1c1–r1c2–r1c3 | 5 | N/A |
+| L10 GRAVITY TEST | `####/###./###./....` | N / winning | 42 | 2 | r1c2–r2c2 | 9 | N/A |
 
 Depth 為雙方最佳對抗的總半回合數（plies）：能贏的一方儘速獲勝，必敗的一方盡量拖延；同分採固定走法順序。不是玩家操作數，也不是機率期望值。JSON 另列不要求最佳對抗的 minimumTerminalDepth、完整 winning / losing moves、最佳續局，以及最佳首步後每個 AI 回應的玩家反制證明。
 
-教學約束均通過：L1 點選、L2 多顆直線移除、L3 heaps 1/2/4、L4 唯一首步留下鏡像、L5 30 個合法走法中僅 2 個必勝；L6 所有開局均有明顯掉落；L7 最佳首步形成新線；L8 必須預測重力且深度至少 5；L9 的「右側連拿 3 顆」是 solver 證明的最大移除陷阱；L10 只有 2 個必勝開局、最佳對抗深度 9，且最佳首步經重力形成新的四連線。L7–L10 均有重力改變開局勝負評估的 witness。
+教學約束均通過：L1 點選、L2 多顆直線移除、L3 heaps 1/2/4、L4 唯一首步留下鏡像、L5 30 個合法走法中僅 2 個必勝；L6 所有開局均有明顯掉落；L7 以 45° 斜向作唯一必勝首步並在落下後形成新線；L8 以另一個斜向預判作唯一必勝入口且深度至少 5；L9 的「右側連拿 3 顆」仍是 solver 證明的最大移除陷阱；L10 只有 2 個必勝開局、最佳對抗深度 9。L6–L10 的重力教學約束均由 validator 驗證。
 
 ## 數學依據
 
@@ -80,15 +80,15 @@ Depth 為雙方最佳對抗的總半回合數（plies）：能贏的一方儘速
 
 `g(0)=0`，`g(n)=mex { g(a) XOR g(b) }`
 
-其中集合枚舉所有合法的 r、a、b。互不連通的水平／垂直直線 component 仍是獨立子遊戲，所以總 nimber 是各段 Grundy 值的 XOR。Math Mode 同時顯示實際 heap 長度與其 Grundy 值，避免把「heap 長度」誤當成受限規則下永遠相同的 nimber。
+其中集合枚舉所有合法的 r、a、b。加入 45° 斜向後，static 分析以 8-neighbor 連通性切 component；只有整個 component 本身是一條水平、垂直、↘ 或 ↙ 直線時才套用此 straight-run Grundy 證明。互不連通的直線 component 仍是獨立子遊戲，所以總 nimber 是各段 Grundy 值的 XOR。Math Mode 同時顯示實際 heap 長度與其 Grundy 值。
 
 目前關卡用到的 static 長度恰好仍得到 L3：`g(1) XOR g(2) XOR g(4) = 1 XOR 2 XOR 4 = 7`，L5：`g(3) XOR g(4) XOR g(6) = 3 XOR 4 XOR 6 = 1`。例如長度 5 已變成 `g(5)=1`，可證明新上限確實改變了遊戲數學。轉角、分支或十字 component 不套用此直線分解；gravity 世界會在移除後重新連接 component，因此一律回傳 null，UI 顯示 N/A，包括 L6–L10。Solver 始終以完整合法走法與 deterministic transformation 計算最終真值，AI 不依賴 XOR 捷徑。
 
 ## Automated test 結果
 
-本次 finalization 使用 `npm run check` 驗證：21/21 Node tests、10/10 關卡 validator、48/48 Playwright tests（16 個案例 × 3 個瀏覽器專案），production build 成功。
+本次 finalization 使用 `npm run check` 驗證：21/21 Node tests、10/10 關卡 validator、51/51 Playwright tests（17 個案例 × 3 個瀏覽器專案），production build 成功。
 
-測試包含：所有 3×2 static 盤面的獨立暴力勝負 oracle、所有 3×3 gravity 盤面的獨立 oracle、重力守恆與冪等性、所有符合直線條件的 3×3 盤面，以及水平／垂直長度 8 的所有子集合之遞迴 mex 與 solver 一致性。另涵蓋兩條長度 1–5 的 isolated runs 及所有首步後繼、長度到 64 的水平／垂直 Grundy 遞迴、全域最多 3 顆規則、L1–L10 可達局面的 AI、完整通關、存檔、取消手勢、動畫鎖定、重啟、鍵盤與版面。
+測試包含：所有 3×2 static 盤面的獨立暴力勝負 oracle、所有 3×3 gravity 盤面的獨立 oracle（兩者都獨立枚舉橫／直／兩種 45° 斜線）、重力守恆與冪等性、符合 straight-run certificate 的 3×3 盤面，以及水平／垂直長度 8 的所有子集合之遞迴 mex 與 solver 一致性。另測試 ↘ / ↙ 直線 Grundy、實際 diagonal gesture、全域最多 3 顆規則、L1–L10 可達局面的 AI、完整通關、存檔、取消手勢、動畫鎖定、重啟、鍵盤與版面。
 
 瀏覽器測試逐一確認 L3 heaps 1/2/4 與 Nim sum 7、L5 heaps 3/4/6 與 Nim sum 1，以及 L6–L10 的 N/A。Chromium 手機手勢使用 CDP 真實 touch events；WebKit 的拖曳走 pointer/mouse 路徑，另有 touch tap 測試。
 

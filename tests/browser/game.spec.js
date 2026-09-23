@@ -96,10 +96,10 @@ for (const { id, heaps, xor } of [
     if (id === 5) await expect(page.locator('#math-data')).toContainText('LEGAL MOVES    30');
   });
 }
-test('illegal diagonal, gap, over-limit, bent drag and outside release cancel without a turn', async ({ page }) => {
+test('invalid angle, gap, over-limit, bent drag and outside release cancel without a turn', async ({ page }) => {
   await seed(page,3);
   const original = await page.locator('#board').getAttribute('data-state');
-  await drag(page,[0,9]); // diagonal across rows
+  await drag(page,[0,9]); // not horizontal, vertical, or 45-degree diagonal
   await drag(page,[0,8]); // vertical gap
   await drag(page,[16,19]); // four contiguous circles exceeds the per-turn limit of three
   const first = await point(page,16), end = await point(page,19);
@@ -108,6 +108,18 @@ test('illegal diagonal, gap, over-limit, bent drag and outside release cancel wi
   await page.mouse.move(first.x,first.y); await page.mouse.down(); await page.mouse.move(0,0); await page.mouse.up();
   await expect(page.locator('#board')).toHaveAttribute('data-state',original); await ready(page);
 });
+test('vertical and 45-degree diagonal drags are playable in the browser', async ({ page }) => {
+  await seed(page,7);
+  const diagonalBefore = await page.locator('#board').getAttribute('data-state');
+  await drag(page,[3,6]);
+  await expect.poll(async () => await page.locator('#board').getAttribute('data-state')).not.toBe(diagonalBefore);
+
+  await seed(page,10);
+  const verticalBefore = await page.locator('#board').getAttribute('data-state');
+  await drag(page,[1,5]);
+  await expect.poll(async () => await page.locator('#board').getAttribute('data-state')).not.toBe(verticalBefore);
+});
+
 test('losing move awards AI and allows retry without unlocking', async ({ page }) => {
   await seed(page,2); await drag(page,[0]); await expect(page.locator('#status')).toContainText('COMPUTER WINS');
   await expect(page.locator('#progress')).toContainText('02 / 10');

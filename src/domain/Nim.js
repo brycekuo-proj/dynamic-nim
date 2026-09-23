@@ -26,19 +26,30 @@ export function straightRunGrundy(n) {
 export function nimAnalysis(state) {
   if (state.world !== 'static') return null;
   const seen = new Set(), heaps = [];
+  const coord = i => ({ row: Math.floor(i / state.width), col: i % state.width });
   for (let i = 0; i < state.width * state.height; i++) {
     if (!occupied(state, i) || seen.has(i)) continue;
     const component = [], queue = [i];
     seen.add(i);
     while (queue.length) {
       const j = queue.pop(); component.push(j);
-      for (const k of [j - state.width, j + state.width, ...(j % state.width ? [j - 1] : []), ...(j % state.width < state.width - 1 ? [j + 1] : [])]) {
+      const { row, col } = coord(j);
+      for (const dr of [-1, 0, 1]) for (const dc of [-1, 0, 1]) {
+        if (!dr && !dc) continue;
+        const r = row + dr, c = col + dc;
+        if (r < 0 || c < 0 || r >= state.height || c >= state.width) continue;
+        const k = r * state.width + c;
         if (occupied(state, k) && !seen.has(k)) { seen.add(k); queue.push(k); }
       }
     }
-    if (!component.every(j => Math.floor(j / state.width) === Math.floor(i / state.width)) && !component.every(j => j % state.width === i % state.width)) return null;
+    const points = component.map(coord), first = points[0];
+    const straight = points.every(p => p.row === first.row)
+      || points.every(p => p.col === first.col)
+      || points.every(p => p.row - p.col === first.row - first.col)
+      || points.every(p => p.row + p.col === first.row + first.col);
+    if (!straight) return null;
     heaps.push(component.length);
   }
   const grundies = heaps.map(straightRunGrundy);
-  return { certificate: 'isolated-straight-lines-max3-v3', heaps, grundies, xor: grundies.reduce((a, b) => a ^ b, 0) };
+  return { certificate: 'isolated-8-neighbor-straight-lines-max3-v4', heaps, grundies, xor: grundies.reduce((a, b) => a ^ b, 0) };
 }

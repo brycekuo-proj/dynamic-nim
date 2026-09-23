@@ -19,7 +19,7 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-max3-v3",
+        "certificate": "isolated-8-neighbor-straight-lines-max3-v4",
         "heaps": [
           1
         ],
@@ -82,7 +82,7 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-max3-v3",
+        "certificate": "isolated-8-neighbor-straight-lines-max3-v4",
         "heaps": [
           2
         ],
@@ -174,7 +174,7 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-max3-v3",
+        "certificate": "isolated-8-neighbor-straight-lines-max3-v4",
         "heaps": [
           1,
           2,
@@ -727,7 +727,7 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-max3-v3",
+        "certificate": "isolated-8-neighbor-straight-lines-max3-v4",
         "heaps": [
           2,
           1,
@@ -1063,7 +1063,7 @@
       ],
       "outcome": "N / winning",
       "nim": {
-        "certificate": "isolated-straight-lines-max3-v3",
+        "certificate": "isolated-8-neighbor-straight-lines-max3-v4",
         "heaps": [
           3,
           4,
@@ -2808,28 +2808,29 @@
         "world": "gravity",
         "cells": [
           1,
-          2,
           3,
-          4,
-          5
+          5,
+          6,
+          8
         ],
-        "id": "gravity:4x3:3e"
+        "id": "gravity:4x3:16a"
       },
       "rows": [
-        ".###",
-        "##..",
-        "...."
+        ".#.#",
+        ".##.",
+        "#..."
       ],
       "outcome": "N / winning",
       "nim": null,
       "nimSum": "N/A",
       "gravityWitness": {
         "move": [
-          1
+          3,
+          6
         ],
-        "nextId": "gravity:4x3:f00",
-        "winning": false,
-        "depth": 4
+        "nextId": "gravity:4x3:320",
+        "winning": true,
+        "depth": 3
       },
       "trapProof": null,
       "legalMoves": 10,
@@ -2838,8 +2839,8 @@
       "winningMoves": [
         {
           "move": [
-            2,
-            3
+            3,
+            6
           ],
           "nextId": "gravity:4x3:320",
           "winning": true,
@@ -2858,25 +2859,6 @@
         {
           "move": [
             1,
-            2
-          ],
-          "nextId": "gravity:4x3:b00",
-          "winning": false,
-          "depth": 4
-        },
-        {
-          "move": [
-            1,
-            2,
-            3
-          ],
-          "nextId": "gravity:4x3:300",
-          "winning": false,
-          "depth": 2
-        },
-        {
-          "move": [
-            1,
             5
           ],
           "nextId": "gravity:4x3:d00",
@@ -2885,9 +2867,10 @@
         },
         {
           "move": [
-            2
+            1,
+            6
           ],
-          "nextId": "gravity:4x3:b20",
+          "nextId": "gravity:4x3:b00",
           "winning": false,
           "depth": 4
         },
@@ -2901,16 +2884,25 @@
         },
         {
           "move": [
-            4
+            5
           ],
-          "nextId": "gravity:4x3:e20",
+          "nextId": "gravity:4x3:f00",
           "winning": false,
           "depth": 4
         },
         {
           "move": [
-            4,
-            5
+            5,
+            6
+          ],
+          "nextId": "gravity:4x3:b00",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            5,
+            8
           ],
           "nextId": "gravity:4x3:e00",
           "winning": false,
@@ -2918,18 +2910,26 @@
         },
         {
           "move": [
-            5
+            6
           ],
-          "nextId": "gravity:4x3:f00",
+          "nextId": "gravity:4x3:b20",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            8
+          ],
+          "nextId": "gravity:4x3:e20",
           "winning": false,
           "depth": 4
         }
       ],
       "optimalFirstMove": [
-        2,
-        3
+        3,
+        6
       ],
-      "optimalLabel": "r1c3–r1c4",
+      "optimalLabel": "r1c4–r2c3",
       "solutionDepth": 3,
       "minimumTerminalDepth": 2,
       "replyCertificate": [
@@ -2975,6 +2975,31 @@
           },
           "playerMove": [
             8
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [],
+            "id": "gravity:4x3:0"
+          }
+        },
+        {
+          "aiMove": [
+            5,
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              9
+            ],
+            "id": "gravity:4x3:200"
+          },
+          "playerMove": [
+            9
           ],
           "afterPlayer": {
             "width": 4,
@@ -3064,10 +3089,10 @@
       ],
       "continuation": [
         {
-          "stateId": "gravity:4x3:3e",
+          "stateId": "gravity:4x3:16a",
           "move": [
-            2,
-            3
+            3,
+            6
           ],
           "nextId": "gravity:4x3:320",
           "winning": true
@@ -3103,39 +3128,40 @@
           0,
           2,
           3,
-          4,
           5,
-          6
+          7,
+          8
         ],
-        "id": "gravity:4x3:7d"
+        "id": "gravity:4x3:1ad"
       },
       "rows": [
         "#.##",
-        "###.",
-        "...."
+        ".#.#",
+        "#..."
       ],
       "outcome": "N / winning",
       "nim": null,
       "nimSum": "N/A",
       "gravityWitness": {
         "move": [
-          4
+          2,
+          5
         ],
-        "nextId": "gravity:4x3:f40",
-        "winning": false,
-        "depth": 4
+        "nextId": "gravity:4x3:990",
+        "winning": true,
+        "depth": 5
       },
       "trapProof": null,
-      "legalMoves": 12,
+      "legalMoves": 13,
       "winningCount": 1,
-      "losingCount": 11,
+      "losingCount": 12,
       "winningMoves": [
         {
           "move": [
-            5,
-            6
+            2,
+            5
           ],
-          "nextId": "gravity:4x3:d10",
+          "nextId": "gravity:4x3:990",
           "winning": true,
           "depth": 5
         }
@@ -3145,16 +3171,16 @@
           "move": [
             0
           ],
-          "nextId": "gravity:4x3:f40",
+          "nextId": "gravity:4x3:f80",
           "winning": false,
           "depth": 4
         },
         {
           "move": [
             0,
-            4
+            5
           ],
-          "nextId": "gravity:4x3:e40",
+          "nextId": "gravity:4x3:d80",
           "winning": false,
           "depth": 4
         },
@@ -3162,7 +3188,7 @@
           "move": [
             2
           ],
-          "nextId": "gravity:4x3:f10",
+          "nextId": "gravity:4x3:b90",
           "winning": false,
           "depth": 4
         },
@@ -3170,15 +3196,6 @@
           "move": [
             2,
             3
-          ],
-          "nextId": "gravity:4x3:710",
-          "winning": false,
-          "depth": 4
-        },
-        {
-          "move": [
-            2,
-            6
           ],
           "nextId": "gravity:4x3:b10",
           "winning": false,
@@ -3186,61 +3203,79 @@
         },
         {
           "move": [
+            2,
+            7
+          ],
+          "nextId": "gravity:4x3:b10",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            2,
+            5,
+            8
+          ],
+          "nextId": "gravity:4x3:980",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
             3
           ],
-          "nextId": "gravity:4x3:750",
+          "nextId": "gravity:4x3:f10",
           "winning": false,
           "depth": 4
         },
         {
           "move": [
-            4
+            3,
+            7
           ],
-          "nextId": "gravity:4x3:f40",
+          "nextId": "gravity:4x3:710",
           "winning": false,
           "depth": 4
         },
         {
           "move": [
-            4,
             5
           ],
-          "nextId": "gravity:4x3:d40",
+          "nextId": "gravity:4x3:d90",
           "winning": false,
           "depth": 4
         },
         {
           "move": [
-            4,
             5,
-            6
+            8
           ],
-          "nextId": "gravity:4x3:d00",
+          "nextId": "gravity:4x3:d80",
           "winning": false,
           "depth": 4
         },
         {
           "move": [
-            5
-          ],
-          "nextId": "gravity:4x3:d50",
-          "winning": false,
-          "depth": 4
-        },
-        {
-          "move": [
-            6
+            7
           ],
           "nextId": "gravity:4x3:f10",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            8
+          ],
+          "nextId": "gravity:4x3:f80",
           "winning": false,
           "depth": 4
         }
       ],
       "optimalFirstMove": [
-        5,
-        6
+        2,
+        5
       ],
-      "optimalLabel": "r2c2–r2c3",
+      "optimalLabel": "r1c3–r2c2",
       "solutionDepth": 5,
       "minimumTerminalDepth": 3,
       "replyCertificate": [
@@ -3253,14 +3288,14 @@
             "height": 3,
             "world": "gravity",
             "cells": [
+              7,
               8,
-              10,
               11
             ],
-            "id": "gravity:4x3:d00"
+            "id": "gravity:4x3:980"
           },
           "playerMove": [
-            10
+            7
           ],
           "afterPlayer": {
             "width": 4,
@@ -3283,13 +3318,13 @@
             "height": 3,
             "world": "gravity",
             "cells": [
-              10,
+              7,
               11
             ],
-            "id": "gravity:4x3:c00"
+            "id": "gravity:4x3:880"
           },
           "playerMove": [
-            10,
+            7,
             11
           ],
           "afterPlayer": {
@@ -3302,36 +3337,7 @@
         },
         {
           "aiMove": [
-            8
-          ],
-          "afterAI": {
-            "width": 4,
-            "height": 3,
-            "world": "gravity",
-            "cells": [
-              8,
-              10,
-              11
-            ],
-            "id": "gravity:4x3:d00"
-          },
-          "playerMove": [
-            10
-          ],
-          "afterPlayer": {
-            "width": 4,
-            "height": 3,
-            "world": "gravity",
-            "cells": [
-              8,
-              11
-            ],
-            "id": "gravity:4x3:900"
-          }
-        },
-        {
-          "aiMove": [
-            10
+            7
           ],
           "afterAI": {
             "width": 4,
@@ -3360,7 +3366,7 @@
         },
         {
           "aiMove": [
-            10,
+            7,
             11
           ],
           "afterAI": {
@@ -3387,6 +3393,35 @@
         },
         {
           "aiMove": [
+            8
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              7,
+              8,
+              11
+            ],
+            "id": "gravity:4x3:980"
+          },
+          "playerMove": [
+            7
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 3,
+            "world": "gravity",
+            "cells": [
+              8,
+              11
+            ],
+            "id": "gravity:4x3:900"
+          }
+        },
+        {
+          "aiMove": [
             11
           ],
           "afterAI": {
@@ -3396,9 +3431,9 @@
             "cells": [
               4,
               8,
-              10
+              11
             ],
-            "id": "gravity:4x3:510"
+            "id": "gravity:4x3:910"
           },
           "playerMove": [
             4
@@ -3409,34 +3444,34 @@
             "world": "gravity",
             "cells": [
               8,
-              10
+              11
             ],
-            "id": "gravity:4x3:500"
+            "id": "gravity:4x3:900"
           }
         }
       ],
       "continuation": [
         {
-          "stateId": "gravity:4x3:7d",
+          "stateId": "gravity:4x3:1ad",
           "move": [
-            5,
-            6
+            2,
+            5
           ],
-          "nextId": "gravity:4x3:d10",
+          "nextId": "gravity:4x3:990",
           "winning": true
         },
         {
-          "stateId": "gravity:4x3:d10",
+          "stateId": "gravity:4x3:990",
           "move": [
             4
           ],
-          "nextId": "gravity:4x3:d00",
+          "nextId": "gravity:4x3:980",
           "winning": false
         },
         {
-          "stateId": "gravity:4x3:d00",
+          "stateId": "gravity:4x3:980",
           "move": [
-            10
+            7
           ],
           "nextId": "gravity:4x3:900",
           "winning": true
@@ -3488,9 +3523,10 @@
       "nimSum": "N/A",
       "gravityWitness": {
         "move": [
-          1
+          1,
+          4
         ],
-        "nextId": "gravity:4x3:d91",
+        "nextId": "gravity:4x3:d90",
         "winning": false,
         "depth": 4
       },
@@ -3527,9 +3563,9 @@
           "id": "gravity:4x3:900"
         }
       },
-      "legalMoves": 16,
+      "legalMoves": 18,
       "winningCount": 2,
-      "losingCount": 14,
+      "losingCount": 16,
       "winningMoves": [
         {
           "move": [
@@ -3617,6 +3653,15 @@
         },
         {
           "move": [
+            1,
+            4
+          ],
+          "nextId": "gravity:4x3:d90",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
             2
           ],
           "nextId": "gravity:4x3:b91",
@@ -3627,6 +3672,15 @@
           "move": [
             2,
             3
+          ],
+          "nextId": "gravity:4x3:b11",
+          "winning": false,
+          "depth": 4
+        },
+        {
+          "move": [
+            2,
+            7
           ],
           "nextId": "gravity:4x3:b11",
           "winning": false,
@@ -3932,17 +3986,17 @@
       "nimSum": "N/A",
       "gravityWitness": {
         "move": [
-          0,
-          1
+          1,
+          5
         ],
-        "nextId": "gravity:4x4:f740",
-        "winning": false,
-        "depth": 6
+        "nextId": "gravity:4x4:f550",
+        "winning": true,
+        "depth": 9
       },
       "trapProof": null,
-      "legalMoves": 30,
+      "legalMoves": 42,
       "winningCount": 2,
-      "losingCount": 28,
+      "losingCount": 40,
       "winningMoves": [
         {
           "move": [
@@ -4012,6 +4066,25 @@
         },
         {
           "move": [
+            0,
+            5
+          ],
+          "nextId": "gravity:4x4:f740",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            0,
+            5,
+            10
+          ],
+          "nextId": "gravity:4x4:f700",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
             1
           ],
           "nextId": "gravity:4x4:f750",
@@ -4046,6 +4119,24 @@
           "nextId": "gravity:4x4:d550",
           "winning": false,
           "depth": 8
+        },
+        {
+          "move": [
+            1,
+            6
+          ],
+          "nextId": "gravity:4x4:f710",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            1,
+            4
+          ],
+          "nextId": "gravity:4x4:f740",
+          "winning": false,
+          "depth": 6
         },
         {
           "move": [
@@ -4085,9 +4176,47 @@
         },
         {
           "move": [
+            2,
+            5
+          ],
+          "nextId": "gravity:4x4:f710",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            2,
+            5,
+            8
+          ],
+          "nextId": "gravity:4x4:f700",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
             3
           ],
           "nextId": "gravity:4x4:7770",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            3,
+            6
+          ],
+          "nextId": "gravity:4x4:7730",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            3,
+            6,
+            9
+          ],
+          "nextId": "gravity:4x4:7710",
           "winning": false,
           "depth": 6
         },
@@ -4129,6 +4258,15 @@
         },
         {
           "move": [
+            4,
+            9
+          ],
+          "nextId": "gravity:4x4:f740",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
             5
           ],
           "nextId": "gravity:4x4:f750",
@@ -4146,6 +4284,24 @@
         },
         {
           "move": [
+            5,
+            10
+          ],
+          "nextId": "gravity:4x4:f710",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            5,
+            8
+          ],
+          "nextId": "gravity:4x4:f740",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
             6
           ],
           "nextId": "gravity:4x4:f730",
@@ -4158,6 +4314,15 @@
             10
           ],
           "nextId": "gravity:4x4:f330",
+          "winning": false,
+          "depth": 6
+        },
+        {
+          "move": [
+            6,
+            9
+          ],
+          "nextId": "gravity:4x4:f710",
           "winning": false,
           "depth": 6
         },
@@ -4350,21 +4515,21 @@
             "id": "gravity:4x4:f510"
           },
           "playerMove": [
-            12,
-            13,
-            14
+            10,
+            15
           ],
           "afterPlayer": {
             "width": 4,
             "height": 4,
             "world": "gravity",
             "cells": [
+              4,
               8,
               12,
-              14,
-              15
+              13,
+              14
             ],
-            "id": "gravity:4x4:d100"
+            "id": "gravity:4x4:7110"
           }
         },
         {
@@ -4387,7 +4552,7 @@
             "id": "gravity:4x4:f110"
           },
           "playerMove": [
-            12,
+            8,
             13
           ],
           "afterPlayer": {
@@ -4513,6 +4678,42 @@
         },
         {
           "aiMove": [
+            8,
+            13
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              6,
+              8,
+              10,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d540"
+          },
+          "playerMove": [
+            6,
+            10
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              8,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
             10
           ],
           "afterAI": {
@@ -4531,21 +4732,21 @@
             "id": "gravity:4x4:f510"
           },
           "playerMove": [
-            12,
-            13,
-            14
+            10,
+            15
           ],
           "afterPlayer": {
             "width": 4,
             "height": 4,
             "world": "gravity",
             "cells": [
+              4,
               8,
               12,
-              14,
-              15
+              13,
+              14
             ],
-            "id": "gravity:4x4:d100"
+            "id": "gravity:4x4:7110"
           }
         },
         {
@@ -4568,7 +4769,7 @@
             "id": "gravity:4x4:f110"
           },
           "playerMove": [
-            12,
+            8,
             13
           ],
           "afterPlayer": {
@@ -4582,6 +4783,78 @@
               15
             ],
             "id": "gravity:4x4:d100"
+          }
+        },
+        {
+          "aiMove": [
+            10,
+            15
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              10,
+              12,
+              13,
+              14
+            ],
+            "id": "gravity:4x4:7510"
+          },
+          "playerMove": [
+            4,
+            8,
+            12
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              10,
+              13,
+              14
+            ],
+            "id": "gravity:4x4:6400"
+          }
+        },
+        {
+          "aiMove": [
+            10,
+            13
+          ],
+          "afterAI": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              4,
+              8,
+              10,
+              12,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:d510"
+          },
+          "playerMove": [
+            4,
+            8,
+            12
+          ],
+          "afterPlayer": {
+            "width": 4,
+            "height": 4,
+            "world": "gravity",
+            "cells": [
+              10,
+              14,
+              15
+            ],
+            "id": "gravity:4x4:c400"
           }
         },
         {
@@ -4820,21 +5093,21 @@
             "id": "gravity:4x4:f510"
           },
           "playerMove": [
-            12,
-            13,
-            14
+            10,
+            15
           ],
           "afterPlayer": {
             "width": 4,
             "height": 4,
             "world": "gravity",
             "cells": [
+              4,
               8,
               12,
-              14,
-              15
+              13,
+              14
             ],
-            "id": "gravity:4x4:d100"
+            "id": "gravity:4x4:7110"
           }
         },
         {

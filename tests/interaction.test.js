@@ -8,17 +8,22 @@ import { Solver } from '../src/domain/Solver.js';
 import { levels } from '../src/levels/index.js';
 const storage = () => { const data = new Map(); return { getItem: k => data.get(k), setItem: (k,v) => data.set(k,v) }; };
 const renderer = { draw() {}, cancel() {}, async animate() {}, async pause() {} };
-test('drag selects skipped intermediate circles but never crosses a gap or diagonal', () => {
-  const s = fromRows(['###', '...', '#.#']);
-  const straight = new Gesture(s, 0, {x:0,y:0});
-  assert.deepEqual(straight.update({x:128,y:0},2), [0,1,2]);
-  assert.deepEqual(straight.update({x:64,y:0},1), [0,1]);
-  const gap = new Gesture(s, 6, {x:0,y:128});
+test('drag supports horizontal, vertical and 45-degree lines but never crosses a gap or leaves its locked axis', () => {
+  const s = fromRows(['###', '.#.', '#.#']);
+  const horizontal = new Gesture(s, 0, {x:0,y:0});
+  assert.deepEqual(horizontal.update({x:128,y:0},2), [0,1,2]);
+  assert.deepEqual(horizontal.update({x:64,y:0},1), [0,1]);
+  const vertical = new Gesture(s, 1, {x:64,y:0});
+  assert.deepEqual(vertical.update({x:64,y:64},4), [1,4]);
+  const diagonalDown = new Gesture(s,0,{x:0,y:0});
+  assert.deepEqual(diagonalDown.update({x:64,y:64},4), [0,4]);
+  assert.deepEqual(diagonalDown.update({x:128,y:128},8), [0,4,8]);
+  const diagonalUp = new Gesture(s,2,{x:128,y:0});
+  assert.deepEqual(diagonalUp.update({x:64,y:64},4), [2,4]);
+  assert.deepEqual(diagonalUp.update({x:0,y:128},6), [2,4,6]);
+  const gap = new Gesture(fromRows(['#..', '...', '..#']), 0, {x:0,y:0});
   assert.deepEqual(gap.update({x:128,y:128},8), []);
-  const diagonal = new Gesture(s,0,{x:0,y:0});
-  assert.deepEqual(diagonal.update({x:128,y:128},8), []);
-  assert.deepEqual(diagonal.update({x:0,y:0},0), []);
-  assert.deepEqual(straight.update({x:300,y:0},null), []);
+  assert.deepEqual(horizontal.update({x:300,y:0},null), []);
 });
 test('save persists progression, level and settings and tolerates corruption/blocked storage', () => {
   const mem = storage(), save = new SaveStore(mem);
