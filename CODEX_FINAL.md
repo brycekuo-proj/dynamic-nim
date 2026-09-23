@@ -5,13 +5,13 @@
 - GitHub remote：`origin` → https://github.com/brycekuo-proj/dynamic-nim.git
 - 目標分支：`main`；明確推送指令：`git push origin main`。
 
-後續規則更新：全域改為每回合最多移除 3 顆，合法方向為水平、垂直與 45° 斜向（↘ / ↙）。原先無移除上限時的 `g(n)=n` 證明因此不再適用；目前 static 直線 component 以 8-neighbor 連通性判定，只有整個 component 是單一直線時才用「移除 1～3 顆後左右分裂」的 Sprague–Grundy mex 遞迴。gravity 世界仍回傳 null / N/A；solver 維持最終真值。
+後續規則更新：`CORE_MOVE_RULES` 已定義為 L1–L30 的全域 immutable invariant；每回合最多移除 3 顆，合法方向為水平、垂直與 45° 斜向（↘ / ↙），LevelDefinition 與 Validator 都會強制繼承同一份規則。原先無移除上限時的 `g(n)=n` 證明因此不再適用；目前 static 直線 component 以 8-neighbor 連通性判定，只有整個 component 是單一直線時才用「移除 1～3 顆後左右分裂」的 Sprague–Grundy mex 遞迴。gravity 世界仍回傳 null / N/A；solver 維持最終真值。
 
 驗證日期：2026-09-23。`npm run check` exit code 0：
 
 | 檢查 | 結果 |
 |---|---|
-| Node unit / property / level / controller tests | 21 passed、0 failed |
+| Node unit / property / level / controller tests | 22 passed、0 failed |
 | L1–L10 validator | 10 passed，全部 N / winning |
 | Playwright | 51 passed、0 failed（17 案例 × desktop Chromium、mobile Chromium、mobile WebKit） |
 | Production build | 成功；Vite 8.3.0，23 modules |

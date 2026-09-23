@@ -8,9 +8,12 @@ import { generateLegalMoves } from '../src/domain/MoveGenerator.js';
 import { describeMove } from '../src/domain/Move.js';
 import { nimAnalysis } from '../src/domain/Nim.js';
 import { applyMove, transition } from '../src/domain/TransformationSystem.js';
+import { CORE_MOVE_RULES } from '../src/domain/RuleEngine.js';
 export function validateLevels(input = levels) {
   const solver = new Solver();
   return input.map(level => {
+    assert.strictEqual(level.moveRules, CORE_MOVE_RULES, `L${level.id}: level must inherit the global L1–L30 move rules`);
+    assert(level.id >= CORE_MOVE_RULES.levelRange.min && level.id <= CORE_MOVE_RULES.levelRange.max, `L${level.id}: level id is outside the supported L1–L30 range`);
     const state = level.initial, a = solver.analyze(state), nim = nimAnalysis(state);
     assert(a.winning, `L${level.id}: initial state must be N`);
     assert(a.winningMoves.length <= level.constraints.maxWinning, `L${level.id}: too many winning choices`);
@@ -55,7 +58,7 @@ export function validateLevels(input = levels) {
     let replay = state;
     for (const step of continuation) replay = applyMove(replay, step.move);
     assert.equal(replay.mask, 0n);
-    return { level: level.id, name: level.name, world: level.world, initial: snapshot(state), rows: rowsOf(state), outcome: 'N / winning', nim, nimSum: nim ? nim.xor : 'N/A', gravityWitness, trapProof, legalMoves: a.legalMoves, winningCount: a.winningMoves.length, losingCount: a.losingMoves.length, winningMoves: a.winningMoves, losingMoves: a.losingMoves, optimalFirstMove: a.optimalMove, optimalLabel: describeMove(state, a.optimalMove), solutionDepth: a.depth, minimumTerminalDepth: a.minDepth, replyCertificate, continuation };
+    return { level: level.id, name: level.name, world: level.world, moveRules: level.moveRules, initial: snapshot(state), rows: rowsOf(state), outcome: 'N / winning', nim, nimSum: nim ? nim.xor : 'N/A', gravityWitness, trapProof, legalMoves: a.legalMoves, winningCount: a.winningMoves.length, losingCount: a.losingMoves.length, winningMoves: a.winningMoves, losingMoves: a.losingMoves, optimalFirstMove: a.optimalMove, optimalLabel: describeMove(state, a.optimalMove), solutionDepth: a.depth, minimumTerminalDepth: a.minDepth, replyCertificate, continuation };
   });
 }
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

@@ -1,6 +1,7 @@
 # AGENTS.md — Dynamic Nim
 
 - Primary task specification: read and obey `TASK.md`.
+- GLOBAL L1–L30 MOVE INVARIANT: every level uses the same immutable move rules from `CORE_MOVE_RULES`: remove 1–3 contiguous circles along horizontal, vertical, or 45° diagonal lines (↘ / ↙), never across a gap. Chapters may change only the deterministic world transformation after removal; do not weaken, replace, or override these move directions per level.
 - Build the playable L1–L10 prototype, not merely a plan or snippets.
 - Work phase-by-phase and run tests at every phase boundary.
 - Solver correctness and deterministic transformations are higher priority than visual polish.

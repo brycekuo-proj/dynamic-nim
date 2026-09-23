@@ -1,6 +1,20 @@
 import { bit, occupied, withMask } from './GameState.js';
 
-export const MAX_REMOVAL = 3;
+export const CORE_DIRECTION_VECTORS = Object.freeze([
+  Object.freeze([0, 1]),   // horizontal
+  Object.freeze([1, 0]),   // vertical
+  Object.freeze([1, 1]),   // 45° ↘
+  Object.freeze([1, -1]),  // 45° ↙
+]);
+export const CORE_MOVE_RULES = Object.freeze({
+  maxRemoval: 3,
+  directionTypes: Object.freeze(['horizontal', 'vertical', 'diagonal-45']),
+  diagonalSlopes: Object.freeze(['↘', '↙']),
+  contiguous: true,
+  allowGaps: false,
+  levelRange: Object.freeze({ min: 1, max: 30 }),
+});
+export const MAX_REMOVAL = CORE_MOVE_RULES.maxRemoval;
 const coord = (state, i) => ({ row: Math.floor(i / state.width), col: i % state.width });
 const consecutive = values => {
   const sorted = [...values].sort((a, b) => a - b);

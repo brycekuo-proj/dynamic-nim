@@ -5,6 +5,8 @@ import { levels } from '../src/levels/index.js';
 import { Solver } from '../src/domain/Solver.js';
 import { nimAnalysis } from '../src/domain/Nim.js';
 import { applyMove } from '../src/domain/TransformationSystem.js';
+import { CORE_MOVE_RULES } from '../src/domain/RuleEngine.js';
+import { defineLevel } from '../src/levels/LevelDefinition.js';
 
 test('every level meets its solver-verified teaching constraints', () => {
   const reports = validateLevels();
@@ -12,6 +14,21 @@ test('every level meets its solver-verified teaching constraints', () => {
   for (const report of reports) assert.equal(report.legalMoves, report.winningCount + report.losingCount);
   assert.deepEqual(reports.map(report => report.nimSum), [1, 2, 7, 1, 1, ...Array(5).fill('N/A')]);
 });
+test('core move rules are global, immutable and inherited by current and future L1–L30 levels', () => {
+  assert.equal(Object.isFrozen(CORE_MOVE_RULES), true);
+  assert.deepEqual(CORE_MOVE_RULES.directionTypes, ['horizontal', 'vertical', 'diagonal-45']);
+  assert.deepEqual(CORE_MOVE_RULES.diagonalSlopes, ['↘', '↙']);
+  assert.equal(CORE_MOVE_RULES.maxRemoval, 3);
+  assert.equal(CORE_MOVE_RULES.contiguous, true);
+  assert.equal(CORE_MOVE_RULES.allowGaps, false);
+  assert.deepEqual(CORE_MOVE_RULES.levelRange, { min: 1, max: 30 });
+  for (const level of levels) assert.strictEqual(level.moveRules, CORE_MOVE_RULES);
+  for (const id of [11, 15, 16, 25, 26, 30]) {
+    const future = defineLevel(id, 'FUTURE', ['#'], 'static', '', '', { maxWinning: 1 });
+    assert.strictEqual(future.moveRules, CORE_MOVE_RULES);
+  }
+});
+
 test('solver governs openings; XOR is only exposed for certified states', () => {
   const solver = new Solver();
   for (const level of levels.filter(l => l.world === 'static')) {

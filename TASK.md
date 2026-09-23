@@ -162,9 +162,30 @@ Move 執行後立即進入盤面 transformation。
 
 合法操作的定義必須集中管理，不要散落在 UI code 裡。
 
+## 6.1 全遊戲 L1–L30 不可覆寫的 Move 規則
+
+以下不是前 10 關的暫時規則，而是 **L1–L30 全部關卡共用的核心規則**：
+
+1. 每回合最少移除 1 顆、最多移除 3 顆。
+2. 必須是同一直線上的連續圓圈。
+3. 合法方向永遠只有三種類型：
+   - 水平 `—`
+   - 垂直 `|`
+   - 45° 斜向；同時包含 `↘` 與 `↙`
+4. 不可跨空格、不可轉彎、不可使用其他角度。
+5. 玩家、AI、Solver、MoveGenerator、Validator 必須共用同一份 RuleEngine 定義。
+6. LevelDefinition 不得為個別關卡覆寫上述 Move 規則。
+7. L11–L30 可以改變的是 **Move 完成後的 deterministic world transformation**，不是 Move 本身的合法方向。
+
+因此後續章節即使加入 Gravity Down、Side Collapse、Center Collapse 或 Frog Boss，也必須先依照完全相同的三方向 Move 規則完成移除，再執行該章節的 transformation。
+
+這條規則視為產品 invariant；未來任何開發代理都不得因關卡設計方便而刪除直向或斜向、增加自由角度、提高 3 顆上限，或改成每關不同的 Move 規則，除非產品規格被明確重新決策。
+
 # 7. 30關整體架構
 
 完整遊戲未來規劃：
+
+**注意：以下四個章節只改變盤面 transformation。L1–L30 的移除規則始終是水平／垂直／45°斜向（↘／↙）、連續 1～3 顆、不可跨空格。**
 
 L1–L5 STATIC
 
@@ -180,11 +201,13 @@ L16–L25 SIDE COLLAPSE ← / →
 
 核心：
 左右壓縮造成有效直線重新形成。
+移除階段仍必須完整支援橫向、直向與 45° 斜向三種類型；Side Collapse 只能發生在合法 Move 完成之後。
 
 L26–L30 CENTER COLLAPSE ◎
 
 核心：
 所有圓圈向中央 deterministic collapse。
+移除階段仍必須完整支援橫向、直向與 45° 斜向三種類型；Center Collapse 與 L30 Frog Boss 不得覆寫核心 Move 規則。
 
 目前只製作 L1–L10。
 

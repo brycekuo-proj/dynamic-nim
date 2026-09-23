@@ -33,6 +33,12 @@ npm run check    # 依序執行 test、validate、test:e2e、build
 - localStorage 記錄最高解鎖關卡、目前關卡、完成紀錄及 CRT 設定；不保存回合中盤面。儲存不可用時以記憶體模式繼續。
 - 通關後 Analyze 顯示本局行動及 N/P 轉換紀錄，作為後續教學分析的基礎。
 
+## L1–L30 全域核心 Move 規則
+
+L1–L30 全部關卡共用同一份不可覆寫的 `CORE_MOVE_RULES`。每回合只能移除 **1～3 顆連續圓圈**，合法方向固定為 **水平、垂直、45° 斜向（↘ / ↙）**；不可跨空格、不可轉彎、不可使用其他角度。`LevelDefinition` 會自動綁定這份規則，Level Validator 也會檢查每一關都使用同一份核心規則。
+
+後續章節可以改變的只有合法 Move 完成後的 deterministic transformation：L11–L15 繼續 Gravity Down、L16–L25 使用 Side Collapse、L26–L30 使用 Center Collapse，L30 Frog Boss 也必須遵守同一份三方向移除規則。也就是說，世界物理會變，但「怎麼移除」不會因關卡而改變。
+
 ## 專案結構
 
 ```text
@@ -51,7 +57,7 @@ artifacts/               validator JSON 與瀏覽器截圖
 index.html               遊戲入口
 ```
 
-Domain 不依賴 DOM。狀態以 immutable BigInt mask 表示；合法操作集中於 RuleEngine / MoveGenerator。TransformationSystem 產生確定性重力結果與動畫對應資料。Solver 使用包含世界規則、尺寸與 mask 的 transposition key，遞迴計算所有合法後繼；GameController 負責回合與取消過期動畫，UI 只負責呈現與輸入。
+Domain 不依賴 DOM。狀態以 immutable BigInt mask 表示；合法操作集中於 RuleEngine / MoveGenerator。`CORE_MOVE_RULES` 是 L1–L30 的全域 immutable invariant，`LevelDefinition` 只引用它而不能為單一關卡覆寫。TransformationSystem 只負責合法移除之後的世界變換。Solver 使用包含世界規則、尺寸與 mask 的 transposition key，遞迴計算所有合法後繼；GameController 負責回合與取消過期動畫，UI 只負責呈現與輸入。
 
 ## L1–L10 validator 結果
 
@@ -86,7 +92,7 @@ Depth 為雙方最佳對抗的總半回合數（plies）：能贏的一方儘速
 
 ## Automated test 結果
 
-本次 finalization 使用 `npm run check` 驗證：21/21 Node tests、10/10 關卡 validator、51/51 Playwright tests（17 個案例 × 3 個瀏覽器專案），production build 成功。
+本次 finalization 使用 `npm run check` 驗證：22/22 Node tests、10/10 關卡 validator、51/51 Playwright tests（17 個案例 × 3 個瀏覽器專案），production build 成功。
 
 測試包含：所有 3×2 static 盤面的獨立暴力勝負 oracle、所有 3×3 gravity 盤面的獨立 oracle（兩者都獨立枚舉橫／直／兩種 45° 斜線）、重力守恆與冪等性、符合 straight-run certificate 的 3×3 盤面，以及水平／垂直長度 8 的所有子集合之遞迴 mex 與 solver 一致性。另測試 ↘ / ↙ 直線 Grundy、實際 diagonal gesture、全域最多 3 顆規則、L1–L10 可達局面的 AI、完整通關、存檔、取消手勢、動畫鎖定、重啟、鍵盤與版面。
 
@@ -98,4 +104,4 @@ Depth 為雙方最佳對抗的總半回合數（plies）：能贏的一方儘速
 - GameState 目前限制總盤面面積最多 64 格。每回合最多移除 3 顆是全域遊戲規則，不是盤面長度限制；同步精確 solver 的成本仍隨狀態空間快速成長，不適合直接放大到高密度棋盤。
 - 手機為瀏覽器裝置模擬測試，仍需實體 iOS / Android 長時間觸控與效能驗證。無 Capacitor 包裝、雲端保存或帳號。
 - Analyze 只有回合紀錄，尚無完整推理教學；localStorage 被清除時進度會消失。
-- 下一階段先將 solver 移入 Web Worker 並建立效能預算，再以 validator 設計 L11–L15；加入 transformation 前後預覽、完整分析回放與實機驗證。之後再擴充 side / center collapse，維持 determinism 與每關可驗證的教學目標。
+- 下一階段先將 solver 移入 Web Worker 並建立效能預算，再以 validator 設計 L11–L15；加入 transformation 前後預覽、完整分析回放與實機驗證。之後再擴充 L16–L25 Side Collapse、L26–L30 Center Collapse。所有未來關卡都必須繼續使用同一份 `CORE_MOVE_RULES`：橫／直／45°斜向、連續 1～3 顆、不可跨空格。
