@@ -21,6 +21,31 @@ test('Kenney CC0 token sprites and navigation render without missing assets', as
   await page.screenshot({ path: `artifacts/visual-${testInfo.project.name}.png`, fullPage: true });
 });
 
+test('mobile first screen prioritizes a large playable board', async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.startsWith('mobile'));
+  await page.goto('/');
+  const metrics = await page.evaluate(() => {
+    const board = document.querySelector('#board').getBoundingClientRect();
+    const token = document.querySelector('.piece').getBoundingClientRect();
+    const masthead = document.querySelector('.masthead').getBoundingClientRect();
+    const banner = document.querySelector('.identity').getBoundingClientRect();
+    return { width: innerWidth, boardTop: board.top, boardWidth: board.width,
+      boardHeight: board.height, tokenWidth: token.width, mastheadHeight: masthead.height,
+      bannerHeight: banner.height, overflow: document.documentElement.scrollWidth > innerWidth,
+      sections: ['.mission-card','.mobile-rules','.toolbar','.game-headline','.board-topline'].map(s => {
+        const r=document.querySelector(s).getBoundingClientRect();return {s,top:Math.round(r.top),height:Math.round(r.height)};
+      }) };
+  });
+  console.log('Mobile compact-layout metrics:', JSON.stringify(metrics));
+  expect(metrics.overflow).toBe(false);
+  expect(metrics.mastheadHeight).toBeLessThan(43);
+  expect(metrics.bannerHeight).toBeLessThan(55);
+  expect(metrics.boardTop).toBeLessThan(295);
+  expect(metrics.boardWidth).toBeGreaterThan(metrics.width - 40);
+  expect(metrics.boardHeight).toBeGreaterThan(300);
+  expect(metrics.tokenWidth).toBeGreaterThan(55);
+});
+
 test('mobile game rules remain accessible without obscuring the board', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.startsWith('mobile'));
   await page.goto('/');

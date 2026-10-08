@@ -4,7 +4,7 @@ const ASSET_ROOT = `${import.meta.env.BASE_URL}assets/kenney/`;
 export class Renderer {
   constructor(svg, reducedMotion) { this.svg = svg; this.reducedMotion = reducedMotion; this.animations = new Set(); this.token = 0; }
   geometry(state) {
-    this.state = state; this.width = Math.max(4, state.width) * 64 + 64; this.height = Math.max(4, state.height) * 64 + 64;
+    this.state = state; this.width = Math.max(4, state.width) * 64 + 24; this.height = Math.max(4, state.height) * 64 + 24;
     this.offsetX = (this.width - (state.width - 1) * 64) / 2;
     this.offsetY = (this.height - (state.height - 1) * 64) / 2;
     this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);

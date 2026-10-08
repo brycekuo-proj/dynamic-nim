@@ -24,7 +24,7 @@ button:disabled{cursor:not-allowed;opacity:.35}
 .ambient{position:fixed;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(circle at 22% 30%,#32678024,transparent 43%),
   linear-gradient(transparent 50%,#08111d03 50%);background-size:auto,100% 4px}
-.terminal{width:min(1180px,calc(100% - 64px));margin:35px auto 46px;position:relative;z-index:1}
+.terminal{width:min(1440px,calc(100% - 44px));margin:24px auto 32px;position:relative;z-index:1}
 .masthead{height:58px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
   border-bottom:1px solid #4a697a72;font-size:10px;font-weight:750;letter-spacing:2.5px;color:#c4e7e8}
 .masthead-brand{display:flex;align-items:center;gap:13px}
@@ -36,14 +36,14 @@ button:disabled{cursor:not-allowed;opacity:.35}
 .system-state{display:flex;align-items:center;white-space:nowrap;margin-top:10px;color:#b3cbd1;letter-spacing:1.5px}
 .signal,.toolbar-dot{width:7px;height:7px;border-radius:100%;display:inline-block;background:#8ef2c7;box-shadow:0 0 12px #72f9c3;flex:none}
 .signal{margin-right:10px}
-.layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:56px;padding-top:35px}
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:28px;padding-top:22px}
 .sidebar{min-width:0}
 .eyebrow,.card-eyebrow,.toolbar-caption,.board-topline,.sidebar-credit,.play-signature{
   font-size:10px;font-weight:760;letter-spacing:2.1px;color:var(--muted)}
 .identity{padding:14px 0 29px}
 .brand-eyebrow{display:flex;justify-content:space-between;align-items:center;color:var(--cyan);font-size:9px;letter-spacing:2px}
 .brand-eyebrow span{color:var(--gold);font-size:20px}
-.identity h1{font-family:Impact,"Arial Narrow",Inter,sans-serif;font-stretch:condensed;font-size:clamp(57px,6.6vw,84px);
+.identity h1{font-family:Impact,"Arial Narrow",Inter,sans-serif;font-stretch:condensed;font-size:clamp(53px,5.5vw,72px);
   line-height:.92;letter-spacing:.4px;font-weight:750;margin:17px 0 23px}
 .identity h1>span{color:var(--cyan-light)}
 .cursor{color:var(--gold);font-weight:400;animation:cursorPulse 3.8s steps(1) infinite}
@@ -89,7 +89,7 @@ button:disabled{cursor:not-allowed;opacity:.35}
   border:1px solid #345369;box-shadow:0 25px 100px #0006,0 0 0 1px #091725 inset;
   border-radius:16px;overflow:hidden;align-self:start}
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
-  min-height:68px;padding:10px 24px;border-bottom:1px solid #36566b;background:#14283b8a}
+  min-height:54px;padding:8px 20px;border-bottom:1px solid #36566b;background:#14283b8a}
 .toolbar-caption{display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:9px;color:#a3c9d4}
 .toolbar-dot{width:6px;height:6px}
 .toolbar-actions{display:flex;align-items:center;gap:8px;min-width:0}
@@ -98,8 +98,8 @@ button:disabled{cursor:not-allowed;opacity:.35}
 .nav-button:hover,.nav-button[aria-pressed="true"]{border-color:#69b4bb;background:#214659}
 .nav-button span{color:var(--gold);margin-left:6px}
 kbd{font:inherit;font-size:9px;color:#81a3ad;border:1px solid #45677b;border-radius:3px;padding:1px 4px;margin-left:3px}
-.game{padding:25px 26px 24px}
-.game-headline{padding-bottom:11px}
+.game{padding:18px 22px 18px}
+.game-headline{padding-bottom:6px}
 .level-heading{display:flex;justify-content:space-between;align-items:end;gap:10px}
 .level-heading .eyebrow{margin:0 0 12px;color:var(--cyan);font-size:10px;letter-spacing:1.7px}
 .level-heading h2{display:flex;align-items:baseline;gap:12px;margin:0;font-family:Impact,"Arial Narrow",Inter,sans-serif;
@@ -110,7 +110,7 @@ kbd{font:inherit;font-size:9px;color:#81a3ad;border:1px solid #45677b;border-rad
   white-space:nowrap;font-size:10px;font-weight:750;letter-spacing:1px;margin-bottom:4px}
 .lesson{font-size:12px;line-height:1.7;color:#b3c7ce;margin:13px 0 0;min-height:20px}
 .board-topline{display:flex;align-items:center;justify-content:space-between;gap:10px;
-  height:39px;color:#a5bdc8;font-size:9px;letter-spacing:1.8px;border-bottom:1px solid #35556c}
+  height:32px;color:#a5bdc8;font-size:9px;letter-spacing:1.8px;border-bottom:1px solid #35556c}
 .board-topline>span{display:flex;align-items:center;gap:9px}
 .board-topline img{object-fit:contain}
 .board-topline i{color:var(--gold);font-size:14px;font-style:normal}
@@ -121,7 +121,7 @@ kbd{font:inherit;font-size:9px;color:#81a3ad;border:1px solid #45677b;border-rad
   #091825;overflow:hidden;box-shadow:inset 0 0 70px #0007}
 .board-wrap::before,.board-wrap::after{content:"";position:absolute;top:0;bottom:0;z-index:0;pointer-events:none;width:1px;background:linear-gradient(transparent,#5b94a528,transparent)}
 .board-wrap::before{left:18px}.board-wrap::after{right:18px}
-#board{position:relative;z-index:1;display:block;width:100%;height:350px;touch-action:none;
+#board{position:relative;z-index:1;display:block;width:100%;height:clamp(395px,54dvh,520px);touch-action:none;
   user-select:none;-webkit-user-select:none;cursor:crosshair;overflow:visible}
 .board-corner{position:absolute;pointer-events:none;z-index:2;width:26px;height:26px;border-color:var(--cyan);opacity:.8}
 .board-corner.top-left{top:11px;left:11px;border-top:2px solid;border-left:2px solid}
@@ -140,11 +140,11 @@ kbd{font:inherit;font-size:9px;color:#81a3ad;border:1px solid #45677b;border-rad
 .piece.selected{stroke:#fce1ab;stroke-width:2;fill:#fff2cc13}
 .piece.ai-selected{stroke:#f8b988;stroke-width:2;fill:#ffd7b319}
 .piece.keyboard-focus{stroke:#f1fbff;stroke-width:2.5;stroke-dasharray:5 3}
-.turn-bar{min-height:54px;padding:12px 17px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+.turn-bar{min-height:46px;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;
   background:#142c3d;border:1px solid #345368;border-top:0;border-left:3px solid var(--cyan);font-size:11px}
 #status{font-weight:750;color:#c9f6ed;letter-spacing:.4px}
 #piece-count{color:var(--gold);letter-spacing:1.1px;font-family:monospace;white-space:nowrap;font-weight:750}
-.controls{display:flex;align-items:center;justify-content:space-between;gap:9px;padding-top:14px}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:9px;padding-top:10px}
 .controls button,.outcome button{min-height:44px;border:1px solid #45657a;border-radius:7px;background:#19364a;
   color:#deefec;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:.3px;white-space:nowrap}
 .controls button:hover,.outcome button:hover{background:#244e61;border-color:var(--cyan)}
@@ -274,6 +274,83 @@ dialog::backdrop{background:#020914df;backdrop-filter:blur(7px)}
   .layout{gap:14px;padding-top:12px}
   #board{height:255px}
 }
+/* Focus-first layout: the game board is the primary element, especially on phones. */
+@media (max-width:720px){
+  .terminal{
+    width:100%;
+    margin:0 auto;
+    padding:0 max(8px,env(safe-area-inset-right)) calc(14px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+  }
+  .masthead{height:36px;font-size:8px;letter-spacing:1px}
+  .masthead-brand{gap:7px}
+  .mini-mark{width:25px;height:25px;font-size:13px;border-radius:5px}
+  .mini-mark span{font-size:8px}
+  .system-state{font-size:8px;letter-spacing:.7px}
+  .signal{width:5px;height:5px;margin-right:5px}
+  .layout{padding-top:7px;gap:7px}
+  .identity{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 3px 3px;min-height:35px}
+  .identity .brand-eyebrow,.brand-flourish{display:none}
+  .identity h1{font-size:clamp(25px,7.2vw,34px);line-height:1;letter-spacing:.2px;margin:0;white-space:nowrap}
+  .identity h1 br{display:none}
+  .identity h1>span{margin-left:6px}
+  .identity>p{position:static;font-size:9px;line-height:1.4;text-align:right;letter-spacing:.1px;margin:0}
+  .mission-card{
+    display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px;
+    align-items:center;padding:8px 11px;margin:0;border-radius:8px;box-shadow:none
+  }
+  .mission-card::before,.mission-card .card-eyebrow,.mission-card p{display:none}
+  .mission-heading{margin:0;display:flex;flex-direction:column;align-items:flex-start;gap:0}
+  .mission-heading strong{font-size:12px;white-space:nowrap}
+  .mission-heading span{font-size:8px;letter-spacing:.6px}
+  .mission-track{gap:3px}
+  .mission-track span{height:8px}
+  .mobile-rules{margin-top:5px;border-radius:6px}
+  .mobile-rules summary{min-height:30px;align-items:center;padding:6px 11px;font-size:10px}
+  .mobile-rules summary span{font-size:9px}
+  .mobile-rules p{padding:9px 11px;font-size:10px}
+  .play-column{width:100%;align-self:stretch;border-radius:9px}
+  .toolbar{min-height:41px;padding:5px 8px}
+  .toolbar-actions{gap:5px}
+  .nav-button{min-height:31px;padding:6px 9px;font-size:10px}
+  .game{padding:10px 6px 12px}
+  .game-headline{padding-bottom:3px}
+  .level-heading{gap:5px;align-items:center}
+  .level-heading .eyebrow{font-size:8px;margin-bottom:4px;letter-spacing:1px}
+  .level-heading h2{font-size:clamp(23px,6.3vw,30px);gap:8px}
+  #level-number{font-size:17px}
+  .world{font-size:9px;padding:6px 8px;margin:0}
+  .lesson{font-size:10px;line-height:1.45;margin:5px 0 3px;min-height:0}
+  .board-topline{height:26px;font-size:8px;letter-spacing:1px}
+  .board-topline img{width:13px;height:13px}
+  #board{height:auto;aspect-ratio:1/1;max-height:none}
+  .board-corner{width:20px;height:20px}
+  .turn-bar{min-height:42px;padding:9px 11px;font-size:10px}
+  .controls{padding-top:8px;gap:6px}
+  .controls button{min-height:42px}
+  .controls>span{padding:0;font-size:9px}
+  .play-signature{padding:0 12px 12px;font-size:8px}
+  footer{padding-top:10px}
+}
+@media (max-width:360px){
+  .identity h1{font-size:25px}
+  .identity>p{font-size:8px}
+  .nav-button{font-size:9px;padding:5px 6px}
+  .game{padding:8px 4px 10px}
+  .level-heading h2{font-size:23px}
+  .lesson{font-size:9.5px}
+  .board-topline{font-size:7px}
+  .board-topline>span{gap:4px}
+  .board-topline img{width:11px;height:11px}
+}
+/* Phones in landscape keep a generous board but avoid an oversized header. */
+@media (min-width:721px) and (max-height:500px){
+  .terminal{margin-top:10px}
+  .layout{padding-top:10px}
+  .identity{padding-top:0}
+  .identity h1{font-size:45px}
+  #board{height:340px}
+}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }

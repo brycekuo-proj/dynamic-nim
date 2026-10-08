@@ -30,9 +30,9 @@ npm run check    # 依序執行 test、validate、test:e2e、build
 ## 美術與介面設計（Midnight Observatory）
 
 - 以深藍色觀測站 / 戰略 HUD 作為新視覺方向，重新整理標題、棋盤、關卡導覽、進度軌、三方向規則、回合狀態、操作按鈕、提示、結算、Math 模式與關卡對話框。
-- 桌面版使用雙欄版面，左側展示玩法與進度；手機採單欄可捲動佈局，提供可展開的三方向規則說明，支援窄螢幕與 safe area。
+- 桌面版改為較窄的資訊側欄與較寬的棋盤主區；手機採「棋盤優先」單欄版面，頂端 Logo 和進度列縮成精簡資訊列、三方向規則折疊區移到棋盤下方，騰出首屏讓棋盤接近螢幕全寬。棋盤 SVG 的留白縮小，圓球和觸控區相對更大，仍支援窄螢幕與 safe area。
 - 實際棋子圖像使用 Kenney Boardgame Pack 的 PNG 籌碼，Sci-Fi UI Pack 圖像用於 crosshair / HUD 細節；所有素材均為 **CC0-1.0**，可商業使用，無需強制署名。素材內置於 `public/assets/kenney/`，授權全文與來源見 `public/assets/kenney/ASSET_CREDITS.md`。不依賴外部 CDN。
-- 視覺改動只涉及 `index.html`、`src/style.css`、`src/ui/Renderer.js`、`src/ui/UIController.js`，不修改 domain/solver 與既定 L1–L30 規則。`Renderer` 的資產路徑依 `import.meta.env.BASE_URL` 自動切換開發環境與 GitHub Pages 子路徑。Playwright `tests/browser/visual.spec.js` 會檢查素材可讀取、棋子數量、手機規則展開與版面寬度。
+- 視覺改動只涉及 `index.html`、`src/style.css`、`src/ui/Renderer.js`、`src/ui/UIController.js`，不修改 domain/solver 與既定 L1–L30 規則。`Renderer` 的資產路徑依 `import.meta.env.BASE_URL` 自動切換開發環境與 GitHub Pages 子路徑。Playwright `tests/browser/visual.spec.js` 會檢查素材可讀取、棋子數量、手機規則展開、遊戲區寬度、首屏棋盤位置與觸控目標尺寸。
 - 最新桌面 / 手機設計截圖：`artifacts/visual-desktop-chromium.png`、`artifacts/visual-mobile-chromium.png`、`artifacts/visual-mobile-webkit.png`。
 
 ## 玩法
@@ -104,7 +104,7 @@ Depth 為雙方最佳對抗的總半回合數（plies）：能贏的一方儘速
 
 ## Automated test 結果
 
-最新 UI 美化後使用 `npm run check` 驗證：**22/22 Node tests**、**10/10 關卡 validator**、**56 項 Playwright 通過、1 項桌面不適用而跳過**（桌面 Chromium、Pixel 7 Chromium、iPhone 13 WebKit），**production build 成功**。新增 2 組 UI 視覺檢查（素材成功載入、響應式排版、手機規則展開），並在 browser gesture 測試加入必要的可視區捲動，以對應新版較長的手機頁面。
+最新棋盤優先版面使用 `npm run check` 驗證：**22/22 Node tests**、**10/10 關卡 validator**、**58 項 Playwright 通過、2 項僅適用手機的測試在桌面略過**（桌面 Chromium、Pixel 7 Chromium、iPhone 13 WebKit），**production build 成功**。UI 視覺測試涵蓋素材載入、手機規則展開、首屏棋盤頂端位置、接近滿版的棋盤寬度、擴大棋子觸控尺寸、避免橫向溢出；browser gesture 測試包含必要的可視區捲動。
 
 測試包含：所有 3×2 static 盤面的獨立暴力勝負 oracle、所有 3×3 gravity 盤面的獨立 oracle（兩者都獨立枚舉橫／直／兩種 45° 斜線）、重力守恆與冪等性、符合 straight-run certificate 的 3×3 盤面，以及水平／垂直長度 8 的所有子集合之遞迴 mex 與 solver 一致性。另測試 ↘ / ↙ 直線 Grundy、實際 diagonal gesture、全域最多 3 顆規則、L1–L10 可達局面的 AI、完整通關、存檔、取消手勢、動畫鎖定、重啟、鍵盤與版面。
 
