@@ -1,5 +1,6 @@
 import { cellsOf, snapshot } from '../domain/GameState.js';
 const NS = 'http://www.w3.org/2000/svg';
+const ASSET_ROOT = `${import.meta.env.BASE_URL}assets/kenney/`;
 export class Renderer {
   constructor(svg, reducedMotion) { this.svg = svg; this.reducedMotion = reducedMotion; this.animations = new Set(); this.token = 0; }
   geometry(state) {
@@ -20,7 +21,7 @@ export class Renderer {
     for (const cell of cellsOf(state)) {
       const { x, y } = this.position(cell);
       const token = this.element('g', { class: 'token' });
-      const art = this.element('image', { x: x - 25, y: y - 25, width: 50, height: 50, class: 'token-art', href: '/assets/kenney/chip-blue.png', 'pointer-events': 'none' });
+      const art = this.element('image', { x: x - 25, y: y - 25, width: 50, height: 50, class: 'token-art', href: `${ASSET_ROOT}chip-blue.png`, 'pointer-events': 'none' });
       const circle = this.element('circle', { cx: x, cy: y, r: 23, class: 'piece', 'data-cell': cell });
       const title = this.element('title', {}); title.textContent = `第 ${Math.floor(cell / state.width) + 1} 列，第 ${cell % state.width + 1} 欄`;
       circle.append(title); token.append(art, circle); this.svg.append(token);
@@ -35,7 +36,7 @@ export class Renderer {
       el.classList.toggle('ai-selected', aiSelected);
       el.parentElement.classList.toggle('is-selected', chosen && !aiSelected);
       el.parentElement.classList.toggle('is-ai-selected', aiSelected);
-      el.parentElement.querySelector('.token-art').setAttribute('href', chosen ? '/assets/kenney/chip-selected.png' : '/assets/kenney/chip-blue.png');
+      el.parentElement.querySelector('.token-art').setAttribute('href', chosen ? `${ASSET_ROOT}chip-selected.png` : `${ASSET_ROOT}chip-blue.png`);
     });
   }
   focus(cell) { this.svg.querySelectorAll('.piece').forEach(el => el.classList.toggle('keyboard-focus', Number(el.dataset.cell) === cell)); }

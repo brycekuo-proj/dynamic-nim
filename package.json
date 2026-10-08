@@ -9,6 +9,8 @@
     "test:e2e": "playwright test",
     "validate": "node scripts/validate.js",
     "build": "vite build",
+    "build:pages": "vite build --base=/dynamic-nim/",
+    "deploy:pages": "npm run build:pages && npx --yes gh-pages@6.3.0 -d dist -b gh-pages", 
     "preview": "vite preview --host 0.0.0.0",
     "check": "npm test && npm run validate && npm run test:e2e && npm run build"
   },

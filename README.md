@@ -1,5 +1,7 @@
 # Dynamic Nim
 
+**公開遊戲網址：** https://brycekuo-proj.github.io/dynamic-nim/
+
 可玩的 L1–L10 單人數學策略 Web prototype。玩家移除連續直線圓圈，盤面依關卡規則變換，再由 deterministic solver AI 回應。最後拿走圓圈的一方獲勝；完全在瀏覽器本機運行，無後端。
 
 ## 啟動與驗證
@@ -19,6 +21,8 @@ npm test          # domain / gravity / levels / AI / controller / input / save
 npm run validate  # 重新產生 artifacts/level-validation.json
 npm run test:e2e  # Chromium desktop、Pixel 7 Chromium、iPhone 13 WebKit
 npm run build    # 產生 dist/
+npm run build:pages  # GitHub Pages 的 /dynamic-nim/ 子路徑建置
+npm run deploy:pages # 建置並發布到 gh-pages 分支（需有 GitHub 推送權限）
 npm run preview  # 預覽 production build
 npm run check    # 依序執行 test、validate、test:e2e、build
 ```
@@ -28,7 +32,7 @@ npm run check    # 依序執行 test、validate、test:e2e、build
 - 以深藍色觀測站 / 戰略 HUD 作為新視覺方向，重新整理標題、棋盤、關卡導覽、進度軌、三方向規則、回合狀態、操作按鈕、提示、結算、Math 模式與關卡對話框。
 - 桌面版使用雙欄版面，左側展示玩法與進度；手機採單欄可捲動佈局，提供可展開的三方向規則說明，支援窄螢幕與 safe area。
 - 實際棋子圖像使用 Kenney Boardgame Pack 的 PNG 籌碼，Sci-Fi UI Pack 圖像用於 crosshair / HUD 細節；所有素材均為 **CC0-1.0**，可商業使用，無需強制署名。素材內置於 `public/assets/kenney/`，授權全文與來源見 `public/assets/kenney/ASSET_CREDITS.md`。不依賴外部 CDN。
-- 視覺改動只涉及 `index.html`、`src/style.css`、`src/ui/Renderer.js`、`src/ui/UIController.js`，不修改 domain/solver 與既定 L1–L30 規則。Playwright `tests/browser/visual.spec.js` 會檢查素材可讀取、棋子數量、手機規則展開與版面寬度。
+- 視覺改動只涉及 `index.html`、`src/style.css`、`src/ui/Renderer.js`、`src/ui/UIController.js`，不修改 domain/solver 與既定 L1–L30 規則。`Renderer` 的資產路徑依 `import.meta.env.BASE_URL` 自動切換開發環境與 GitHub Pages 子路徑。Playwright `tests/browser/visual.spec.js` 會檢查素材可讀取、棋子數量、手機規則展開與版面寬度。
 - 最新桌面 / 手機設計截圖：`artifacts/visual-desktop-chromium.png`、`artifacts/visual-mobile-chromium.png`、`artifacts/visual-mobile-webkit.png`。
 
 ## 玩法
