@@ -12,18 +12,31 @@ export class Renderer {
   element(tag, attrs) { const el = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v); return el; }
   draw(state) {
     this.geometry(state); this.svg.replaceChildren(); this.svg.dataset.state = JSON.stringify(snapshot(state));
+    this.svg.append(this.element('rect', { x: 18, y: 18, width: this.width - 36, height: this.height - 36, rx: 13, class: 'board-field' }));
     for (let cell = 0; cell < state.width * state.height; cell++) {
       const { x, y } = this.position(cell);
       this.svg.append(this.element('path', { d: `M${x - 3} ${y}h6 M${x} ${y - 3}v6`, class: 'grid-mark' }));
     }
     for (const cell of cellsOf(state)) {
-      const { x, y } = this.position(cell), circle = this.element('circle', { cx: x, cy: y, r: 19, class: 'piece', 'data-cell': cell });
-      const title = this.element('title', {}); title.textContent = `第 ${Math.floor(cell / state.width) + 1} 列，第 ${cell % state.width + 1} 欄`; circle.append(title); this.svg.append(circle);
+      const { x, y } = this.position(cell);
+      const token = this.element('g', { class: 'token' });
+      const art = this.element('image', { x: x - 25, y: y - 25, width: 50, height: 50, class: 'token-art', href: '/assets/kenney/chip-blue.png', 'pointer-events': 'none' });
+      const circle = this.element('circle', { cx: x, cy: y, r: 23, class: 'piece', 'data-cell': cell });
+      const title = this.element('title', {}); title.textContent = `第 ${Math.floor(cell / state.width) + 1} 列，第 ${cell % state.width + 1} 欄`;
+      circle.append(title); token.append(art, circle); this.svg.append(token);
     }
     const floor = this.element('path', { d: `M32 ${this.height - 28}H${this.width - 32}`, class: state.world === 'gravity' ? 'floor active' : 'floor' }); this.svg.append(floor);
   }
   select(move, actor = 'player') {
-    this.svg.querySelectorAll('.piece').forEach(el => { el.classList.toggle('selected', move.includes(Number(el.dataset.cell))); el.classList.toggle('ai-selected', actor === 'ai' && move.includes(Number(el.dataset.cell))); });
+    this.svg.querySelectorAll('.piece').forEach(el => {
+      const chosen = move.includes(Number(el.dataset.cell));
+      const aiSelected = chosen && actor === 'ai';
+      el.classList.toggle('selected', chosen);
+      el.classList.toggle('ai-selected', aiSelected);
+      el.parentElement.classList.toggle('is-selected', chosen && !aiSelected);
+      el.parentElement.classList.toggle('is-ai-selected', aiSelected);
+      el.parentElement.querySelector('.token-art').setAttribute('href', chosen ? '/assets/kenney/chip-selected.png' : '/assets/kenney/chip-blue.png');
+    });
   }
   focus(cell) { this.svg.querySelectorAll('.piece').forEach(el => el.classList.toggle('keyboard-focus', Number(el.dataset.cell) === cell)); }
   async tween(el, frames, duration) {
@@ -39,11 +52,11 @@ export class Renderer {
     this.select(move, actor);
     if (actor === 'ai') await this.pause(420);
     if (token !== this.token) return;
-    await Promise.all(move.map(cell => this.tween(this.svg.querySelector(`[data-cell="${cell}"]`), [{ opacity: 1 }, { opacity: 0 }], 180)));
+    await Promise.all(move.map(cell => this.tween(this.svg.querySelector(`[data-cell="${cell}"]`).parentElement, [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(.72)' }], 180)));
     if (token !== this.token) return;
     this.draw(result.removed);
     await Promise.all(result.falls.filter(f => f.from !== f.to).map(f => {
-      const el = this.svg.querySelector(`[data-cell="${f.from}"]`), a = this.position(f.from), b = this.position(f.to);
+      const el = this.svg.querySelector(`[data-cell="${f.from}"]`).parentElement, a = this.position(f.from), b = this.position(f.to);
       return this.tween(el, [{ transform: 'translateY(0)' }, { transform: `translateY(${b.y - a.y}px)` }], 520);
     }));
     if (token !== this.token) return;

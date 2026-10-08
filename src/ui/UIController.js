@@ -14,6 +14,10 @@ export class UIController {
     $('analyze-button').onclick = () => { $('analysis').hidden = !$('analysis').hidden; };
     $('levels-button').onclick = () => { this.menu(); $('level-dialog').showModal(); };
     $('close-levels').onclick = () => $('level-dialog').close();
+    $('mission-track').replaceChildren(...levels.map((_, i) => {
+      const pip = document.createElement('span'); pip.title = `關卡 ${String(i + 1).padStart(2, '0')}`;
+      return pip;
+    }));
     this.effects();
   }
   effects() { document.body.classList.toggle('effects-off', !this.save.data.settings.effects); $('effects-button').textContent = this.save.data.settings.effects ? 'CRT ON' : 'CRT OFF'; $('effects-button').setAttribute('aria-pressed', String(this.save.data.settings.effects)); }
@@ -41,6 +45,7 @@ export class UIController {
       const unlocked = level.id <= this.save.data.highestUnlocked;
       button.textContent = `${String(level.id).padStart(2, '0')}  ${level.name}  ${this.save.data.completed.includes(level.id) ? '✓' : unlocked ? '→' : '· LOCKED'}`;
       button.disabled = !unlocked;
+      button.className = ['level-tile', level.id === this.game.level.id ? 'current' : '', this.save.data.completed.includes(level.id) ? 'completed' : ''].filter(Boolean).join(' ');
       button.onclick = () => { $('level-dialog').close(); this.load(level.id); };
       return button;
     }));
@@ -52,6 +57,12 @@ export class UIController {
     $('world').textContent = l.world === 'static' ? 'STATIC ─' : 'GRAVITY ↓';
     $('lesson').textContent = l.lesson; $('hint').textContent = l.hint;
     $('progress').textContent = `${String(this.save.data.highestUnlocked).padStart(2, '0')} / 10`;
+    $('mission-track').querySelectorAll('span').forEach((pip, index) => {
+      const id = index + 1;
+      pip.classList.toggle('unlocked', id <= this.save.data.highestUnlocked);
+      pip.classList.toggle('completed', this.save.data.completed.includes(id));
+    });
+    document.querySelector('.mission-card .card-eyebrow span:last-child').textContent = `${String(this.save.data.completed.length).padStart(2, '0')} / 10`;
     $('piece-count').textContent = `${String(cellsOf(g.state).length).padStart(2, '0')} CIRCLES`;
     $('status').textContent = g.phase === 'ended' ? (g.winner === 'player' ? '● SIGNAL RESOLVED / 你獲勝' : '○ COMPUTER WINS / 再試一次') : g.phase === 'animating' ? (g.turn === 'ai' ? 'COMPUTER → REMOVE → TRANSFORM' : 'REMOVE → TRANSFORM') : g.turn === 'ai' ? '○ COMPUTER THINKING' : '● YOUR TURN / 輪到你';
     $('board').dataset.phase = g.phase; $('board').dataset.turn = g.turn; $('board').dataset.level = l.id;

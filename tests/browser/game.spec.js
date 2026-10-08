@@ -4,12 +4,20 @@ import { createState } from '../../src/domain/GameState.js';
 import { levels } from '../../src/levels/index.js';
 const solver = new Solver();
 async function point(page, cell) {
-  const box = await page.locator(`[data-cell="${cell}"]`).boundingBox();
+  // Mobile layouts may put the board below the initial fold; simulate a user scrolling to it.
+  const target = page.locator(`[data-cell="${cell}"]`);
+  await target.scrollIntoViewIfNeeded();
+  const box = await target.boundingBox();
   if (!box) throw new Error(`Missing circle ${cell}`);
   return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
 }
 async function drag(page, cells) {
-  const first = await point(page, cells[0]), last = await point(page, cells.at(-1));
+  // Scroll the complete field only once so both coordinates use the same viewport.
+  await page.locator('#board').scrollIntoViewIfNeeded();
+  const startBox = await page.locator(`[data-cell="${cells[0]}"]`).boundingBox();
+  const endBox = await page.locator(`[data-cell="${cells.at(-1)}"]`).boundingBox();
+  const first = { x: startBox.x + startBox.width / 2, y: startBox.y + startBox.height / 2 };
+  const last = { x: endBox.x + endBox.width / 2, y: endBox.y + endBox.height / 2 };
   const touch = await page.evaluate(() => navigator.maxTouchPoints > 0);
   if (touch && page.context().browser().browserType().name() === 'chromium') {
     // Real trusted touch events via Chromium's input protocol, not DOM synthesis.

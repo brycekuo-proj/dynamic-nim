@@ -1,25 +1,88 @@
 <!doctype html>
 <html lang="zh-Hant">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#080d0a"><meta name="description" content="Dynamic Nim — a deterministic mathematical strategy terminal."><title>Dynamic Nim · Strategy terminal</title></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080f1e">
+  <meta name="description" content="Dynamic Nim — 挑戰十道數學策略關卡，沿橫向、直向或 45° 斜線，每回合移除 1–3 顆棋子。">
+  <title>Dynamic Nim — The Strategy Lab</title>
+</head>
 <body>
 <div class="ambient" aria-hidden="true"></div>
 <main class="terminal">
-  <header class="masthead"><span><i class="signal"></i> STRATEGY SYSTEM / 1977</span><span>DN—01</span></header>
-  <div class="identity"><h1>DYNAMIC<span>NIM<span class="cursor">_</span></span></h1><p>REMOVE.<br>REARRANGE.<br>OUTTHINK.</p></div>
-  <nav class="toolbar" aria-label="遊戲選單"><button id="levels-button">關卡 <span id="progress">01 / 10</span></button><button id="math-button" aria-pressed="false">MATH <kbd>D</kbd></button><button id="effects-button" aria-pressed="true">CRT ON</button></nav>
-  <section class="game" aria-label="遊戲區域">
-    <div class="level-heading"><div><p id="chapter" class="eyebrow"></p><h2><span id="level-number"></span> <span id="level-name"></span></h2></div><span id="world" class="world"></span></div>
-    <p id="lesson" class="lesson"></p>
-    <div class="board-wrap"><div class="board-corner top-left"></div><div class="board-corner bottom-right"></div><svg id="board" role="application" aria-label="圓圈盤面：可沿水平、垂直或 45 度斜線拖曳，每回合最多移除 3 顆；鍵盤方向鍵移動，Q/E/Z/C 斜向移動，空白鍵起點，Enter 移除，Escape 取消" tabindex="0"></svg><div id="chapter-transition" class="chapter-transition" hidden><span>WORLD PARAMETERS CHANGED</span><strong>GRAVITY ↓</strong><span>重新學會平衡。</span></div></div>
-    <div class="turn-bar"><span id="status" role="status" aria-live="polite"></span><span id="piece-count"></span></div>
-    <div id="outcome" class="outcome" hidden><p id="outcome-text"></p><button id="next-button" class="primary">下一關 →</button><button id="analyze-button">查看回合紀錄</button></div>
-    <div class="controls"><button id="restart-button">↺ 重新開始</button><span>橫 · 直 · 45°斜線 · 最多 3 顆</span><button id="hint-button" aria-expanded="false">提示 +</button></div>
-    <p id="hint" class="hint" hidden></p>
-  </section>
-  <section id="math" class="math" hidden aria-label="數學除錯資訊"><div class="eyebrow">MATH / LOCAL SOLVER</div><pre id="math-data"></pre></section>
-  <section id="analysis" class="analysis" hidden><h3>SESSION TRACE</h3><p>N = 輪到此方可勝 · P = 輪到此方必敗</p><ol id="trace"></ol></section>
-  <footer><span>最後拿走圓圈的一方獲勝。</span><span>LOCAL / DETERMINISTIC</span></footer>
+  <header class="masthead">
+    <div class="masthead-brand"><span class="mini-mark">N<span>✳</span></span><span>THE STRATEGY LAB <span class="masthead-sub">/ 001</span></span></div>
+    <span class="system-state"><i class="signal"></i> SYSTEM ONLINE</span>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="遊戲介紹與規則">
+      <div class="identity">
+        <div class="eyebrow brand-eyebrow">A GAME OF PERFECT MOVES <span>✦</span></div>
+        <h1>DYNAMIC<br><span>NIM<span class="cursor">_</span></span></h1>
+        <p>每一步，<br>都藏著下一步的答案。</p>
+        <div class="brand-flourish" aria-hidden="true"><span>◈</span><i></i><span>01—10</span></div>
+      </div>
+      <section class="mission-card" aria-label="遊戲進度">
+        <div class="card-eyebrow"><span>YOUR EXPEDITION</span><span>01 / 02</span></div>
+        <div class="mission-heading"><strong>十個關卡</strong><span>10 LEVELS</span></div>
+        <div id="mission-track" class="mission-track" aria-label="關卡解鎖進度"></div>
+        <p>從靜態邏輯，走進重力變化的世界。</p>
+      </section>
+      <details class="mobile-rules"><summary>◈ 遊戲規則 <span>查看 3 個方向 / 1–3 顆 <b>⌄</b></span></summary><p>每回合只能沿 <strong>水平 ↔、垂直 ↕、45° 斜向 ↗ ↘ ↙ ↖</strong> 移除 1–3 顆連續圓球；不能跨空格或轉彎。拿走最後一顆即獲勝。</p></details>
+      <section class="rules-card" aria-label="操作規則">
+        <div class="card-eyebrow"><span>HOW TO PLAY</span><span>RULE / 03</span></div>
+        <h2>移除棋子，<br>留下勝利。</h2>
+        <p class="rule-intro">每回合只能移除 <strong>1–3 顆</strong>連續的圓球，沿著同一條線拖曳。</p>
+        <div class="rule-rows">
+          <div class="rule-row"><span class="rule-symbol">↔</span><div><b>水平</b><small>HORIZONTAL</small></div><span class="rule-num">01</span></div>
+          <div class="rule-row"><span class="rule-symbol">↕</span><div><b>垂直</b><small>VERTICAL</small></div><span class="rule-num">02</span></div>
+          <div class="rule-row"><span class="rule-symbol">⤢</span><div><b>45° 斜向</b><small>DIAGONAL ↗ ↘</small></div><span class="rule-num">03</span></div>
+        </div>
+        <p class="rule-footnote">不能跳過空格，也不能轉彎。<br>拿走最後一顆的人獲勝。</p>
+      </section>
+      <div class="sidebar-credit">DESIGNED FOR CURIOUS MINDS <span>✳</span> CC0 ART BY KENNEY</div>
+    </aside>
+    <div class="play-column">
+      <nav class="toolbar" aria-label="遊戲選單">
+        <span class="toolbar-caption"><span class="toolbar-dot"></span> GAME CONTROL</span>
+        <div class="toolbar-actions">
+          <button id="levels-button" class="nav-button">關卡選擇 <span id="progress">01 / 10</span></button>
+          <button id="math-button" class="nav-button" aria-pressed="false">MATH <kbd>D</kbd></button>
+          <button id="effects-button" class="nav-button" aria-pressed="true">CRT ON</button>
+        </div>
+      </nav>
+      <section class="game" aria-label="遊戲區域">
+        <div class="game-headline">
+          <div class="level-heading">
+            <div><p id="chapter" class="eyebrow"></p><h2><span id="level-number"></span><span id="level-name"></span></h2></div>
+            <span id="world" class="world"></span>
+          </div>
+          <p id="lesson" class="lesson"></p>
+        </div>
+        <div class="board-topline"><span><img src="/assets/kenney/crosshair-blue.png" alt="" width="16" height="16"> TACTICAL FIELD</span><span>DRAG TO REMOVE <i>✳</i></span></div>
+        <div class="board-wrap">
+          <div class="board-corner top-left" aria-hidden="true"></div>
+          <div class="board-corner bottom-right" aria-hidden="true"></div>
+          <svg id="board" role="application" aria-label="圓圈盤面：可沿水平、垂直或 45 度斜線拖曳，每回合最多移除 3 顆；鍵盤方向鍵移動，Q/E/Z/C 斜向移動，空白鍵起點，Enter 移除，Escape 取消" tabindex="0"></svg>
+          <div id="chapter-transition" class="chapter-transition" hidden><span>WORLD PARAMETERS CHANGED</span><strong>GRAVITY ↓</strong><span>重新學會平衡。</span></div>
+        </div>
+        <div class="turn-bar"><span id="status" role="status" aria-live="polite"></span><span id="piece-count"></span></div>
+        <div id="outcome" class="outcome" hidden><p id="outcome-text"></p><div class="outcome-actions"><button id="next-button" class="primary">下一關 →</button><button id="analyze-button">查看回合紀錄</button></div></div>
+        <div class="controls"><button id="restart-button"><span aria-hidden="true">↺</span> 重新開始</button><span>↔ 水平 · ↕ 垂直 · ⤢ 45° · 每次 1–3 顆</span><button id="hint-button" aria-expanded="false">提示 <span aria-hidden="true">✧</span></button></div>
+        <p id="hint" class="hint" hidden></p>
+      </section>
+      <section id="math" class="math" hidden aria-label="數學除錯資訊"><div class="eyebrow">MATH / LOCAL SOLVER</div><pre id="math-data"></pre></section>
+      <section id="analysis" class="analysis" hidden><h3>SESSION TRACE</h3><p>N = 輪到此方可勝 · P = 輪到此方必敗</p><ol id="trace"></ol></section>
+      <div class="play-signature"><span>PLAY SMARTER, NOT FASTER.</span><span>◌ ◌ ◌</span></div>
+    </div>
+  </div>
+  <footer><span>Dynamic Nim © STRATEGY LAB</span><span>LOCAL SOLVER <span class="footer-sep">/</span> ZERO LUCK <span class="footer-sep">/</span> ALL STRATEGY</span></footer>
 </main>
-<dialog id="level-dialog"><div class="dialog-heading"><h2>SELECT SIGNAL</h2><button id="close-levels" aria-label="關閉關卡選單">×</button></div><p>STATIC 01—05 / GRAVITY 06—10</p><div id="level-list"></div></dialog>
+<dialog id="level-dialog" aria-label="關卡選單">
+  <div class="dialog-heading"><div><p class="eyebrow">EXPEDITION MAP / 01—10</p><h2>選擇關卡<span>✦</span></h2></div><button id="close-levels" aria-label="關閉關卡選單">×</button></div>
+  <p class="dialog-help">CHAPTER I — STATIC 01—05 <span>✳</span> CHAPTER II — GRAVITY 06—10</p>
+  <div id="level-list"></div>
+</dialog>
 <script type="module" src="/src/main.js"></script>
-</body></html>
+</body>
+</html>

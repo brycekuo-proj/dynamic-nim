@@ -12,7 +12,7 @@ npx playwright install chromium webkit
 npm run dev
 ```
 
-開啟終端顯示的本機網址（預設 http://localhost:5173）。同網路手機可透過電腦的區網 IP 與該 port 開啟；開發伺服器綁定 `0.0.0.0`。
+開啟終端顯示的本機網址（預設 http://localhost:5173）。同網路手機可透過電腦的區網 IP 與該 port 開啟；開發伺服器綁定 `0.0.0.0`。Playwright 的自動測試會使用獨立的 `127.0.0.1:4317` 開發埠，避免誤測到背景中舊的 build / preview server；可透過 `DYNAMIC_NIM_TEST_PORT` 覆寫。
 
 ```sh
 npm test          # domain / gravity / levels / AI / controller / input / save
@@ -22,6 +22,14 @@ npm run build    # 產生 dist/
 npm run preview  # 預覽 production build
 npm run check    # 依序執行 test、validate、test:e2e、build
 ```
+
+## 美術與介面設計（Midnight Observatory）
+
+- 以深藍色觀測站 / 戰略 HUD 作為新視覺方向，重新整理標題、棋盤、關卡導覽、進度軌、三方向規則、回合狀態、操作按鈕、提示、結算、Math 模式與關卡對話框。
+- 桌面版使用雙欄版面，左側展示玩法與進度；手機採單欄可捲動佈局，提供可展開的三方向規則說明，支援窄螢幕與 safe area。
+- 實際棋子圖像使用 Kenney Boardgame Pack 的 PNG 籌碼，Sci-Fi UI Pack 圖像用於 crosshair / HUD 細節；所有素材均為 **CC0-1.0**，可商業使用，無需強制署名。素材內置於 `public/assets/kenney/`，授權全文與來源見 `public/assets/kenney/ASSET_CREDITS.md`。不依賴外部 CDN。
+- 視覺改動只涉及 `index.html`、`src/style.css`、`src/ui/Renderer.js`、`src/ui/UIController.js`，不修改 domain/solver 與既定 L1–L30 規則。Playwright `tests/browser/visual.spec.js` 會檢查素材可讀取、棋子數量、手機規則展開與版面寬度。
+- 最新桌面 / 手機設計截圖：`artifacts/visual-desktop-chromium.png`、`artifacts/visual-mobile-chromium.png`、`artifacts/visual-mobile-webkit.png`。
 
 ## 玩法
 
@@ -48,7 +56,7 @@ src/levels/       LevelDefinition、static L1–L5、gravity L6–L10
 src/game/         GameController、AIController、SaveStore
 src/ui/           Renderer、InputController、Gesture、UIController
 src/main.js       組裝 domain、game 與 UI
-src/style.css     響應式 CRT 終端呈現與 reduced-motion 支援
+src/style.css     Midnight Observatory 響應式 HUD 介面與 reduced-motion 支援
 scripts/validate.js       關卡約束、最佳續局與 AI 回應驗證
 scripts/explore-levels.js 關卡探索輔助工具
 tests/*.test.js           Node 自動化測試
@@ -92,7 +100,7 @@ Depth 為雙方最佳對抗的總半回合數（plies）：能贏的一方儘速
 
 ## Automated test 結果
 
-本次 finalization 使用 `npm run check` 驗證：22/22 Node tests、10/10 關卡 validator、51/51 Playwright tests（17 個案例 × 3 個瀏覽器專案），production build 成功。
+最新 UI 美化後使用 `npm run check` 驗證：**22/22 Node tests**、**10/10 關卡 validator**、**56 項 Playwright 通過、1 項桌面不適用而跳過**（桌面 Chromium、Pixel 7 Chromium、iPhone 13 WebKit），**production build 成功**。新增 2 組 UI 視覺檢查（素材成功載入、響應式排版、手機規則展開），並在 browser gesture 測試加入必要的可視區捲動，以對應新版較長的手機頁面。
 
 測試包含：所有 3×2 static 盤面的獨立暴力勝負 oracle、所有 3×3 gravity 盤面的獨立 oracle（兩者都獨立枚舉橫／直／兩種 45° 斜線）、重力守恆與冪等性、符合 straight-run certificate 的 3×3 盤面，以及水平／垂直長度 8 的所有子集合之遞迴 mex 與 solver 一致性。另測試 ↘ / ↙ 直線 Grundy、實際 diagonal gesture、全域最多 3 顆規則、L1–L10 可達局面的 AI、完整通關、存檔、取消手勢、動畫鎖定、重啟、鍵盤與版面。
 
