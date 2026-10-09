@@ -51,6 +51,14 @@ L1–L30 全部關卡共用同一份不可覆寫的 `CORE_MOVE_RULES`。每回�
 
 後續章節可以改變的只有合法 Move 完成後的 deterministic transformation：L11–L15 繼續 Gravity Down、L16–L25 使用 Side Collapse、L26–L30 使用 Center Collapse，L30 Frog Boss 也必須遵守同一份三方向移除規則。也就是說，世界物理會變，但「怎麼移除」不會因關卡而改變。
 
+## 謎題書連結（NIM Puzzle Book）
+
+網址加上 `?p=` 會直接載入一個書中題目，玩家先手，對手是同一個 solver AI。這讓一個人買書也能把題目實際下完。書本題目不屬於主線關卡，輸贏都不會改動存檔進度。
+
+- 格式：`?p=<題號>-<s|g>-<列>-<列>...`，`s` 為 static、`g` 為 gravity；列由上往下，`o` 是圓圈、`.` 是空格（不用 `#`，因為它會變成網址的 fragment）。例如 `?p=86-g-..oo.-o..oo-.ooo.-o...o`。
+- 盤面最大 8×8，至少要有一顆圓圈；格式不符時忽略參數，照常載入目前關卡。
+- `node scripts/book-puzzles.js [seed] > puzzles.json` 用遊戲本身的 `CORE_MOVE_RULES` 與 Solver 產生 100 題（五個等級、static 與 gravity），每題恰好一個必勝走法，並附上對應連結與答案座標（欄 A–H、列 1–8，由上往下）。
+
 ## 專案結構
 
 ```text

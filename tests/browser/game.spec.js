@@ -168,3 +168,24 @@ test('pointer cancellation never commits a move and reduced motion is honored', 
   await page.mouse.up(); await ready(page); await expect(page.locator('.piece')).toHaveCount(2);
   expect(await page.locator('.cursor').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
 });
+test('book puzzle link opens that position and does not change campaign progress', async ({ page }) => {
+  const errors = []; page.on('pageerror', e => errors.push(e.message));
+  await page.addInitScript(() => localStorage.setItem('dynamic-nim:v1', JSON.stringify({ highestUnlocked: 3, currentLevel: 3, completed: [1, 2], settings: { effects: false } })));
+  await page.goto('/?p=86-g-..oo.-o..oo-.ooo.-o...o');
+  await expect(page.locator('#level-name')).toHaveText('BOOK #86');
+  await expect(page.locator('#level-number')).toHaveText('BK');
+  await expect(page.locator('#world')).toContainText('GRAVITY');
+  const raw = JSON.parse(await page.locator('#board').getAttribute('data-state'));
+  expect(raw.width).toBe(5); expect(raw.cells.length).toBe(10);
+  await drag(page, [11, 12]); // the book's answer: B3–C3
+  await winLevel(page);
+  await expect(page.locator('#next-button')).toHaveText('進入主線關卡 →');
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('dynamic-nim:v1')));
+  expect(saved.highestUnlocked).toBe(3); expect(saved.completed).toEqual([1, 2]);
+  await page.locator('#restart-button').click();
+  await expect(page.locator('#level-name')).toHaveText('BOOK #86');
+  await expect(page.locator('#piece-count')).toHaveText('10 CIRCLES');
+  await page.goto('/?p=bad-link');
+  await expect(page.locator('#level-number')).toHaveText('03');
+  expect(errors).toEqual([]);
+});

@@ -9,9 +9,14 @@ export class GameController {
   }
   load(id) {
     if (!this.save.select(id)) return false;
+    return this.start(this.levels[id - 1]);
+  }
+  // Starts any level definition, including book puzzles that are not part of
+  // the campaign and never touch saved progress.
+  start(level) {
     this.epoch++;
     this.renderer.cancel();
-    this.level = this.levels[id - 1]; this.state = this.level.initial;
+    this.level = level; this.state = this.level.initial;
     this.turn = 'player'; this.phase = 'ready'; this.winner = null; this.history = [];
     this.renderer.draw(this.state); this.emit(); return true;
   }
@@ -26,7 +31,7 @@ export class GameController {
     this.history.push({ actor, initialState: snapshot(this.level.initial), before: snapshot(before), move: [...move], after: snapshot(this.state), beforeOutcome: this.solver.solve(before).winning ? 'N' : 'P', afterOutcome: this.solver.solve(this.state).winning ? 'N' : 'P', nimBefore: nimAnalysis(before), nimAfter: nimAnalysis(this.state) });
     if (!this.state.mask) {
       this.winner = actor; this.phase = 'ended';
-      if (actor === 'player') this.save.complete(this.level.id);
+      if (actor === 'player' && !this.level.book) this.save.complete(this.level.id);
       this.emit(); return true;
     }
     this.turn = actor === 'player' ? 'ai' : 'player'; this.phase = 'ready'; this.emit();

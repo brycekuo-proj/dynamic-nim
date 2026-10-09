@@ -7,6 +7,7 @@ import { GameController } from './game/GameController.js';
 import { Renderer } from './ui/Renderer.js';
 import { InputController } from './ui/InputController.js';
 import { UIController } from './ui/UIController.js';
+import { parsePuzzle } from './game/PuzzleLink.js';
 let storage;
 try { storage = localStorage; } catch { /* Private/blocked storage: session-only progression. */ }
 const save = new SaveStore(storage), solver = new Solver();
@@ -16,4 +17,5 @@ const game = new GameController({ levels, solver, save, renderer, ai: new AICont
 const ui = new UIController(game, save, levels);
 game.onChange = g => ui.update(g);
 ui.input = new InputController(renderer.svg, renderer, game);
-ui.load(save.data.currentLevel);
+const bookPuzzle = parsePuzzle(new URLSearchParams(location.search).get('p'));
+if (bookPuzzle) ui.loadBook(bookPuzzle); else ui.load(save.data.currentLevel);
