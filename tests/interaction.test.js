@@ -27,8 +27,8 @@ test('drag supports horizontal, vertical and 45-degree lines but never crosses a
 });
 test('save persists progression, level and settings and tolerates corruption/blocked storage', () => {
   const mem = storage(), save = new SaveStore(mem);
-  assert.equal(save.select(2),false); save.complete(1); save.select(2); save.setEffects(false);
-  const restored = new SaveStore(mem); assert.equal(restored.data.currentLevel,2); assert.equal(restored.data.highestUnlocked,2); assert.equal(restored.data.settings.effects,false);
+  assert.equal(save.select(2),false); save.complete(1); save.select(2); save.setEffects(false); save.setSound(false);
+  const restored = new SaveStore(mem); assert.equal(restored.data.currentLevel,2); assert.equal(restored.data.highestUnlocked,2); assert.equal(restored.data.settings.effects,false); assert.equal(restored.data.settings.sound,false);
   const corrupt = new SaveStore({ getItem: () => '{broken' }); assert.equal(corrupt.data.currentLevel,1);
   const blocked = new SaveStore({ getItem() { throw Error('blocked'); }, setItem() { throw Error('blocked'); } });
   blocked.complete(1); assert.equal(blocked.data.highestUnlocked,2); assert.equal(blocked.available,false);

@@ -1,11 +1,13 @@
 import { cellsOf, stateId } from '../domain/GameState.js';
 import { nimAnalysis } from '../domain/Nim.js';
-import { moveName } from './Renderer.js';
+import { moveName, CHIP_COLORS } from './Renderer.js';
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
 export class UIController {
-  constructor(game, save, levels) {
-    Object.assign(this, { game, save, levels }); this.math = false; this.chapterEpoch = 0;
+  constructor(game, save, levels, sound = null) {
+    Object.assign(this, { game, save, levels, sound }); this.math = false; this.chapterEpoch = 0; this.announced = null;
+    $('sound-button').onclick = () => { save.setSound(!save.data.settings.sound); this.effects(); this.sound?.play('click'); };
+    document.addEventListener('click', e => { if (e.target.closest('button') && e.target.closest('button').id !== 'sound-button') this.sound?.play('click', 0.5); });
     $('restart-button').onclick = () => this.restart();
     $('math-button').onclick = () => this.toggleMath();
     document.addEventListener('keydown', e => { if (e.key.toLowerCase() === 'd' && !e.ctrlKey && !e.metaKey && !e.altKey) this.toggleMath(); });
@@ -17,6 +19,7 @@ export class UIController {
     $('close-levels').onclick = () => $('level-dialog').close();
     $('mission-track').replaceChildren(...levels.map((_, i) => {
       const pip = document.createElement('span'); pip.title = `關卡 ${pad(i + 1)}`;
+      pip.dataset.color = CHIP_COLORS[i % CHIP_COLORS.length];
       return pip;
     }));
     // Rules start open where there is room beside the board, folded on phones.
@@ -28,6 +31,38 @@ export class UIController {
     document.body.classList.toggle('effects-off', !on);
     $('effects-button').textContent = on ? '動畫 開' : '動畫 關';
     $('effects-button').setAttribute('aria-pressed', String(on));
+    const sound = this.save.data.settings.sound;
+    $('sound-button').textContent = sound ? '音效 開' : '音效 關';
+    $('sound-button').setAttribute('aria-pressed', String(sound));
+  }
+  // A one-off celebration: Kenney chips burst out of the mat.
+  burst() {
+    if (!this.save.data.settings.effects || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const box = $('burst'); box.replaceChildren();
+    const base = `${import.meta.env.BASE_URL}assets/kenney/`;
+    for (let i = 0; i < 16; i++) {
+      const img = document.createElement('img');
+      img.src = `${base}chip-${CHIP_COLORS[i % CHIP_COLORS.length]}.png`; img.alt = '';
+      box.append(img);
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * 2.2, dist = 140 + Math.random() * 160;
+      const dx = Math.cos(angle) * dist, dy = Math.sin(angle) * dist;
+      img.animate([
+        { transform: 'translate(-50%,-50%) scale(.4) rotate(0deg)', opacity: 1 },
+        { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1) rotate(${Math.random() * 540 - 270}deg)`, opacity: 1, offset: 0.55 },
+        { transform: `translate(calc(-50% + ${dx * 1.2}px), calc(-50% + ${dy + 260}px)) scale(.9) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 },
+      ], { duration: 1300 + Math.random() * 400, easing: 'cubic-bezier(.2,.7,.4,1)', fill: 'forwards' });
+    }
+    setTimeout(() => box.replaceChildren(), 2000);
+  }
+  // Sounds and the burst play once per finished game or first-move verdict.
+  announce(g, verdict) {
+    const key = g.phase === 'ended' ? `${g.epoch}:end` : `${g.epoch}:verdict`;
+    if (this.announced?.has(key) && this.announced.epoch === g.epoch) return;
+    if (this.announced?.epoch !== g.epoch) this.announced = Object.assign(new Set(), { epoch: g.epoch });
+    this.announced.add(key);
+    if (g.phase === 'ended') {
+      if (g.winner === 'player') { this.sound?.play('win', 0.8); this.burst(); } else this.sound?.play('wrong', 0.8);
+    } else if (verdict) this.sound?.play(verdict.ok ? 'right' : 'wrong', 0.7);
   }
   reset() {
     this.chapterEpoch++; $('chapter-transition').hidden = true;
@@ -99,6 +134,7 @@ export class UIController {
     const verdict = this.verdict(g);
     $('verdict').hidden = !verdict;
     if (verdict) { $('verdict').textContent = verdict.text; $('verdict').dataset.ok = String(verdict.ok); }
+    if (g.phase === 'ended' || (verdict && g.phase !== 'animating')) this.announce(g, verdict);
     $('outcome').hidden = g.phase !== 'ended';
     $('outcome-text').textContent = l.book
       ? (g.winner === 'player' ? `你解開第 ${l.puzzle} 題，也贏了電腦。` : '電腦拿走了最後一顆。回到書上再想一次。')

@@ -27,13 +27,15 @@ npm run preview  # 預覽 production build
 npm run check    # 依序執行 test、validate、test:e2e、build
 ```
 
-## 美術與介面設計（紙本謎題）
+## 美術與介面設計（桌遊之夜）
 
-- 盤面做成印刷謎題書的一頁：白紙、石墨色線條圓圈、A–H 欄與 1–8 列座標（與書中答案寫法相同，例如 B3–C3）。拿走圓圈時會先畫一道鉛筆線再淡出；重力關卡的盤面底部有地面線與斜線陰影，圓圈落地時有輕微回彈。
-- 唯一的強調色是紅鉛筆：只用在電腦的選擇與答錯提示。其他資訊都是安靜的灰色文字，棋盤佔手機首屏大部分空間。
-- 手機為單欄：精簡頂列（關卡、數學、動畫）→ 關卡標題 → 棋盤 → 回合狀態 → 重新開始／提示；規則在手機上預設收合，桌面版則在右側欄展開並顯示 10 顆圓點進度。
-- 字型：拉丁字母與數字使用 Poppins（SIL OFL 1.1，已子集化為 WOFF2 放在 `public/assets/fonts/`，授權見 `POPPINS_OFL.txt`）；中文使用系統字型。不依賴外部 CDN。
-- 書本題目模式（`?p=`）在第一步之後立即顯示「正確／不是正解」，讓讀者不必下完整局才知道答案對錯。
+- 場景是一張木頭桌：綠色絨布遊戲墊（縫線邊框、印上的 A–H／1–8 座標，與謎題書答案寫法相同，例如 B3–C3），棋子是 Kenney 的撲克籌碼。靜態關卡依「列」上色、重力關卡依「欄」上色（籌碼只會在同一欄內落下，所以顏色不會跳）。
+- 互動：拖曳時籌碼會浮起並出現金色圈；電腦選中的籌碼是紅色圈。拿走的籌碼往玩家或電腦那一側滑出；重力關卡底部有木頭擋板，籌碼落地有回彈。過關時籌碼從墊子噴出。
+- 文字放在便條卡上（關卡卡片有膠帶與橫線），按鈕是有厚度的桌遊風格。桌面寬度足夠時，桌上會散放骰子、棋子、籌碼作為裝飾。
+- 音效：拿起、拿走、落地、電腦出手、答對／答錯、過關都有短音效，可用「音效」開關；設定存在 localStorage。
+- 字型：中文用 jf open 粉圓（Huninn，OFL，只保留遊戲用到的字，約 70 KB；新增中文後請依 `scripts/subset-fonts.md` 重做子集），英數用 Poppins（OFL）。
+- 所有素材與授權見 `public/assets/CREDITS.md`：Kenney 的 Boardgame Pack、Casino Audio、Interface Sounds、Music Jingles（皆 CC0）；籌碼與棋子由原始向量檔重新輸出為高解析度。木紋桌面是程式產生的原創貼圖。不依賴外部 CDN。
+- 書本題目模式（`?p=`）在第一步之後立即顯示「正確／不是正解」。
 - 最新截圖：`artifacts/visual-*.png`。
 
 ## 玩法
@@ -69,7 +71,7 @@ src/levels/       LevelDefinition、static L1–L5、gravity L6–L10
 src/game/         GameController、AIController、SaveStore
 src/ui/           Renderer、InputController、Gesture、UIController
 src/main.js       組裝 domain、game 與 UI
-src/style.css     紙本謎題風格的響應式介面與 reduced-motion 支援
+src/style.css     桌遊之夜風格的響應式介面與 reduced-motion 支援
 scripts/validate.js       關卡約束、最佳續局與 AI 回應驗證
 scripts/explore-levels.js 關卡探索輔助工具
 tests/*.test.js           Node 自動化測試

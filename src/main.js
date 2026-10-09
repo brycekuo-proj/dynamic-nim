@@ -7,14 +7,16 @@ import { GameController } from './game/GameController.js';
 import { Renderer } from './ui/Renderer.js';
 import { InputController } from './ui/InputController.js';
 import { UIController } from './ui/UIController.js';
+import { Sound } from './ui/Sound.js';
 import { parsePuzzle } from './game/PuzzleLink.js';
 let storage;
 try { storage = localStorage; } catch { /* Private/blocked storage: session-only progression. */ }
 const save = new SaveStore(storage), solver = new Solver();
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-const renderer = new Renderer(document.getElementById('board'), () => reduced.matches || !save.data.settings.effects);
+const sound = new Sound(() => save.data.settings.sound);
+const renderer = new Renderer(document.getElementById('board'), () => reduced.matches || !save.data.settings.effects, sound);
 const game = new GameController({ levels, solver, save, renderer, ai: new AIController(solver) });
-const ui = new UIController(game, save, levels);
+const ui = new UIController(game, save, levels, sound);
 game.onChange = g => ui.update(g);
 ui.input = new InputController(renderer.svg, renderer, game);
 const bookPuzzle = parsePuzzle(new URLSearchParams(location.search).get('p'));

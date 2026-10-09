@@ -1,5 +1,5 @@
 const KEY = 'dynamic-nim:v1';
-const fresh = () => ({ highestUnlocked: 1, currentLevel: 1, completed: [], settings: { effects: true } });
+const fresh = () => ({ highestUnlocked: 1, currentLevel: 1, completed: [], settings: { effects: true, sound: true } });
 const levelNumber = n => Number.isInteger(n) && n >= 1 && n <= 10;
 export class SaveStore {
   constructor(storage) { this.storage = storage; this.available = true; this.data = this.load(); }
@@ -7,7 +7,7 @@ export class SaveStore {
     try {
       const raw = JSON.parse(this.storage?.getItem(KEY) ?? 'null');
       if (!raw || !levelNumber(raw.highestUnlocked) || !levelNumber(raw.currentLevel)) return fresh();
-      return { highestUnlocked: raw.highestUnlocked, currentLevel: Math.min(raw.currentLevel, raw.highestUnlocked), completed: Array.isArray(raw.completed) ? [...new Set(raw.completed.filter(levelNumber))] : [], settings: { effects: raw.settings?.effects !== false } };
+      return { highestUnlocked: raw.highestUnlocked, currentLevel: Math.min(raw.currentLevel, raw.highestUnlocked), completed: Array.isArray(raw.completed) ? [...new Set(raw.completed.filter(levelNumber))] : [], settings: { effects: raw.settings?.effects !== false, sound: raw.settings?.sound !== false } };
     } catch { this.available = false; return fresh(); }
   }
   persist() { try { if (!this.storage) throw new Error('No storage'); this.storage.setItem(KEY, JSON.stringify(this.data)); this.available = true; } catch { this.available = false; } }
@@ -18,4 +18,5 @@ export class SaveStore {
     this.persist();
   }
   setEffects(enabled) { this.data.settings.effects = Boolean(enabled); this.persist(); }
+  setSound(enabled) { this.data.settings.sound = Boolean(enabled); this.persist(); }
 }
