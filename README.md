@@ -27,22 +27,23 @@ npm run preview  # 預覽 production build
 npm run check    # 依序執行 test、validate、test:e2e、build
 ```
 
-## 美術與介面設計（Midnight Observatory）
+## 美術與介面設計（紙本謎題）
 
-- 以深藍色觀測站 / 戰略 HUD 作為新視覺方向，重新整理標題、棋盤、關卡導覽、進度軌、三方向規則、回合狀態、操作按鈕、提示、結算、Math 模式與關卡對話框。
-- 桌面版改為較窄的資訊側欄與較寬的棋盤主區；手機採「棋盤優先」單欄版面，頂端 Logo 和進度列縮成精簡資訊列、三方向規則折疊區移到棋盤下方，騰出首屏讓棋盤接近螢幕全寬。棋盤 SVG 的留白縮小，圓球和觸控區相對更大，仍支援窄螢幕與 safe area。
-- 實際棋子圖像使用 Kenney Boardgame Pack 的 PNG 籌碼，Sci-Fi UI Pack 圖像用於 crosshair / HUD 細節；所有素材均為 **CC0-1.0**，可商業使用，無需強制署名。素材內置於 `public/assets/kenney/`，授權全文與來源見 `public/assets/kenney/ASSET_CREDITS.md`。不依賴外部 CDN。
-- 視覺改動只涉及 `index.html`、`src/style.css`、`src/ui/Renderer.js`、`src/ui/UIController.js`，不修改 domain/solver 與既定 L1–L30 規則。`Renderer` 的資產路徑依 `import.meta.env.BASE_URL` 自動切換開發環境與 GitHub Pages 子路徑。Playwright `tests/browser/visual.spec.js` 會檢查素材可讀取、棋子數量、手機規則展開、遊戲區寬度、首屏棋盤位置與觸控目標尺寸。
-- 最新桌面 / 手機設計截圖：`artifacts/visual-desktop-chromium.png`、`artifacts/visual-mobile-chromium.png`、`artifacts/visual-mobile-webkit.png`。
+- 盤面做成印刷謎題書的一頁：白紙、石墨色線條圓圈、A–H 欄與 1–8 列座標（與書中答案寫法相同，例如 B3–C3）。拿走圓圈時會先畫一道鉛筆線再淡出；重力關卡的盤面底部有地面線與斜線陰影，圓圈落地時有輕微回彈。
+- 唯一的強調色是紅鉛筆：只用在電腦的選擇與答錯提示。其他資訊都是安靜的灰色文字，棋盤佔手機首屏大部分空間。
+- 手機為單欄：精簡頂列（關卡、數學、動畫）→ 關卡標題 → 棋盤 → 回合狀態 → 重新開始／提示；規則在手機上預設收合，桌面版則在右側欄展開並顯示 10 顆圓點進度。
+- 字型：拉丁字母與數字使用 Poppins（SIL OFL 1.1，已子集化為 WOFF2 放在 `public/assets/fonts/`，授權見 `POPPINS_OFL.txt`）；中文使用系統字型。不依賴外部 CDN。
+- 書本題目模式（`?p=`）在第一步之後立即顯示「正確／不是正解」，讓讀者不必下完整局才知道答案對錯。
+- 最新截圖：`artifacts/visual-*.png`。
 
 ## 玩法
 
 - 滑鼠或手指從圓圈開始，可沿水平、垂直或 45° 斜向拖曳（↘ / ↙），放開即移除。每回合可移除 1～3 顆連續圓圈；不可跨空格、任意角度轉彎或一次選超過 3 顆。非法手勢取消，不消耗回合。
 - L1–L5 為 static；L6–L10 每次移除後各欄向下填滿空位。動畫與 AI 回合期間鎖定輸入。
-- 可重試、選擇已解鎖關卡、開啟提示與切換 CRT 效果。L5 後有 GRAVITY 章節轉場。
+- 可重試、選擇已解鎖關卡、開啟提示與切換動畫。L5 後有「重力」章節轉場。
 - `D` 或 Math 按鈕顯示局面 ID、合法走法、勝負、最佳走法、深度及適用時的 heaps / Grundy / Nim sum。勝負是「輪到行動的一方」的評估。
 - 鍵盤：聚焦棋盤後方向鍵做水平／垂直移動，Q/E/Z/C 做四個斜向移動；Space 設起點，Enter 移除，Escape 取消。
-- localStorage 記錄最高解鎖關卡、目前關卡、完成紀錄及 CRT 設定；不保存回合中盤面。儲存不可用時以記憶體模式繼續。
+- localStorage 記錄最高解鎖關卡、目前關卡、完成紀錄及動畫設定；不保存回合中盤面。儲存不可用時以記憶體模式繼續。
 - 通關後 Analyze 顯示本局行動及 N/P 轉換紀錄，作為後續教學分析的基礎。
 
 ## L1–L30 全域核心 Move 規則
@@ -68,7 +69,7 @@ src/levels/       LevelDefinition、static L1–L5、gravity L6–L10
 src/game/         GameController、AIController、SaveStore
 src/ui/           Renderer、InputController、Gesture、UIController
 src/main.js       組裝 domain、game 與 UI
-src/style.css     Midnight Observatory 響應式 HUD 介面與 reduced-motion 支援
+src/style.css     紙本謎題風格的響應式介面與 reduced-motion 支援
 scripts/validate.js       關卡約束、最佳續局與 AI 回應驗證
 scripts/explore-levels.js 關卡探索輔助工具
 tests/*.test.js           Node 自動化測試
@@ -112,7 +113,7 @@ Depth 為雙方最佳對抗的總半回合數（plies）：能贏的一方儘速
 
 ## Automated test 結果
 
-最新棋盤優先版面使用 `npm run check` 驗證：**22/22 Node tests**、**10/10 關卡 validator**、**58 項 Playwright 通過、2 項僅適用手機的測試在桌面略過**（桌面 Chromium、Pixel 7 Chromium、iPhone 13 WebKit），**production build 成功**。UI 視覺測試涵蓋素材載入、手機規則展開、首屏棋盤頂端位置、接近滿版的棋盤寬度、擴大棋子觸控尺寸、避免橫向溢出；browser gesture 測試包含必要的可視區捲動。
+紙本謎題改版與書本題目連結後的驗證（本次未能在 iPhone WebKit 執行）：**24/24 Node tests**、**10/10 關卡 validator**、**桌面 Chromium 與 Pixel 7 Chromium 共 40 項 Playwright 通過、2 項僅適用手機的測試在桌面略過**，**production build 成功**。視覺測試涵蓋字型與素材載入、座標與重力地面、手機規則收合、首屏棋盤位置與寬度、棋子觸控尺寸與無橫向溢出；書本題目測試涵蓋連結載入、第一步正誤提示、打贏電腦且不改動主線進度。合併前請再跑一次完整的 `npm run check`（含 iPhone 13 WebKit）。
 
 測試包含：所有 3×2 static 盤面的獨立暴力勝負 oracle、所有 3×3 gravity 盤面的獨立 oracle（兩者都獨立枚舉橫／直／兩種 45° 斜線）、重力守恆與冪等性、符合 straight-run certificate 的 3×3 盤面，以及水平／垂直長度 8 的所有子集合之遞迴 mex 與 solver 一致性。另測試 ↘ / ↙ 直線 Grundy、實際 diagonal gesture、全域最多 3 顆規則、L1–L10 可達局面的 AI、完整通關、存檔、取消手勢、動畫鎖定、重啟、鍵盤與版面。
 

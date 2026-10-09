@@ -1,21 +1,22 @@
 import { test, expect } from '@playwright/test';
 
-test('Kenney CC0 token sprites and navigation render without missing assets', async ({ page }, testInfo) => {
+test('paper board renders coordinates, pieces and fonts without missing assets', async ({ page }, testInfo) => {
   await page.addInitScript(() => {
     localStorage.setItem('dynamic-nim:v1', JSON.stringify({
-      highestUnlocked: 10, currentLevel: 10, completed: [], settings: { effects: true },
+      highestUnlocked: 10, currentLevel: 10, completed: [1, 2, 3, 4, 5, 6, 7, 8, 9], settings: { effects: true },
     }));
   });
   const missingAssets = [];
-  page.on('response', response => {
-    if (response.url().includes('/assets/kenney/') && !response.ok()) missingAssets.push(response.url());
-  });
+  page.on('response', response => { if (response.url().includes('/assets/') && !response.ok()) missingAssets.push(response.url()); });
   await page.goto('/');
   await expect(page.locator('#board')).toHaveAttribute('data-level', '10');
   await expect(page.locator('#board .piece')).toHaveCount(10);
-  await expect(page.locator('#board .token-art')).toHaveCount(10);
+  await expect(page.locator('#board .coord')).toHaveCount(8);
+  await expect(page.locator('#board .floor')).toHaveCount(1);
   await expect(page.locator('#mission-track span')).toHaveCount(10);
-  await expect(page.locator('.board-topline img')).toHaveJSProperty('complete', true);
+  await expect(page.locator('#mission-track span.completed')).toHaveCount(9);
+  await page.evaluate(() => document.fonts.ready);
+  expect(await page.evaluate(() => document.fonts.check('700 16px Poppins'))).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect(missingAssets).toEqual([]);
   await page.screenshot({ path: `artifacts/visual-${testInfo.project.name}.png`, fullPage: true });
@@ -27,30 +28,25 @@ test('mobile first screen prioritizes a large playable board', async ({ page }, 
   const metrics = await page.evaluate(() => {
     const board = document.querySelector('#board').getBoundingClientRect();
     const token = document.querySelector('.piece').getBoundingClientRect();
-    const masthead = document.querySelector('.masthead').getBoundingClientRect();
-    const banner = document.querySelector('.identity').getBoundingClientRect();
-    return { width: innerWidth, boardTop: board.top, boardWidth: board.width,
-      boardHeight: board.height, tokenWidth: token.width, mastheadHeight: masthead.height,
-      bannerHeight: banner.height, overflow: document.documentElement.scrollWidth > innerWidth,
-      sections: ['.mission-card','.mobile-rules','.toolbar','.game-headline','.board-topline'].map(s => {
-        const r=document.querySelector(s).getBoundingClientRect();return {s,top:Math.round(r.top),height:Math.round(r.height)};
-      }) };
+    const topbar = document.querySelector('.topbar').getBoundingClientRect();
+    return { width: innerWidth, height: innerHeight, boardTop: board.top, boardBottom: board.bottom, boardWidth: board.width,
+      boardHeight: board.height, tokenWidth: token.width, topbarHeight: topbar.height,
+      overflow: document.documentElement.scrollWidth > innerWidth };
   });
-  console.log('Mobile compact-layout metrics:', JSON.stringify(metrics));
+  console.log('Mobile layout metrics:', JSON.stringify(metrics));
   expect(metrics.overflow).toBe(false);
-  expect(metrics.mastheadHeight).toBeLessThan(43);
-  expect(metrics.bannerHeight).toBeLessThan(55);
-  expect(metrics.boardTop).toBeLessThan(295);
-  expect(metrics.boardWidth).toBeGreaterThan(metrics.width - 40);
+  expect(metrics.topbarHeight).toBeLessThan(48);
+  expect(metrics.boardTop).toBeLessThan(200);
+  expect(metrics.boardBottom).toBeLessThan(metrics.height);
+  expect(metrics.boardWidth).toBeGreaterThan(metrics.width - 44);
   expect(metrics.boardHeight).toBeGreaterThan(300);
   expect(metrics.tokenWidth).toBeGreaterThan(55);
 });
 
-test('mobile game rules remain accessible without obscuring the board', async ({ page }, testInfo) => {
+test('rules fold on phones and stay readable', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.startsWith('mobile'));
   await page.goto('/');
-  const rules = page.locator('.mobile-rules');
-  await expect(rules.locator('summary')).toBeVisible();
+  const rules = page.locator('#rules');
   await expect(rules).not.toHaveAttribute('open', '');
   await rules.locator('summary').click();
   await expect(rules).toHaveAttribute('open', '');

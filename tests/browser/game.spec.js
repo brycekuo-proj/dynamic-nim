@@ -60,13 +60,13 @@ test('first two levels can be played and unlocks survive reload', async ({ page 
   await expect(page.locator('#level-list button').nth(3)).toBeDisabled();
   expect(errors).toEqual([]);
 });
-test('Math mode is opt-in; CRT setting persists; touch tap works', async ({ page }) => {
+test('Math mode is opt-in; animation setting persists; touch tap works', async ({ page }) => {
   await page.goto('/'); await expect(page.locator('#math')).toBeHidden();
   await page.locator('#math-button').click();
   await expect(page.locator('#math-data')).toContainText('WINNING MOVES  1');
   await expect(page.locator('#math-data')).toContainText('NIM SUM        1');
   await page.locator('#effects-button').click(); await page.reload();
-  await expect(page.locator('#effects-button')).toHaveText('CRT OFF');
+  await expect(page.locator('#effects-button')).toHaveText('動畫 關');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   const p = await point(page,0);
   if (await page.evaluate(()=>navigator.maxTouchPoints>0)) await page.touchscreen.tap(p.x,p.y); else await page.mouse.click(p.x,p.y);
@@ -82,7 +82,7 @@ test('play all ten levels through browser input against AI, including chapter tr
     if (level.id === 5) {
       await page.locator('#next-button').click();
       await expect(page.locator('#chapter-transition')).toBeVisible();
-      await expect(page.locator('#chapter-transition')).toContainText('GRAVITY ↓');
+      await expect(page.locator('#chapter-transition')).toContainText('重力 ↓');
     } else if (level.id < 10) await page.locator('#next-button').click();
   }
   const save = await page.evaluate(()=>JSON.parse(localStorage.getItem('dynamic-nim:v1')));
@@ -129,7 +129,7 @@ test('vertical and 45-degree diagonal drags are playable in the browser', async 
 });
 
 test('losing move awards AI and allows retry without unlocking', async ({ page }) => {
-  await seed(page,2); await drag(page,[0]); await expect(page.locator('#status')).toContainText('COMPUTER WINS');
+  await seed(page,2); await drag(page,[0]); await expect(page.locator('#status')).toContainText('電腦獲勝');
   await expect(page.locator('#progress')).toContainText('02 / 10');
   await page.locator('#next-button').click(); await ready(page); await expect(page.locator('.piece')).toHaveCount(2);
 });
@@ -166,25 +166,30 @@ test('pointer cancellation never commits a move and reduced motion is honored', 
   await expect(page.locator('.selected')).toHaveCount(1);
   await page.locator('#board').dispatchEvent('pointercancel',{pointerId:1});
   await page.mouse.up(); await ready(page); await expect(page.locator('.piece')).toHaveCount(2);
-  expect(await page.locator('.cursor').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
+  expect(await page.locator('.piece').first().evaluate(el=>getComputedStyle(el).transitionDuration)).toBe('0s');
 });
 test('book puzzle link opens that position and does not change campaign progress', async ({ page }) => {
   const errors = []; page.on('pageerror', e => errors.push(e.message));
   await page.addInitScript(() => localStorage.setItem('dynamic-nim:v1', JSON.stringify({ highestUnlocked: 3, currentLevel: 3, completed: [1, 2], settings: { effects: false } })));
   await page.goto('/?p=86-g-..oo.-o..oo-.ooo.-o...o');
-  await expect(page.locator('#level-name')).toHaveText('BOOK #86');
-  await expect(page.locator('#level-number')).toHaveText('BK');
-  await expect(page.locator('#world')).toContainText('GRAVITY');
+  await expect(page.locator('#level-name')).toHaveText('第 86 題');
+  await expect(page.locator('#level-number')).toHaveText('書');
+  await expect(page.locator('#world')).toContainText('重力');
   const raw = JSON.parse(await page.locator('#board').getAttribute('data-state'));
   expect(raw.width).toBe(5); expect(raw.cells.length).toBe(10);
   await drag(page, [11, 12]); // the book's answer: B3–C3
+  await expect(page.locator('#verdict')).toContainText('第一步 B3–C3 正確');
   await winLevel(page);
-  await expect(page.locator('#next-button')).toHaveText('進入主線關卡 →');
+  await expect(page.locator('#next-button')).toHaveText('前往主線關卡 →');
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('dynamic-nim:v1')));
   expect(saved.highestUnlocked).toBe(3); expect(saved.completed).toEqual([1, 2]);
   await page.locator('#restart-button').click();
-  await expect(page.locator('#level-name')).toHaveText('BOOK #86');
-  await expect(page.locator('#piece-count')).toHaveText('10 CIRCLES');
+  await expect(page.locator('#level-name')).toHaveText('第 86 題');
+  await expect(page.locator('#verdict')).toBeHidden();
+  await expect(page.locator('#piece-count')).toHaveText('剩 10 顆');
+  await page.goto('/?p=45-s-o..o-..o.-o..o-..o.-.oo.');
+  await drag(page, [3]); // a wrong first move: D1
+  await expect(page.locator('#verdict')).toContainText('不是正解');
   await page.goto('/?p=bad-link');
   await expect(page.locator('#level-number')).toHaveText('03');
   expect(errors).toEqual([]);

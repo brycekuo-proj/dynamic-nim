@@ -21,8 +21,8 @@ export function parsePuzzle(param) {
   if (!rows.some(row => row.includes('#'))) return null;
   try {
     const level = defineLevel(0, `BOOK #${number}`, rows, WORLD_CODES[match[2]],
-      `Book puzzle #${number}. Your move: find the winning move, then beat the computer. / 謎題書第 ${number} 題：找出唯一必勝的一步，再擊敗電腦。`,
-      'The answer is at the back of the book. / 答案在書末。');
+      '輪到你。找出唯一的必勝步，再把這一局下完、贏過電腦。',
+      '答案在書末。座標和書上一樣：字母是欄，數字是列。');
     return Object.freeze({ ...level, book: true, puzzle: number });
   } catch {
     return null;
