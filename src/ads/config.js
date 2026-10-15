@@ -1,15 +1,16 @@
 // AdMob settings for the Android app. The web build never loads ads.
 //
-// Until the real AdMob app and ad units exist, these are Google's official
-// test IDs (https://developers.google.com/admob/android/test-ads). Test IDs
-// always serve test ads and can never earn or get the account flagged.
-// Replace the three IDs below (and APPLICATION_ID in
-// android/app/src/main/AndroidManifest.xml) with the real ones before release,
-// and set USE_TEST_ADS to false.
+// Real AdMob IDs for the "Dynamic Nim" app (publisher pub-3164945301503336);
+// the App ID lives in android/app/src/main/AndroidManifest.xml.
+//
+// USE_TEST_ADS stays true for every development and closed-testing build: the
+// SDK then serves Google's test ads instead of these units, so tapping ads on
+// your own devices can never earn invalid clicks or get the account flagged.
+// Set it to false only for the production release build.
 export const ADS = Object.freeze({
   USE_TEST_ADS: true,
-  BANNER_ID: 'ca-app-pub-3940256099942544/9214589741',        // adaptive banner (test)
-  INTERSTITIAL_ID: 'ca-app-pub-3940256099942544/1033173712',  // interstitial (test)
+  BANNER_ID: 'ca-app-pub-3164945301503336/2122455168',        // "Bottom banner"
+  INTERSTITIAL_ID: 'ca-app-pub-3164945301503336/9809373494',  // "Level break interstitial"
 
   // Show an interstitial only after a won campaign level whose number is a
   // multiple of this, and never more often than the cooldown. Book puzzles
