@@ -3,9 +3,9 @@ const NS = 'http://www.w3.org/2000/svg';
 const CELL = 64, PAD = 24, LABEL = 28, CHIP = 56;
 const COLS = 'ABCDEFGH';
 const ART = `${import.meta.env.BASE_URL}assets/kenney/`;
-// Kenney Boardgame Pack poker chips (CC0). Static boards colour chips by row;
-// gravity boards by column, because circles only ever fall within their column.
-export const CHIP_COLORS = ['red', 'blue', 'green', 'black', 'whiteblue'];
+// Every piece is the same Kenney Boardgame Pack chip (CC0): in Nim all pieces are
+// shared and identical, so colour must never suggest ownership or value.
+export const PIECE_ART = 'chip-blue.png';
 // Board coordinates match the printed puzzle book: letters are columns from the
 // left, numbers are rows from the top (B3 = column 2, row 3).
 export const cellName = (state, cell) => `${COLS[cell % state.width]}${Math.floor(cell / state.width) + 1}`;
@@ -23,10 +23,6 @@ export class Renderer {
   }
   position(cell) { return { x: this.offsetX + cell % this.state.width * CELL, y: this.offsetY + Math.floor(cell / this.state.width) * CELL }; }
   element(tag, attrs) { const el = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v); return el; }
-  chipColor(state, cell) {
-    const index = state.world === 'gravity' ? cell % state.width : Math.floor(cell / state.width);
-    return CHIP_COLORS[index % CHIP_COLORS.length];
-  }
   draw(state) {
     this.geometry(state); this.svg.replaceChildren(); this.svg.dataset.state = JSON.stringify(snapshot(state));
     const { width: w, height: h } = state;
@@ -57,7 +53,7 @@ export class Renderer {
       const { x, y } = this.position(cell);
       const token = this.element('g', { class: 'token' });
       const shadow = this.element('circle', { cx: x + 2, cy: y + 4, r: CHIP / 2 - 1, class: 'chip-shadow', filter: 'url(#chip-shadow)' });
-      const art = this.element('image', { x: x - CHIP / 2, y: y - CHIP / 2, width: CHIP, height: CHIP, class: 'chip', href: `${ART}chip-${this.chipColor(state, cell)}.png`, 'pointer-events': 'none' });
+      const art = this.element('image', { x: x - CHIP / 2, y: y - CHIP / 2, width: CHIP, height: CHIP, class: 'chip', href: `${ART}${PIECE_ART}`, 'pointer-events': 'none' });
       const circle = this.element('circle', { cx: x, cy: y, r: 30, class: 'piece', 'data-cell': cell });
       const title = this.element('title', {}); title.textContent = cellName(state, cell);
       circle.append(title); token.append(shadow, art, circle); this.svg.append(token);

@@ -144,13 +144,14 @@ kbd { font: 500 11px var(--f-latin); border: 1px solid rgba(0, 0, 0, .2); border
   padding: 8px 14px; border-radius: 12px; background: rgba(40, 22, 8, .55); color: #fff8ea;
 }
 #status { display: inline-flex; align-items: center; gap: 9px; font-size: 17px; }
-#status::before {
-  content: ''; width: 26px; height: 26px; flex: none; background: url('/assets/kenney/chip-blue.png') center / contain no-repeat;
-  filter: drop-shadow(0 2px 1px rgba(0, 0, 0, .4));
+#status::before { /* the same chip as on the mat; only the ring says whose turn it is */
+  content: ''; width: 26px; height: 26px; flex: none; border-radius: 50%;
+  background: url('/assets/kenney/chip-blue.png') center / contain no-repeat;
+  box-shadow: 0 0 0 2.5px var(--gold), 0 2px 3px rgba(0, 0, 0, .4);
 }
-#status[data-turn="ai"]::before { background-image: url('/assets/kenney/chip-red.png'); animation: spin 1.2s linear infinite; }
-#status[data-turn="won"]::before { background-image: url('/assets/kenney/chip-green.png'); }
-#status[data-turn="lost"]::before { background-image: url('/assets/kenney/chip-black.png'); }
+#status[data-turn="ai"]::before { box-shadow: 0 0 0 2.5px var(--red), 0 2px 3px rgba(0, 0, 0, .4); animation: spin 1.2s linear infinite; }
+#status[data-turn="won"]::before { box-shadow: 0 0 0 2.5px var(--green), 0 2px 3px rgba(0, 0, 0, .4); }
+#status[data-turn="lost"]::before { box-shadow: 0 0 0 2.5px #9a8f86; filter: grayscale(1); }
 @keyframes spin { to { transform: rotate(360deg); } }
 #piece-count { color: var(--stitch); font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
@@ -195,15 +196,11 @@ kbd { font: 500 11px var(--f-latin); border: 1px solid rgba(0, 0, 0, .2); border
 .progress-head { display: flex; justify-content: space-between; align-items: baseline; }
 .mission-track { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; max-width: 290px; }
 .mission-track span {
-  aspect-ratio: 1; border-radius: 50%; background: url('/assets/kenney/chip-whiteblue.png') center / contain no-repeat;
-  opacity: .28; filter: grayscale(1);
+  aspect-ratio: 1; border-radius: 50%; background: url('/assets/kenney/chip-blue.png') center / contain no-repeat;
+  opacity: .25; filter: grayscale(1);
 }
-.mission-track span.unlocked { opacity: .9; filter: none; }
+.mission-track span.unlocked { opacity: .5; filter: grayscale(.6); }
 .mission-track span.completed { opacity: 1; filter: drop-shadow(0 2px 1px rgba(0, 0, 0, .35)); }
-.mission-track span.completed[data-color="red"] { background-image: url('/assets/kenney/chip-red.png'); }
-.mission-track span.completed[data-color="blue"] { background-image: url('/assets/kenney/chip-blue.png'); }
-.mission-track span.completed[data-color="green"] { background-image: url('/assets/kenney/chip-green.png'); }
-.mission-track span.completed[data-color="black"] { background-image: url('/assets/kenney/chip-black.png'); }
 .mission-track span.current { outline: 2.5px solid var(--gold-deep); outline-offset: 1px; }
 
 .footer { margin-top: 22px; font-size: 13px; color: #f4e3c6; text-align: center; text-shadow: 0 1px 0 rgba(0, 0, 0, .4); }
@@ -221,8 +218,6 @@ dialog::backdrop { background: rgba(30, 15, 5, .55); }
   box-shadow: 0 2px 0 #d9c8a8;
 }
 .level-tile::before { content: ''; width: 26px; height: 26px; background: url('/assets/kenney/chip-blue.png') center / contain no-repeat; }
-.level-tile.gravity::before { background-image: url('/assets/kenney/chip-red.png'); }
-.level-tile.completed::before { background-image: url('/assets/kenney/chip-green.png'); }
 .level-tile:hover:not(:disabled) { background: #fff7df; }
 .level-tile.current { box-shadow: 0 0 0 2.5px var(--gold-deep); }
 .level-tile:disabled { cursor: default; color: var(--muted); background: #f3ece0; box-shadow: none; }

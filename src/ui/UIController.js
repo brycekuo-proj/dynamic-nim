@@ -1,6 +1,6 @@
 import { cellsOf, stateId } from '../domain/GameState.js';
 import { nimAnalysis } from '../domain/Nim.js';
-import { moveName, CHIP_COLORS } from './Renderer.js';
+import { moveName, PIECE_ART } from './Renderer.js';
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
 export class UIController {
@@ -19,7 +19,6 @@ export class UIController {
     $('close-levels').onclick = () => $('level-dialog').close();
     $('mission-track').replaceChildren(...levels.map((_, i) => {
       const pip = document.createElement('span'); pip.title = `關卡 ${pad(i + 1)}`;
-      pip.dataset.color = CHIP_COLORS[i % CHIP_COLORS.length];
       return pip;
     }));
     // Rules start open where there is room beside the board, folded on phones.
@@ -42,7 +41,7 @@ export class UIController {
     const base = `${import.meta.env.BASE_URL}assets/kenney/`;
     for (let i = 0; i < 16; i++) {
       const img = document.createElement('img');
-      img.src = `${base}chip-${CHIP_COLORS[i % CHIP_COLORS.length]}.png`; img.alt = '';
+      img.src = `${base}${PIECE_ART}`; img.alt = '';
       box.append(img);
       const angle = -Math.PI / 2 + (Math.random() - 0.5) * 2.2, dist = 140 + Math.random() * 160;
       const dx = Math.cos(angle) * dist, dy = Math.sin(angle) * dist;

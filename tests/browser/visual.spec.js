@@ -14,7 +14,10 @@ test('game-night board renders chips, coordinates, fonts and decorations without
   await expect(page.locator('#board .chip')).toHaveCount(10);
   await expect(page.locator('#board .coord')).toHaveCount(8);
   await expect(page.locator('#board .ledge')).toHaveCount(1);
-  for (const img of await page.locator('#board .chip').all()) expect(await img.getAttribute('href')).toMatch(/assets\/kenney\/chip-(red|blue|green|black|whiteblue)\.png$/);
+  // Every piece must look identical: colour may not suggest ownership or value.
+  const hrefs = await page.locator('#board .chip').evaluateAll(els => els.map(el => el.getAttribute('href')));
+  expect(new Set(hrefs).size).toBe(1);
+  expect(hrefs[0]).toMatch(/assets\/kenney\/chip-blue\.png$/);
   await expect(page.locator('#mission-track span')).toHaveCount(10);
   await expect(page.locator('#mission-track span.completed')).toHaveCount(9);
   await page.evaluate(() => document.fonts.ready);
