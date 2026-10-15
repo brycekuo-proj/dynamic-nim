@@ -4,8 +4,9 @@ import { moveName, PIECE_ART } from './Renderer.js';
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
 export class UIController {
-  constructor(game, save, levels, sound = null) {
-    Object.assign(this, { game, save, levels, sound }); this.math = false; this.chapterEpoch = 0; this.announced = null;
+  constructor(game, save, levels, sound = null, ads = null) {
+    Object.assign(this, { game, save, levels, sound, ads });
+    $('privacy-button').onclick = () => this.ads?.showPrivacyOptions(); this.math = false; this.chapterEpoch = 0; this.announced = null;
     $('sound-button').onclick = () => { save.setSound(!save.data.settings.sound); this.effects(); this.sound?.play('click'); };
     document.addEventListener('click', e => { if (e.target.closest('button') && e.target.closest('button').id !== 'sound-button') this.sound?.play('click', 0.5); });
     $('restart-button').onclick = () => this.restart();
@@ -74,6 +75,7 @@ export class UIController {
     const g = this.game;
     if (g.winner !== 'player') return this.restart();
     if (g.level.book) return this.load(this.save.data.currentLevel);
+    await this.ads?.afterLevelWon(g.level.id);
     if (g.level.id === 10) { this.menu(); $('level-dialog').showModal(); return; }
     if (g.level.id === 5) {
       const epoch = ++this.chapterEpoch;

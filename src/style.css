@@ -44,7 +44,7 @@ button { font: inherit; color: inherit; }
 button:focus-visible, summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 kbd { font: 500 11px var(--f-latin); border: 1px solid rgba(0, 0, 0, .2); border-radius: 4px; padding: 0 4px; }
 
-.page { position: relative; max-width: 1080px; margin: 0 auto; padding-inline: 16px; padding-block: 10px 28px; }
+.page { position: relative; max-width: 1080px; margin: 0 auto; padding-inline: 16px; padding-block: 10px calc(28px + var(--ad-bottom, 0px)); }
 
 /* decorations lying on the table ------------------------------------------------- */
 .decor { position: absolute; pointer-events: none; filter: drop-shadow(2px 5px 3px rgba(30, 15, 5, .45)); z-index: 0; }
@@ -203,6 +203,8 @@ kbd { font: 500 11px var(--f-latin); border: 1px solid rgba(0, 0, 0, .2); border
 .mission-track span.completed { opacity: 1; filter: drop-shadow(0 2px 1px rgba(0, 0, 0, .35)); }
 .mission-track span.current { outline: 2.5px solid var(--gold-deep); outline-offset: 1px; }
 
+.link-button { display: none; border: 0; background: none; color: inherit; text-decoration: underline; cursor: pointer; font-size: 13px; }
+body.privacy-options .link-button { display: inline; }
 .footer { margin-top: 22px; font-size: 13px; color: #f4e3c6; text-align: center; text-shadow: 0 1px 0 rgba(0, 0, 0, .4); }
 
 /* level dialog --------------------------------------------------------------------- */

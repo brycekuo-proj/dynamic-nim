@@ -10,12 +10,22 @@
     "validate": "node scripts/validate.js",
     "build": "vite build",
     "build:pages": "vite build --base=/dynamic-nim/",
-    "deploy:pages": "npm run build:pages && npx --yes gh-pages@6.3.0 -d dist -b gh-pages", 
+    "deploy:pages": "npm run build:pages && npx --yes gh-pages@6.3.0 -d dist -b gh-pages",
     "preview": "vite preview --host 0.0.0.0",
-    "check": "npm test && npm run validate && npm run test:e2e && npm run build"
+    "check": "npm test && npm run validate && npm run test:e2e && npm run build",
+    "android:sync": "vite build && cap sync android",
+    "android:apk": "npm run android:sync && cd android && ./gradlew assembleDebug",
+    "android:bundle": "npm run android:sync && cd android && ./gradlew bundleRelease"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.3",
     "@playwright/test": "^1.63.0",
     "vite": "^8.3.0"
+  },
+  "dependencies": {
+    "@capacitor-community/admob": "^8.2.1",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/android": "^8.5.3"
   }
 }
