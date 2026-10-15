@@ -136,6 +136,8 @@ export class UIController {
     $('verdict').hidden = !verdict;
     if (verdict) { $('verdict').textContent = verdict.text; $('verdict').dataset.ok = String(verdict.ok); }
     if (g.phase === 'ended' || (verdict && g.phase !== 'animating')) this.announce(g, verdict);
+    // Keep the result card (and its next-level button) above the bottom ad banner.
+    if (g.phase === 'ended') requestAnimationFrame(() => $('outcome').scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
     $('outcome').hidden = g.phase !== 'ended';
     $('outcome-text').textContent = l.book
       ? (g.winner === 'player' ? `你解開第 ${l.puzzle} 題，也贏了電腦。` : '電腦拿走了最後一顆。回到書上再想一次。')
