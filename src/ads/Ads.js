@@ -18,13 +18,22 @@ export class Ads {
       this.native = true;
       const mod = await import('@capacitor-community/admob');
       this.admob = mod.AdMob; this.mod = mod;
-      let consent = await this.admob.requestConsentInfo();
-      if (consent.isConsentFormAvailable && consent.status === mod.AdmobConsentStatus.REQUIRED) {
-        consent = await this.admob.showConsentForm();
+      // A consent error (offline, or no GDPR message published in AdMob yet) must
+      // not cost the whole session's ads: fall through and initialize anyway.
+      // Outside the EEA/UK no consent is needed; inside it Google then serves
+      // only limited, non-personalized ads.
+      let consent = null;
+      try {
+        consent = await this.admob.requestConsentInfo();
+        if (consent.isConsentFormAvailable && consent.status === mod.AdmobConsentStatus.REQUIRED) {
+          consent = await this.admob.showConsentForm();
+        }
+      } catch (error) {
+        console.warn('[ads] consent unavailable', error);
       }
-      this.privacyRequired = consent.privacyOptionsRequirementStatus === 'REQUIRED';
+      this.privacyRequired = consent?.privacyOptionsRequirementStatus === 'REQUIRED';
       document.body.classList.toggle('privacy-options', this.privacyRequired);
-      if (!consent.canRequestAds) return;
+      if (consent && !consent.canRequestAds) return;
       await this.admob.initialize({
         tagForChildDirectedTreatment: ADS.CHILD_DIRECTED,
         tagForUnderAgeOfConsent: ADS.CHILD_DIRECTED,
