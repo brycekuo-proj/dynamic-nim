@@ -14,7 +14,7 @@ export class Ads {
     try {
       // The native shell injects window.Capacitor before the page loads, so a plain
       // browser never downloads the Capacitor or AdMob code at all.
-      if (!window.Capacitor?.isNativePlatform?.()) return;
+      if (!ADS.ENABLED || !window.Capacitor?.isNativePlatform?.()) return;
       this.native = true;
       const mod = await import('@capacitor-community/admob');
       this.admob = mod.AdMob; this.mod = mod;

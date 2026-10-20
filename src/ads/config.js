@@ -8,6 +8,10 @@
 // your own devices can never earn invalid clicks or get the account flagged.
 // Set it to false only for the production release build.
 export const ADS = Object.freeze({
+  // Master switch. Off until the AdMob account is approved, which needs the
+  // app to be live on Google Play first: with it off the SDK never starts,
+  // no consent form shows and no ad space is reserved.
+  ENABLED: false,
   USE_TEST_ADS: true,
   BANNER_ID: 'ca-app-pub-3164945301503336/2122455168',        // "Bottom banner"
   INTERSTITIAL_ID: 'ca-app-pub-3164945301503336/9809373494',  // "Level break interstitial"
