@@ -1,6 +1,9 @@
 import { cellsOf, snapshot } from '../domain/GameState.js';
 const NS = 'http://www.w3.org/2000/svg';
 const CELL = 64, PAD = 24, LABEL = 30, CHIP = 54, CUP = 62;
+// The tray hugs each level's grid; one board unit is shown at most this many CSS pixels,
+// so small boards (1×1, 1×2) do not blow the donuts up to giant size.
+const MAX_SCALE = 1.4;
 const COLS = 'ABCDEFGH';
 const ART = `${import.meta.env.BASE_URL}assets/candy/`;
 // Every piece is the same pink donut, sitting in a chocolate paper cup: in Nim all
@@ -16,11 +19,13 @@ export class Renderer {
   constructor(svg, reducedMotion, sound = null) { Object.assign(this, { svg, reducedMotion, sound }); this.animations = new Set(); this.token = 0; }
   geometry(state) {
     this.state = state;
-    this.width = LABEL + Math.max(4, state.width) * CELL + PAD;
-    this.height = LABEL + Math.max(4, state.height) * CELL + PAD;
+    this.width = LABEL + state.width * CELL + PAD;
+    this.height = LABEL + state.height * CELL + PAD;
     this.offsetX = LABEL + (this.width - LABEL - (state.width - 1) * CELL) / 2;
     this.offsetY = LABEL + (this.height - LABEL - (state.height - 1) * CELL) / 2;
     this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
+    this.svg.style.setProperty('--board-w', `${Math.round(this.width * MAX_SCALE)}px`);
+    this.svg.style.setProperty('--board-aspect', (this.width / this.height).toFixed(4));
   }
   position(cell) { return { x: this.offsetX + cell % this.state.width * CELL, y: this.offsetY + Math.floor(cell / this.state.width) * CELL }; }
   element(tag, attrs) { const el = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v); return el; }

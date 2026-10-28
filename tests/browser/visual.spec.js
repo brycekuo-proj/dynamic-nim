@@ -32,6 +32,8 @@ test('candy board renders donuts, cups, coordinates, fonts and art without missi
 
 test('mobile first screen prioritizes a large playable board', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.startsWith('mobile'));
+  // A four-column level fills the screen width; smaller boards hug their grid.
+  await page.addInitScript(() => localStorage.setItem('dynamic-nim:v1', JSON.stringify({ highestUnlocked: 3, currentLevel: 3, completed: [1, 2], settings: { effects: true } })));
   await page.goto('/');
   const metrics = await page.evaluate(() => {
     const board = document.querySelector('#board').getBoundingClientRect();
@@ -61,4 +63,12 @@ test('rules fold on phones and stay readable', async ({ page }, testInfo) => {
   await expect(rules).toContainText('45°');
   await expect(rules).toContainText('1–3');
   await expect(page.locator('#board')).toBeVisible();
+});
+
+test('small boards hug their grid without blowing up the donuts', async ({ page }) => {
+  await page.goto('/');
+  const sizes = await page.evaluate(() => ({ board: document.querySelector('#board').getBoundingClientRect().width, piece: document.querySelector('.piece').getBoundingClientRect().width }));
+  expect(sizes.board).toBeLessThan(200);
+  expect(sizes.piece).toBeGreaterThan(55);
+  expect(sizes.piece).toBeLessThan(100);
 });
