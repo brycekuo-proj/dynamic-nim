@@ -1,11 +1,12 @@
 import { cellsOf, snapshot } from '../domain/GameState.js';
 const NS = 'http://www.w3.org/2000/svg';
-const CELL = 64, PAD = 24, LABEL = 28, CHIP = 56;
+const CELL = 64, PAD = 24, LABEL = 30, CHIP = 54, CUP = 62;
 const COLS = 'ABCDEFGH';
-const ART = `${import.meta.env.BASE_URL}assets/kenney/`;
-// Every piece is the same Kenney Boardgame Pack chip (CC0): in Nim all pieces are
-// shared and identical, so colour must never suggest ownership or value.
-export const PIECE_ART = 'chip-blue.png';
+const ART = `${import.meta.env.BASE_URL}assets/candy/`;
+// Every piece is the same pink donut, sitting in a chocolate paper cup: in Nim all
+// pieces are shared and identical, so colour must never suggest ownership or value.
+export const PIECE_URL = `${ART}donut.webp`;
+const CUP_URL = `${ART}cup.webp`;
 // Board coordinates match the printed puzzle book: letters are columns from the
 // left, numbers are rows from the top (B3 = column 2, row 3).
 export const cellName = (state, cell) => `${COLS[cell % state.width]}${Math.floor(cell / state.width) + 1}`;
@@ -31,18 +32,17 @@ export class Renderer {
     const blur = this.element('filter', { id: 'chip-shadow', x: '-50%', y: '-50%', width: '200%', height: '200%' });
     blur.append(this.element('feGaussianBlur', { stdDeviation: 2.6 }));
     defs.append(blur); this.svg.append(defs);
-    this.svg.append(this.element('rect', { x: left - 6, y: top - 6, width: w * CELL + 12, height: h * CELL + 12, rx: 10, class: 'stitch' }));
-    for (let c = 0; c < w; c++) {
-      const t = this.element('text', { x: this.offsetX + c * CELL, y: top - 14, class: 'coord', 'text-anchor': 'middle' });
-      t.textContent = COLS[c]; this.svg.append(t);
-    }
-    for (let r = 0; r < h; r++) {
-      const t = this.element('text', { x: left - 16, y: this.offsetY + r * CELL + 5, class: 'coord', 'text-anchor': 'middle' });
-      t.textContent = String(r + 1); this.svg.append(t);
-    }
+    // Biscuit tags carry the book's coordinates: letters on top, numbers on the left.
+    const tag = (x, y, text) => {
+      this.svg.append(this.element('rect', { x: x - 11, y: y - 11, width: 22, height: 22, rx: 7, class: 'label-chip' }));
+      const t = this.element('text', { x, y: y + 5.5, class: 'coord', 'text-anchor': 'middle' });
+      t.textContent = text; this.svg.append(t);
+    };
+    for (let c = 0; c < w; c++) tag(this.offsetX + c * CELL, top - 15, COLS[c]);
+    for (let r = 0; r < h; r++) tag(left - 16, this.offsetY + r * CELL, String(r + 1));
     for (let cell = 0; cell < w * h; cell++) {
       const { x, y } = this.position(cell);
-      this.svg.append(this.element('circle', { cx: x, cy: y, r: 26, class: 'spot' }));
+      this.svg.append(this.element('image', { x: x - CUP / 2, y: y - CUP / 2, width: CUP, height: CUP, href: CUP_URL, class: 'cup spot' }));
     }
     if (state.world === 'gravity') {
       const floorY = top + h * CELL + 4;
@@ -52,8 +52,8 @@ export class Renderer {
     for (const cell of cellsOf(state)) {
       const { x, y } = this.position(cell);
       const token = this.element('g', { class: 'token' });
-      const shadow = this.element('circle', { cx: x + 2, cy: y + 4, r: CHIP / 2 - 1, class: 'chip-shadow', filter: 'url(#chip-shadow)' });
-      const art = this.element('image', { x: x - CHIP / 2, y: y - CHIP / 2, width: CHIP, height: CHIP, class: 'chip', href: `${ART}${PIECE_ART}`, 'pointer-events': 'none' });
+      const shadow = this.element('ellipse', { cx: x + 1, cy: y + 7, rx: CHIP / 2 - 4, ry: CHIP / 2 - 9, class: 'chip-shadow', filter: 'url(#chip-shadow)' });
+      const art = this.element('image', { x: x - CHIP / 2, y: y - CHIP / 2, width: CHIP, height: CHIP, class: 'chip', href: PIECE_URL, 'pointer-events': 'none' });
       const circle = this.element('circle', { cx: x, cy: y, r: 30, class: 'piece', 'data-cell': cell });
       const title = this.element('title', {}); title.textContent = cellName(state, cell);
       circle.append(title); token.append(shadow, art, circle); this.svg.append(token);
@@ -84,7 +84,7 @@ export class Renderer {
     this.select(move, actor);
     if (actor === 'ai') { this.sound?.play('ai', 0.6); await this.pause(420); }
     if (token !== this.token) return;
-    // Chips are picked up and slide off the mat toward the player's or computer's side.
+    // Donuts are picked up and slide out of the box toward the player's or computer's side.
     this.sound?.play('take');
     const dir = actor === 'ai' ? -1 : 1;
     await Promise.all([...move].sort((a, b) => a - b).map((cell, i) => this.tween(

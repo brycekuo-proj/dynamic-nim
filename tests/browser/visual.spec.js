@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('game-night board renders chips, coordinates, fonts and decorations without missing assets', async ({ page }, testInfo) => {
+test('candy board renders donuts, cups, coordinates, fonts and art without missing assets', async ({ page }, testInfo) => {
   await page.addInitScript(() => {
     localStorage.setItem('dynamic-nim:v1', JSON.stringify({
       highestUnlocked: 10, currentLevel: 10, completed: [1, 2, 3, 4, 5, 6, 7, 8, 9], settings: { effects: true },
@@ -13,16 +13,17 @@ test('game-night board renders chips, coordinates, fonts and decorations without
   await expect(page.locator('#board .piece')).toHaveCount(10);
   await expect(page.locator('#board .chip')).toHaveCount(10);
   await expect(page.locator('#board .coord')).toHaveCount(8);
+  await expect(page.locator('#board .cup')).toHaveCount(16);
   await expect(page.locator('#board .ledge')).toHaveCount(1);
   // Every piece must look identical: colour may not suggest ownership or value.
   const hrefs = await page.locator('#board .chip').evaluateAll(els => els.map(el => el.getAttribute('href')));
   expect(new Set(hrefs).size).toBe(1);
-  expect(hrefs[0]).toMatch(/assets\/kenney\/chip-blue\.png$/);
+  expect(hrefs[0]).toMatch(/assets\/candy\/donut\.webp$/);
   await expect(page.locator('#mission-track span')).toHaveCount(10);
   await expect(page.locator('#mission-track span.completed')).toHaveCount(9);
   await page.evaluate(() => document.fonts.ready);
-  expect(await page.evaluate(() => document.fonts.check('700 16px Poppins'))).toBe(true);
-  expect(await page.evaluate(() => document.fonts.check('16px Huninn', '籌碼'))).toBe(true);
+  expect(await page.evaluate(() => document.fonts.check('700 16px Fredoka'))).toBe(true);
+  expect(await page.evaluate(() => document.fonts.check('16px Huninn', '甜甜圈'))).toBe(true);
   expect(await page.evaluate(() => [...document.images].every(i => i.complete && i.naturalWidth > 0))).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect(missingAssets).toEqual([]);

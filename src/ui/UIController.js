@@ -1,6 +1,6 @@
 import { cellsOf, stateId } from '../domain/GameState.js';
 import { nimAnalysis } from '../domain/Nim.js';
-import { moveName, PIECE_ART } from './Renderer.js';
+import { moveName, PIECE_URL } from './Renderer.js';
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
 export class UIController {
@@ -29,20 +29,19 @@ export class UIController {
   effects() {
     const on = this.save.data.settings.effects;
     document.body.classList.toggle('effects-off', !on);
-    $('effects-button').textContent = on ? '動畫 開' : '動畫 關';
+    $('effects-button').querySelector('.label').textContent = on ? '動畫 開' : '動畫 關';
     $('effects-button').setAttribute('aria-pressed', String(on));
     const sound = this.save.data.settings.sound;
-    $('sound-button').textContent = sound ? '音效 開' : '音效 關';
+    $('sound-button').querySelector('.label').textContent = sound ? '音效 開' : '音效 關';
     $('sound-button').setAttribute('aria-pressed', String(sound));
   }
-  // A one-off celebration: Kenney chips burst out of the mat.
+  // A one-off celebration: donuts burst out of the gift box.
   burst() {
     if (!this.save.data.settings.effects || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const box = $('burst'); box.replaceChildren();
-    const base = `${import.meta.env.BASE_URL}assets/kenney/`;
     for (let i = 0; i < 16; i++) {
       const img = document.createElement('img');
-      img.src = `${base}${PIECE_ART}`; img.alt = '';
+      img.src = PIECE_URL; img.alt = '';
       box.append(img);
       const angle = -Math.PI / 2 + (Math.random() - 0.5) * 2.2, dist = 140 + Math.random() * 160;
       const dx = Math.cos(angle) * dist, dy = Math.sin(angle) * dist;
@@ -101,7 +100,7 @@ export class UIController {
   }
   status(g) {
     if (g.phase === 'ended') return g.winner === 'player' ? '你獲勝' : '電腦獲勝';
-    if (g.phase === 'animating') return g.turn === 'ai' ? '電腦正在拿走圓圈' : '拿走圓圈';
+    if (g.phase === 'animating') return g.turn === 'ai' ? '電腦正在拿甜甜圈' : '拿走甜甜圈';
     return g.turn === 'ai' ? '電腦思考中' : '輪到你';
   }
   // Book puzzles: say right after the first move whether it was the winning one.
@@ -139,6 +138,7 @@ export class UIController {
     // Keep the result card (and its next-level button) above the bottom ad banner.
     if (g.phase === 'ended') requestAnimationFrame(() => $('outcome').scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
     $('outcome').hidden = g.phase !== 'ended';
+    $('outcome').dataset.won = String(g.winner === 'player');
     $('outcome-text').textContent = l.book
       ? (g.winner === 'player' ? `你解開第 ${l.puzzle} 題，也贏了電腦。` : '電腦拿走了最後一顆。回到書上再想一次。')
       : g.winner === 'player'
