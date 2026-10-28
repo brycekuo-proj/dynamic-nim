@@ -2,7 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 const port = process.env.DYNAMIC_NIM_TEST_PORT || '4317';
 export default defineConfig({
   testDir: './tests/browser', timeout: 45000, fullyParallel: false, workers: 3,
-  use: { baseURL: `http://127.0.0.1:${port}`, trace: 'retain-on-failure' },
+  // The game picks its language from the browser; the tests read the Chinese UI.
+  use: { baseURL: `http://127.0.0.1:${port}`, trace: 'retain-on-failure', locale: 'zh-TW' },
   projects: [
     { name: 'desktop-chromium', use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 1000 } } },
     { name: 'mobile-chromium', use: { ...devices['Pixel 7'] } },

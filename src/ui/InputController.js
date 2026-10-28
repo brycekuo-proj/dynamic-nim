@@ -13,7 +13,8 @@ export class InputController {
     svg.addEventListener('keydown', e => this.key(e));
     svg.addEventListener('blur', () => this.cancel());
   }
-  get enabled() { return this.game.phase === 'ready' && this.game.turn === 'player'; }
+  // Against the computer only the player's turn takes input; in pass-and-play both sides do.
+  get enabled() { return this.game.phase === 'ready' && (this.game.turn === 'player' || this.game.opponent === 'human'); }
   down(e) {
     if (this.pointer !== null) { this.cancel(); return; }
     if (!this.enabled || e.button !== 0 || !e.isPrimary) return;
@@ -32,7 +33,7 @@ export class InputController {
     if (e.pointerId !== this.pointer || !this.gesture) return;
     const point = this.renderer.point(e), move = this.gesture.update(point, this.renderer.cellAt(point, true));
     this.cancel();
-    if (this.enabled && move.length) void this.game.play(move);
+    if (this.enabled && move.length) void this.game.play(move, this.game.turn);
   }
   cancel() {
     const pointer = this.pointer; this.pointer = null; this.gesture = null; this.anchor = null;
@@ -58,7 +59,7 @@ export class InputController {
     if (key === 'Escape') { this.cancel(); return; }
     if (key === ' ' && occupied(s, this.cursor)) this.anchor = this.cursor;
     const move = lineBetween(s, this.anchor ?? this.cursor, this.cursor);
-    if (key === 'Enter') { this.cancel(); if (move.length) void this.game.play(move); return; }
+    if (key === 'Enter') { this.cancel(); if (move.length) void this.game.play(move, this.game.turn); return; }
     this.renderer.focus(this.cursor); this.renderer.select(this.anchor === null ? [] : move);
   }
 }

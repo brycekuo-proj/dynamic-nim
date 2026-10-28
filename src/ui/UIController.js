@@ -1,19 +1,24 @@
 import { cellsOf, stateId } from '../domain/GameState.js';
 import { nimAnalysis } from '../domain/Nim.js';
 import { moveName, PIECE_URL } from './Renderer.js';
+import { t, levelText, applyStatic, setLang, getLang, detectLang } from '../i18n.js';
+import { generatePuzzle, generateDuoBoard, hashSeed, todayKey } from '../game/Generator.js';
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
 export class UIController {
-  // levelSets: one ten-level campaign per mode ('normal' = last one wins, 'misere' = last one loses).
+  // levelSets: one ten-level campaign per rule ('normal' = last one wins, 'misere' = last one loses).
   constructor(game, save, levelSets, sound = null, ads = null) {
     if (Array.isArray(levelSets)) levelSets = { normal: levelSets };
     Object.assign(this, { game, save, levelSets, sound, ads });
-    $('privacy-button').onclick = () => this.ads?.showPrivacyOptions(); this.math = false; this.chapterEpoch = 0; this.announced = null;
+    this.math = false; this.chapterEpoch = 0; this.announced = null; this.panel = 'campaign';
+    setLang(save.data.settings.lang ?? detectLang()); applyStatic();
+    $('privacy-button').onclick = () => this.ads?.showPrivacyOptions();
+    $('lang-button').onclick = () => this.setLanguage(getLang() === 'zh' ? 'en' : 'zh');
     $('sound-button').onclick = () => { save.setSound(!save.data.settings.sound); this.effects(); this.sound?.play('click'); };
-    document.addEventListener('click', e => { if (e.target.closest('button') && e.target.closest('button').id !== 'sound-button') this.sound?.play('click', 0.5); });
+    document.addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.id !== 'sound-button') this.sound?.play('click', 0.5); });
     $('restart-button').onclick = () => this.restart();
     $('math-button').onclick = () => this.toggleMath();
-    document.addEventListener('keydown', e => { if (e.key.toLowerCase() === 'd' && !e.ctrlKey && !e.metaKey && !e.altKey) this.toggleMath(); });
+    document.addEventListener('keydown', e => { if (e.key.toLowerCase() === 'd' && !e.ctrlKey && !e.metaKey && !e.altKey && !e.target.closest('dialog')) this.toggleMath(); });
     $('effects-button').onclick = () => { save.setEffects(!save.data.settings.effects); this.effects(); };
     $('hint-button').onclick = () => { $('hint').hidden = !$('hint').hidden; $('hint-button').setAttribute('aria-expanded', String(!$('hint').hidden)); };
     $('next-button').onclick = () => this.next();
@@ -21,23 +26,32 @@ export class UIController {
     $('levels-button').onclick = () => this.openMenu();
     $('mode-chip').onclick = () => this.openMenu();
     for (const card of document.querySelectorAll('.mode-card')) card.onclick = () => this.setMode(card.dataset.mode);
+    for (const tab of document.querySelectorAll('.play-tab')) tab.onclick = () => { this.panel = tab.dataset.play; this.menu(); };
+    for (const b of document.querySelectorAll('[data-endless]')) b.onclick = () => { $('level-dialog').close(); this.startEndless(b.dataset.endless); };
+    for (const b of document.querySelectorAll('[data-duo]')) b.onclick = () => { $('level-dialog').close(); this.startDuo(b.dataset.duo); };
+    $('daily-button').onclick = () => { $('level-dialog').close(); this.startDaily(); };
     $('close-levels').onclick = () => $('level-dialog').close();
-    $('mission-track').replaceChildren(...this.levels.map((_, i) => {
-      const pip = document.createElement('span'); pip.title = `關卡 ${pad(i + 1)}`;
-      return pip;
-    }));
+    $('mission-track').replaceChildren(...Array.from({ length: 10 }, () => document.createElement('span')));
     // Rules start open where there is room beside the board, folded on phones.
     try { $('rules').open = matchMedia('(min-width: 900px)').matches; } catch { /* no matchMedia */ }
     this.effects();
   }
+  setLanguage(lang) {
+    this.save.setLang(lang); setLang(lang); applyStatic(); this.effects();
+    if (this.game.level) this.update(this.game);
+    if ($('level-dialog').open) this.menu();
+  }
   effects() {
     const on = this.save.data.settings.effects;
     document.body.classList.toggle('effects-off', !on);
-    $('effects-button').querySelector('.label').textContent = on ? '動畫 開' : '動畫 關';
+    $('effects-button').querySelector('.label').textContent = t(on ? 'btn.anim.on' : 'btn.anim.off');
     $('effects-button').setAttribute('aria-pressed', String(on));
     const sound = this.save.data.settings.sound;
-    $('sound-button').querySelector('.label').textContent = sound ? '音效 開' : '音效 關';
+    $('sound-button').querySelector('.label').textContent = t(sound ? 'btn.sound.on' : 'btn.sound.off');
     $('sound-button').setAttribute('aria-pressed', String(sound));
+    $('lang-button').textContent = t('lang.switch'); $('lang-button').lang = getLang() === 'zh' ? 'en' : 'zh-Hant';
+    const summary = $('rules').querySelector('summary');
+    summary.dataset.open = t('rules.close'); summary.dataset.closed = t('rules.open');
   }
   // A one-off celebration: donuts burst out of the gift box.
   burst() {
@@ -64,7 +78,8 @@ export class UIController {
     if (this.announced?.epoch !== g.epoch) this.announced = Object.assign(new Set(), { epoch: g.epoch });
     this.announced.add(key);
     if (g.phase === 'ended') {
-      if (g.winner === 'player') { this.sound?.play('win', 0.8); this.burst(); } else this.sound?.play('wrong', 0.8);
+      // In two-player games somebody always wins, so always celebrate.
+      if (g.winner === 'player' || g.opponent === 'human') { this.sound?.play('win', 0.8); this.burst(); } else this.sound?.play('wrong', 0.8);
     } else if (verdict) this.sound?.play(verdict.ok ? 'right' : 'wrong', 0.7);
   }
   reset() {
@@ -72,22 +87,55 @@ export class UIController {
     this.input?.cancel(); $('hint').hidden = true; $('hint-button').setAttribute('aria-expanded', 'false'); $('analysis').hidden = true;
   }
   get levels() { return this.levelSets[this.save.mode] ?? this.levelSets.normal; }
-  openMenu() { this.menu(); $('level-dialog').showModal(); }
-  // Switching mode keeps each campaign's own progress and resumes where it left off.
+  openMenu() {
+    const kind = this.game.kind;
+    this.panel = kind === 'endless' || kind === 'daily' || kind === 'duo' ? kind : 'campaign';
+    this.menu(); $('level-dialog').showModal();
+  }
+  // Switching the rule keeps each campaign's own progress. In the campaign it resumes
+  // where that rule's campaign left off; other ways to play restart with the new rule.
   setMode(mode) {
-    if (!this.levelSets[mode]) return;
-    if (mode !== this.save.mode || this.game.level?.book) { this.save.setMode(mode); this.load(this.save.progress.currentLevel); }
+    if (!this.levelSets[mode] || mode === this.save.mode) { this.menu(); return; }
+    this.save.setMode(mode);
+    const kind = this.game.kind, level = this.game.level;
+    if (kind === 'endless') this.startEndless(level.difficulty);
+    else if (kind === 'daily') this.startDaily();
+    else if (kind === 'duo') this.startDuo(level.size);
+    else this.load(this.save.progress.currentLevel);
     this.menu();
   }
   load(id) { this.reset(); this.game.load(id); }
   loadBook(level) { this.reset(); this.game.start(level); }
-  restart() { return this.game.level.book ? this.loadBook(this.game.level) : this.load(this.game.level.id); }
+  startLevel(level) { this.reset(); this.game.start(level); }
+  solverFor(mode) { return this.game.solvers[mode] ?? this.game.solvers.normal; }
+  startEndless(difficulty) {
+    const mode = this.save.mode, number = this.save.data.endless[mode][difficulty] + 1;
+    const seed = hashSeed(`endless:${mode}:${difficulty}:${number}`);
+    this.startLevel(generatePuzzle({ mode, difficulty, seed, number, kind: 'endless', solver: this.solverFor(mode) }));
+  }
+  startDaily() {
+    const mode = this.save.mode, date = todayKey();
+    const level = generatePuzzle({ mode, difficulty: 'normal', seed: hashSeed(`daily:${mode}:${date}`), kind: 'daily', solver: this.solverFor(mode) });
+    this.startLevel(Object.freeze({ ...level, date }));
+  }
+  startDuo(size) {
+    const seed = Math.floor(Math.random() * 2 ** 31);
+    this.startLevel(generateDuoBoard({ mode: this.save.mode, size, seed }));
+  }
+  restart() {
+    const g = this.game, kind = g.kind;
+    if (kind === 'campaign') return this.load(g.level.id);
+    return this.startLevel(g.level);
+  }
   async next() {
-    const g = this.game;
+    const g = this.game, kind = g.kind;
+    if (kind === 'duo') return this.startDuo(g.level.size);
     if (g.winner !== 'player') return this.restart();
-    if (g.level.book) return this.load(this.save.progress.currentLevel);
+    if (kind === 'book') return this.load(this.save.progress.currentLevel);
+    if (kind === 'endless') { await this.ads?.afterLevelWon(3); return this.startEndless(g.level.difficulty); }
+    if (kind === 'daily') { this.panel = 'daily'; this.menu(); $('level-dialog').showModal(); return; }
     await this.ads?.afterLevelWon(g.level.id);
-    if (g.level.id === 10) { this.menu(); $('level-dialog').showModal(); return; }
+    if (g.level.id === 10) { this.panel = 'campaign'; this.menu(); $('level-dialog').showModal(); return; }
     if (g.level.id === 5) {
       const epoch = ++this.chapterEpoch;
       $('chapter-transition').hidden = false; $('next-button').disabled = true;
@@ -98,87 +146,129 @@ export class UIController {
   }
   toggleMath() { this.math = !this.math; $('math').hidden = !this.math; $('math-button').setAttribute('aria-pressed', String(this.math)); this.update(this.game); }
   menu() {
+    const mode = this.save.mode;
     for (const card of document.querySelectorAll('.mode-card')) {
-      const mode = card.dataset.mode, p = mode === 'misere' ? this.save.data.misere : this.save.data;
-      card.setAttribute('aria-checked', String(mode === this.save.mode));
-      card.hidden = !this.levelSets[mode];
-      card.querySelector('.mode-progress').textContent = `${pad(p.completed.length)} / 10 完成`;
+      const m = card.dataset.mode, p = m === 'misere' ? this.save.data.misere : this.save.data;
+      card.setAttribute('aria-checked', String(m === mode));
+      card.hidden = !this.levelSets[m];
+      card.querySelector('.mode-progress').textContent = t('progress.count', { n: pad(p.completed.length) });
     }
+    for (const tab of document.querySelectorAll('.play-tab')) tab.setAttribute('aria-selected', String(tab.dataset.play === this.panel));
+    for (const panel of document.querySelectorAll('.play-panel')) panel.hidden = panel.dataset.panel !== this.panel;
+    const daily = this.save.data.daily[mode], doneToday = daily.last === todayKey();
+    $('daily-status').textContent = [doneToday ? t('daily.done') : '', daily.streak ? t('daily.streak', { n: daily.streak, best: daily.best }) : ''].filter(Boolean).join(' · ');
+    $('daily-button').textContent = t(doneToday ? 'daily.again' : 'daily.start');
+    for (const b of document.querySelectorAll('[data-endless]')) b.querySelector('small').textContent = t('endless.solved', { n: this.save.data.endless[mode][b.dataset.endless] });
     $('level-list').replaceChildren(...this.levels.map(level => {
       const button = document.createElement('button');
       const unlocked = level.id <= this.save.progress.highestUnlocked;
       const done = this.save.progress.completed.includes(level.id);
-      button.innerHTML = `<span class="tile-num">${pad(level.id)}</span><span class="tile-name"></span><span class="tile-state">${done ? '完成' : unlocked ? '' : '未解鎖'}</span>`;
+      button.innerHTML = `<span class="tile-num">${pad(level.id)}</span><span class="tile-name"></span><span class="tile-state">${done ? t('tile.done') : unlocked ? '' : t('tile.locked')}</span>`;
       button.querySelector('.tile-name').textContent = level.name;
       button.disabled = !unlocked;
-      button.className = ['level-tile', level.id === this.game.level.id ? 'current' : '', done ? 'completed' : '', level.world].filter(Boolean).join(' ');
+      const current = this.game.kind === 'campaign' && level.id === this.game.level?.id;
+      button.className = ['level-tile', current ? 'current' : '', done ? 'completed' : '', level.world].filter(Boolean).join(' ');
       button.onclick = () => { $('level-dialog').close(); this.load(level.id); };
       return button;
     }));
   }
+  // Names for the two sides: "you"/"computer", or "Player 1"/"Player 2" in pass-and-play.
+  side(g, actor) { return g.opponent === 'human' ? t('who.p', { n: actor === 'player' ? 1 : 2 }) : t(actor === 'player' ? 'who.you' : 'who.ai'); }
   status(g) {
-    if (g.phase === 'ended') return g.winner === 'player' ? '你獲勝' : '電腦獲勝';
-    if (g.phase === 'animating') return g.turn === 'ai' ? '電腦正在拿甜甜圈' : '拿走甜甜圈';
-    return g.turn === 'ai' ? '電腦思考中' : '輪到你';
+    if (g.opponent === 'human') {
+      const n = (g.phase === 'ended' ? g.winner : g.turn) === 'player' ? 1 : 2;
+      if (g.phase === 'ended') return t('status.pWon', { n });
+      return t(g.phase === 'animating' ? 'status.pAnim' : 'status.pTurn', { n });
+    }
+    if (g.phase === 'ended') return t(g.winner === 'player' ? 'status.won' : 'status.lost');
+    if (g.phase === 'animating') return t(g.turn === 'ai' ? 'status.aiAnim' : 'status.youAnim');
+    return t(g.turn === 'ai' ? 'status.aiThink' : 'status.yourTurn');
   }
   // Book puzzles: say right after the first move whether it was the winning one.
   verdict(g) {
     const first = g.history[0];
-    if (!g.level.book || !first || first.actor !== 'player') return null;
-    return first.afterOutcome === 'P'
-      ? { ok: true, text: `第一步 ${moveName(first.before, first.move)} 正確。接下來每一步都要守住。` }
-      : { ok: false, text: `第一步 ${moveName(first.before, first.move)} 不是正解：電腦現在有必勝走法。可以重新開始，或下完看看。` };
+    if (g.kind !== 'book' || !first || first.actor !== 'player') return null;
+    const move = moveName(first.before, first.move);
+    return first.afterOutcome === 'P' ? { ok: true, text: t('verdict.ok', { move }) } : { ok: false, text: t('verdict.bad', { move }) };
+  }
+  heading(g) {
+    const l = g.level, kind = g.kind, world = t(`worldname.${l.world}`);
+    switch (kind) {
+      case 'book': return { num: t('num.book'), name: t('name.book', { n: l.puzzle }), eyebrow: t('eyebrow.book', { world }), lesson: t('lesson.book'), hint: t('hint.book') };
+      case 'endless': case 'daily': {
+        const hint = t('hint.generated', { n: l.winningCount, cell: l.hintMove.from, k: l.hintMove.size });
+        return kind === 'endless'
+          ? { num: t('num.endless'), name: t('name.endless', { n: l.number }), eyebrow: t('eyebrow.endless', { diff: t(`diff.${l.difficulty}`), world }), lesson: t('lesson.endless'), hint }
+          : { num: t('num.daily'), name: t('name.daily', { date: l.date.slice(5).replace('-', '/') }), eyebrow: t('eyebrow.daily', { world }), lesson: t('lesson.daily'), hint };
+      }
+      case 'duo': return { num: t('num.duo'), name: t('name.duo'), eyebrow: t('eyebrow.duo', { world }), lesson: t('lesson.duo'), hint: '' };
+      default: return { num: pad(l.id), name: l.name, eyebrow: t(l.world === 'static' ? 'eyebrow.ch1' : 'eyebrow.ch2'), ...levelText(l) };
+    }
+  }
+  outcomeText(g) {
+    const l = g.level, kind = g.kind, won = g.winner === 'player', mode = g.mode;
+    if (kind === 'duo') {
+      const w = g.winner === 'player' ? 1 : 2;
+      return t(mode === 'misere' ? 'out.duo.misere' : 'out.duo.normal', { w, l: 3 - w });
+    }
+    if (kind === 'book') return won ? t('out.book.win', { n: l.puzzle }) : t('out.book.lose');
+    if (kind === 'endless' || kind === 'daily') return won ? t(`out.${kind}.win`) : t(`out.gen.lose.${mode}`);
+    if (!won) return t(`out.${mode}.lose`);
+    return t(l.id === 10 ? `out.${mode}.win10` : l.id === 5 ? `out.${mode}.win5` : `out.${mode}.win`);
+  }
+  nextLabel(g) {
+    const l = g.level, kind = g.kind;
+    if (kind === 'duo') return t('next.duo');
+    if (g.winner !== 'player') return t('next.retry');
+    if (kind === 'book') return t('next.book');
+    if (kind === 'endless') return t('next.endless');
+    if (kind === 'daily') return t('next.daily');
+    return t(l.id === 10 ? 'next.menu' : l.id === 5 ? 'next.ch2' : 'next.next');
   }
   update(g) {
-    const l = g.level;
-    $('level-number').textContent = l.book ? '書' : pad(l.id); $('level-name').textContent = l.book ? `第 ${l.puzzle} 題` : l.name;
-    $('chapter').textContent = l.book ? `謎題書 · ${l.world === 'static' ? '靜態' : '重力'}` : l.world === 'static' ? '第一章 · 靜態' : '第二章 · 重力';
-    const misere = g.mode === 'misere';
-    $('mode-chip').textContent = misere ? '拿最後一顆輸 ▾' : '拿最後一顆贏 ▾';
+    const l = g.level, h = this.heading(g), misere = g.mode === 'misere';
+    $('level-number').textContent = h.num; $('level-name').textContent = h.name;
+    $('chapter').textContent = h.eyebrow;
+    $('mode-chip').textContent = `${t(misere ? 'rule.misere' : 'rule.normal')} ▾`;
     $('mode-chip').dataset.mode = g.mode;
-    $('mode-chip').setAttribute('aria-label', `模式：${misere ? '拿最後一顆輸' : '拿最後一顆贏'}，點一下換模式或選關卡`);
-    $('rule-win').innerHTML = misere ? '拿走<b>最後一顆</b>的人<b>輸</b>。' : '拿走<b>最後一顆</b>的人獲勝。';
-    document.body.dataset.mode = g.mode;
-    $('world').textContent = l.world === 'static' ? '靜態' : '↓ 重力';
+    $('mode-chip').setAttribute('aria-label', t('chip.aria', { rule: t(misere ? 'rule.misere' : 'rule.normal') }));
+    $('rule-win').innerHTML = t(misere ? 'rules.win.misere' : 'rules.win.normal');
+    document.body.dataset.mode = g.mode; document.body.dataset.kind = g.kind;
+    $('world').textContent = t(`world.${l.world}`);
     $('world').dataset.world = l.world;
-    $('lesson').textContent = l.lesson; $('hint').textContent = l.hint;
+    $('lesson').textContent = h.lesson; $('hint').textContent = h.hint;
+    $('hint-button').hidden = !h.hint;
     $('progress').textContent = `${pad(this.save.progress.highestUnlocked)} / 10`;
     $('mission-track').querySelectorAll('span').forEach((pip, index) => {
       const id = index + 1;
+      pip.title = t('pip', { n: pad(id) });
       pip.classList.toggle('unlocked', id <= this.save.progress.highestUnlocked);
       pip.classList.toggle('completed', this.save.progress.completed.includes(id));
-      pip.classList.toggle('current', !l.book && id === l.id);
+      pip.classList.toggle('current', g.kind === 'campaign' && id === l.id);
     });
-    $('completed-count').textContent = `${pad(this.save.progress.completed.length)} / 10 完成`;
-    $('piece-count').textContent = `剩 ${cellsOf(g.state).length} 顆`;
+    $('completed-count').textContent = t('progress.count', { n: pad(this.save.progress.completed.length) });
+    $('piece-count').textContent = t('count', { n: cellsOf(g.state).length });
     $('status').textContent = this.status(g);
-    $('status').dataset.turn = g.phase === 'ended' ? (g.winner === 'player' ? 'won' : 'lost') : g.turn;
+    $('status').dataset.turn = g.phase === 'ended' ? (g.opponent === 'human' ? 'won' : g.winner === 'player' ? 'won' : 'lost') : g.turn;
     $('board').dataset.phase = g.phase; $('board').dataset.turn = g.turn; $('board').dataset.level = l.id;
-    $('board').setAttribute('aria-disabled', String(g.phase !== 'ready' || g.turn !== 'player'));
+    const accepting = g.phase === 'ready' && (g.turn === 'player' || g.opponent === 'human');
+    $('board').setAttribute('aria-disabled', String(!accepting));
     const verdict = this.verdict(g);
     $('verdict').hidden = !verdict;
     if (verdict) { $('verdict').textContent = verdict.text; $('verdict').dataset.ok = String(verdict.ok); }
     if (g.phase === 'ended' || (verdict && g.phase !== 'animating')) this.announce(g, verdict);
-    // Keep the result card (and its next-level button) above the bottom ad banner.
+    // Keep the result card (and its next button) above the bottom ad banner.
     if (g.phase === 'ended') requestAnimationFrame(() => $('outcome').scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
     $('outcome').hidden = g.phase !== 'ended';
-    $('outcome').dataset.won = String(g.winner === 'player');
-    $('outcome-text').textContent = l.book
-      ? (g.winner === 'player' ? `你解開第 ${l.puzzle} 題，也贏了電腦。` : '電腦拿走了最後一顆。回到書上再想一次。')
-      : g.mode === 'misere'
-        ? (g.winner === 'player'
-          ? (l.id === 10 ? '「拿最後一顆輸」十關全破！' : l.id === 5 ? '第一章完成。接下來，世界會開始往下掉。' : '電腦被迫吃下最後一顆。')
-          : '你拿到了最後一顆……這次要把它留給電腦。')
-        : g.winner === 'player'
-          ? (l.id === 10 ? '十關全破。重力也難不倒你。' : l.id === 5 ? '第一章完成。接下來，世界會開始往下掉。' : '你拿走了最後一顆。')
-          : '電腦拿走了最後一顆。試著留下不同的局面。';
-    $('next-button').textContent = g.winner !== 'player' ? '重新挑戰 ↺' : l.book ? '前往主線關卡 →' : l.id === 10 ? '選擇關卡 →' : l.id === 5 ? '進入第二章 ↓' : '下一關 →';
+    $('outcome').dataset.won = String(g.winner === 'player' || g.opponent === 'human');
+    $('outcome-text').textContent = g.phase === 'ended' ? this.outcomeText(g) : '';
+    $('next-button').textContent = this.nextLabel(g);
     $('next-button').disabled = false;
-    if (!this.save.available) $('progress').textContent += ' · 暫存';
+    if (!this.save.available) $('progress').textContent += t('storage.temp');
     if (this.math) {
       const a = g.solver.analyze(g.state), nim = g.mode === 'normal' ? nimAnalysis(g.state) : null;
-      $('math-data').textContent = [`LEVEL          ${l.id} / ${l.name}`, `RULE           ${g.mode === 'misere' ? 'LAST ONE LOSES (misère)' : 'LAST ONE WINS (normal)'}`, `STATE ID       ${stateId(g.state)}`, `PIECE COUNT    ${cellsOf(g.state).length}`, `TO MOVE        ${g.phase === 'ended' ? 'TERMINAL (no next turn)' : g.turn.toUpperCase()}`, `STATE          ${a.winning ? 'N / WINNING' : 'P / LOSING'}`, `LEGAL MOVES    ${a.legalMoves}`, `WINNING MOVES  ${a.winningMoves.length}`, `LOSING MOVES   ${a.losingMoves.length}`, `AI EVALUATION  ${a.winning ? 'Can force win as next player' : 'No forced win as next player'}`, `OPTIMAL        ${a.optimalMove ? moveName(g.state, a.optimalMove) : '—'}`, `DEPTH          ${a.depth} plies (optimal adversarial)`, ...(nim ? [`HEAPS          ${nim.heaps.join(' / ') || '0'}`, `GRUNDY         ${nim.grundies.join(' / ') || '0'}`, `NIM SUM        ${nim.xor}`] : [g.mode === 'misere' ? 'NIM SUM        N/A — misère (last one loses) game tree' : 'NIM SUM        N/A — game-tree evaluation']), `WINNING LINES  ${a.winningMoves.map(m => moveName(g.state, m.move)).join(' ; ') || '—'}`].join('\n');
+      $('math-data').textContent = [`LEVEL          ${g.kind === 'campaign' ? `${l.id} / ${l.name}` : `${g.kind.toUpperCase()} / ${h.name}`}`, `RULE           ${misere ? 'LAST ONE LOSES (misère)' : 'LAST ONE WINS (normal)'}`, `STATE ID       ${stateId(g.state)}`, `PIECE COUNT    ${cellsOf(g.state).length}`, `TO MOVE        ${g.phase === 'ended' ? 'TERMINAL (no next turn)' : g.opponent === 'human' ? `PLAYER ${g.turn === 'player' ? 1 : 2}` : g.turn.toUpperCase()}`, `STATE          ${a.winning ? 'N / WINNING' : 'P / LOSING'}`, `LEGAL MOVES    ${a.legalMoves}`, `WINNING MOVES  ${a.winningMoves.length}`, `LOSING MOVES   ${a.losingMoves.length}`, `AI EVALUATION  ${a.winning ? 'Can force win as next player' : 'No forced win as next player'}`, `OPTIMAL        ${a.optimalMove ? moveName(g.state, a.optimalMove) : '—'}`, `DEPTH          ${a.depth} plies (optimal adversarial)`, ...(nim ? [`HEAPS          ${nim.heaps.join(' / ') || '0'}`, `GRUNDY         ${nim.grundies.join(' / ') || '0'}`, `NIM SUM        ${nim.xor}`] : [misere ? 'NIM SUM        N/A — misère (last one loses) game tree' : 'NIM SUM        N/A — game-tree evaluation']), `WINNING LINES  ${a.winningMoves.map(m => moveName(g.state, m.move)).join(' ; ') || '—'}`].join('\n');
     }
-    $('trace').replaceChildren(...g.history.map(entry => { const li = document.createElement('li'); li.textContent = `${entry.actor === 'player' ? '你' : '電腦'} ${moveName(entry.before, entry.move)} · ${entry.beforeOutcome} → ${entry.afterOutcome}${entry.nimAfter ? ` · XOR ${entry.nimAfter.xor}` : ''}`; return li; }));
+    $('trace').replaceChildren(...g.history.map(entry => { const li = document.createElement('li'); li.textContent = `${this.side(g, entry.actor)} ${moveName(entry.before, entry.move)} · ${entry.beforeOutcome} → ${entry.afterOutcome}${entry.nimAfter ? ` · XOR ${entry.nimAfter.xor}` : ''}`; return li; }));
   }
 }

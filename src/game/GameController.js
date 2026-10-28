@@ -13,6 +13,10 @@ export class GameController {
   }
   get mode() { return this.level?.mode ?? 'normal'; }
   get solver() { return this.solvers[this.mode]; }
+  // Level kinds: campaign (default), book, endless, daily, duo. In duo (pass-and-play)
+  // two people share the device; the second person uses the 'ai' side internally.
+  get kind() { return this.level?.book ? 'book' : this.level?.kind ?? 'campaign'; }
+  get opponent() { return this.kind === 'duo' ? 'human' : 'ai'; }
   load(id) {
     if (!this.save.select(id)) return false;
     return this.start(this.levelSets[this.save.mode][id - 1]);
@@ -41,11 +45,12 @@ export class GameController {
       // Normal: whoever took the last piece wins. Misère: whoever took it loses.
       const other = actor === 'player' ? 'ai' : 'player';
       this.winner = this.mode === 'misere' ? other : actor; this.phase = 'ended';
-      if (this.winner === 'player' && !this.level.book) this.save.complete(this.level.id);
+      if (this.winner === 'player' && this.kind === 'campaign') this.save.complete(this.level.id);
+      if (this.winner === 'player' && (this.kind === 'endless' || this.kind === 'daily')) this.save.recordPuzzle?.(this.level);
       this.emit(); return true;
     }
     this.turn = actor === 'player' ? 'ai' : 'player'; this.phase = 'ready'; this.emit();
-    if (this.turn === 'ai' && this.ai) {
+    if (this.turn === 'ai' && this.ai && this.opponent === 'ai') {
       this.phase = 'thinking'; this.emit();
       await this.renderer.pause(420);
       if (epoch !== this.epoch) return false;

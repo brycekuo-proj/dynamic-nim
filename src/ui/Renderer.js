@@ -21,8 +21,9 @@ export class Renderer {
     this.state = state;
     this.width = LABEL + state.width * CELL + PAD;
     this.height = LABEL + state.height * CELL + PAD;
-    this.offsetX = LABEL + (this.width - LABEL - (state.width - 1) * CELL) / 2;
-    this.offsetY = LABEL + (this.height - LABEL - (state.height - 1) * CELL) / 2;
+    // Coordinate tags sit in the LABEL strip; PAD on the right/bottom leaves room for the gravity ledge.
+    this.offsetX = LABEL + CELL / 2;
+    this.offsetY = LABEL + CELL / 2;
     this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
     this.svg.style.setProperty('--board-w', `${Math.round(this.width * MAX_SCALE)}px`);
     this.svg.style.setProperty('--board-aspect', (this.width / this.height).toFixed(4));
