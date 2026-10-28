@@ -1,4 +1,4 @@
-# Dynamic Nim
+# Sweetie Nim (formerly Dynamic Nim)
 
 **公開遊戲網址：** https://brycekuo-proj.github.io/dynamic-nim/
 

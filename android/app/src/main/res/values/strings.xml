@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Dynamic Nim</string>
-    <string name="title_activity_main">Dynamic Nim</string>
-    <string name="package_name">com.brycekuo.dynamicnim</string>
-    <string name="custom_url_scheme">com.brycekuo.dynamicnim</string>
+    <string name="app_name">Sweetie Nim</string>
+    <string name="title_activity_main">Sweetie Nim</string>
+    <string name="package_name">com.brycekuo.sweetienim</string>
+    <string name="custom_url_scheme">com.brycekuo.sweetienim</string>
 </resources>

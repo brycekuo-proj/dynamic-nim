@@ -1,6 +1,6 @@
 // AdMob settings for the Android app. The web build never loads ads.
 //
-// Real AdMob IDs for the "Dynamic Nim" app (publisher pub-3164945301503336);
+// Real AdMob IDs for the app (created in AdMob as "Dynamic Nim", now Sweetie Nim) (publisher pub-3164945301503336);
 // the App ID lives in android/app/src/main/AndroidManifest.xml.
 //
 // USE_TEST_ADS stays true for every development and closed-testing build: the

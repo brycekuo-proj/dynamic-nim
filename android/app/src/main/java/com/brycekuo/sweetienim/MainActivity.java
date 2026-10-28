@@ -1,4 +1,4 @@
-package com.brycekuo.dynamicnim;
+package com.brycekuo.sweetienim;
 
 import com.getcapacitor.BridgeActivity;
 

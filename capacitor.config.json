@@ -1,6 +1,6 @@
 {
-  "appId": "com.brycekuo.dynamicnim",
-  "appName": "Dynamic Nim",
+  "appId": "com.brycekuo.sweetienim",
+  "appName": "Sweetie Nim",
   "webDir": "dist",
   "android": {
     "backgroundColor": "#8a5a35"

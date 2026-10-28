@@ -10,10 +10,10 @@ def keystoreProperties = new Properties()
 if (keystorePropertiesFile.exists()) keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    namespace = "com.brycekuo.dynamicnim"
+    namespace = "com.brycekuo.sweetienim"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.brycekuo.dynamicnim"
+        applicationId "com.brycekuo.sweetienim"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
