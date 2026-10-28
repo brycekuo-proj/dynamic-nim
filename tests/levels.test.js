@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { validateLevels } from '../scripts/validate.js';
-import { levels } from '../src/levels/index.js';
+import { levels, levelSets } from '../src/levels/index.js';
 import { Solver } from '../src/domain/Solver.js';
 import { nimAnalysis } from '../src/domain/Nim.js';
 import { applyMove } from '../src/domain/TransformationSystem.js';
@@ -45,4 +45,16 @@ test('solver governs openings; XOR is only exposed for certified states', () => 
   assert.equal(nimAnalysis(levels[4].initial).xor, 1);
   for (const level of levels.slice(5)) assert.equal(nimAnalysis(level.initial), null);
   assert.deepEqual(nimAnalysis(levels[3].initial).heaps, [2, 1, 2]);
+});
+
+test('the "last one loses" campaign is winnable, tight and different from normal play', () => {
+  const reports = validateLevels(levelSets.misere);
+  assert.equal(reports.length, 10);
+  assert.deepEqual(levelSets.misere.map(l => l.id), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  for (const level of levelSets.misere) assert.equal(level.mode, 'misere');
+  for (const level of levelSets.normal) assert.equal(level.mode, 'normal');
+  assert.deepEqual(levelSets.misere.map(l => l.world), [...Array(5).fill('static'), ...Array(5).fill('gravity')]);
+  // Level 1 of the normal campaign (one piece) cannot be won when the last piece loses.
+  assert.equal(new Solver({ mode: 'misere' }).solve(levels[0].initial).winning, false);
+  for (const report of reports) assert(report.winningCount <= 2);
 });

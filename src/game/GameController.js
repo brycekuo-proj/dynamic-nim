@@ -3,13 +3,19 @@ import { transition } from '../domain/TransformationSystem.js';
 import { snapshot } from '../domain/GameState.js';
 import { nimAnalysis } from '../domain/Nim.js';
 export class GameController {
-  constructor({ levels, solver, save, renderer, onChange = () => {}, ai = null }) {
-    Object.assign(this, { levels, solver, save, renderer, onChange, ai });
+  // levelSets/solvers hold one campaign and one solver per win condition; the
+  // plain levels/solver pair is the normal ("last one wins") campaign.
+  constructor({ levels, solver, save, renderer, onChange = () => {}, ai = null, levelSets = null, solvers = null }) {
+    Object.assign(this, { levels, save, renderer, onChange, ai });
+    this.levelSets = levelSets ?? { normal: levels };
+    this.solvers = solvers ?? { normal: solver };
     this.epoch = 0;
   }
+  get mode() { return this.level?.mode ?? 'normal'; }
+  get solver() { return this.solvers[this.mode]; }
   load(id) {
     if (!this.save.select(id)) return false;
-    return this.start(this.levels[id - 1]);
+    return this.start(this.levelSets[this.save.mode][id - 1]);
   }
   // Starts any level definition, including book puzzles that are not part of
   // the campaign and never touch saved progress.
@@ -28,10 +34,14 @@ export class GameController {
     await this.renderer.animate(before, move, result, actor);
     if (epoch !== this.epoch) return false;
     this.state = result.state;
-    this.history.push({ actor, initialState: snapshot(this.level.initial), before: snapshot(before), move: [...move], after: snapshot(this.state), beforeOutcome: this.solver.solve(before).winning ? 'N' : 'P', afterOutcome: this.solver.solve(this.state).winning ? 'N' : 'P', nimBefore: nimAnalysis(before), nimAfter: nimAnalysis(this.state) });
+    // XOR certificates only describe normal play; misère is judged by the game tree alone.
+    const nim = s => this.mode === 'normal' ? nimAnalysis(s) : null;
+    this.history.push({ actor, initialState: snapshot(this.level.initial), before: snapshot(before), move: [...move], after: snapshot(this.state), beforeOutcome: this.solver.solve(before).winning ? 'N' : 'P', afterOutcome: this.solver.solve(this.state).winning ? 'N' : 'P', nimBefore: nim(before), nimAfter: nim(this.state) });
     if (!this.state.mask) {
-      this.winner = actor; this.phase = 'ended';
-      if (actor === 'player' && !this.level.book) this.save.complete(this.level.id);
+      // Normal: whoever took the last piece wins. Misère: whoever took it loses.
+      const other = actor === 'player' ? 'ai' : 'player';
+      this.winner = this.mode === 'misere' ? other : actor; this.phase = 'ended';
+      if (this.winner === 'player' && !this.level.book) this.save.complete(this.level.id);
       this.emit(); return true;
     }
     this.turn = actor === 'player' ? 'ai' : 'player'; this.phase = 'ready'; this.emit();
@@ -39,7 +49,7 @@ export class GameController {
       this.phase = 'thinking'; this.emit();
       await this.renderer.pause(420);
       if (epoch !== this.epoch) return false;
-      const response = this.ai.choose(this.state);
+      const response = this.ai.choose(this.state, this.solver);
       this.phase = 'ready';
       return this.play(response, 'ai');
     }

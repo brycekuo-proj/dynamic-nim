@@ -288,3 +288,24 @@ dialog::backdrop { background: rgba(90, 40, 30, .5); }
 /* motion ------------------------------------------------------------------------------ */
 body.effects-off *, body.effects-off *::before { transition: none !important; animation: none !important; }
 @media (prefers-reduced-motion: reduce) { *, *::before { transition: none !important; animation: none !important; } }
+
+/* mode: chip on the level card and the two cards in the menu ------------------------- */
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.mode-chip {
+  flex: none; border: 2px solid var(--caramel); border-radius: 999px; padding: 1px 10px; cursor: pointer;
+  font-size: 13px; color: var(--ink); background: #fff; box-shadow: 0 2px 0 var(--caramel-deep); white-space: nowrap;
+}
+.mode-chip[data-mode="misere"] { background: #ffe0ec; border-color: var(--pink); color: var(--pink-deep); box-shadow: 0 2px 0 var(--pink-deep); }
+.mode-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.mode-card {
+  display: grid; justify-items: center; gap: 2px; padding: 10px 8px 8px; cursor: pointer; text-align: center;
+  border: 3px solid var(--cream-deep); border-radius: 18px; background: #fff; color: var(--ink); box-shadow: 0 3px 0 #e8cfae;
+}
+.mode-card img { width: 52px; height: 52px; object-fit: contain; }
+.mode-name { font-size: 16px; }
+.mode-name b { font: 700 19px var(--f-latin); color: var(--pink-deep); }
+.mode-rule { font-size: 13px; color: var(--muted); }
+.mode-progress { font: 500 13px var(--f-latin); color: var(--muted); }
+.mode-card[aria-checked="true"] { border-color: var(--pink); background: #fff3f8; box-shadow: 0 3px 0 var(--pink-deep); }
+.dialog-subheading { margin: 16px 0 0; font-size: 20px; font-weight: 400; }
+#level-dialog { max-height: calc(100vh - 32px); overflow: auto; }

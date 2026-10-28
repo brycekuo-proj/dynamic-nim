@@ -194,3 +194,29 @@ test('book puzzle link opens that position and does not change campaign progress
   await expect(page.locator('#level-number')).toHaveText('03');
   expect(errors).toEqual([]);
 });
+
+test('mode menu switches to "last one loses" with its own levels and progress', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#mode-chip')).toContainText('拿最後一顆贏');
+  await page.locator('#mode-chip').click();
+  await expect(page.locator('#level-dialog')).toBeVisible();
+  await expect(page.locator('#mode-normal')).toHaveAttribute('aria-checked', 'true');
+  await page.locator('#mode-misere').click();
+  await expect(page.locator('#mode-misere')).toHaveAttribute('aria-checked', 'true');
+  await page.locator('#close-levels').click();
+  await expect(page.locator('#level-name')).toHaveText('LEAVE ONE');
+  await expect(page.locator('#mode-chip')).toContainText('拿最後一顆輸');
+  await expect(page.locator('#rule-win')).toContainText('輸');
+  // Take one of the two donuts: the computer must take the last one and loses.
+  const p = await point(page, 0); await page.mouse.click(p.x, p.y);
+  await expect(page.locator('#outcome')).toBeVisible({ timeout: 8000 });
+  await expect(page.locator('#status')).toHaveText('你獲勝');
+  await expect(page.locator('#outcome-text')).toContainText('電腦被迫吃下最後一顆');
+  await page.reload();
+  await expect(page.locator('#mode-chip')).toContainText('拿最後一顆輸');
+  await expect(page.locator('#progress')).toHaveText('02 / 10');
+  // The normal campaign kept its own progress.
+  await page.locator('#levels-button').click(); await page.locator('#mode-normal').click(); await page.locator('#close-levels').click();
+  await expect(page.locator('#level-name')).toHaveText('REMOVE');
+  await expect(page.locator('#progress')).toHaveText('01 / 10');
+});

@@ -1,14 +1,22 @@
 import { stateId } from './GameState.js';
 import { generateLegalMoves } from './MoveGenerator.js';
 import { applyMove } from './TransformationSystem.js';
+// Two win conditions share one game tree:
+//   normal  — whoever takes the last piece wins (the empty board is lost for the player to move);
+//   misere  — whoever takes the last piece loses (the empty board is won for the player to move).
+// Every non-empty position has a legal move (any single piece), so "no moves" means "empty".
+export const MODES = Object.freeze(['normal', 'misere']);
 export class Solver {
-  constructor() { this.table = new Map(); }
+  constructor({ mode = 'normal' } = {}) {
+    if (!MODES.includes(mode)) throw new Error(`Unknown mode: ${mode}`);
+    this.mode = mode; this.table = new Map();
+  }
   solve(state) {
     const key = stateId(state);
     if (this.table.has(key)) return this.table.get(key);
     const moves = generateLegalMoves(state);
     if (!moves.length) {
-      const result = Object.freeze({ winning: false, depth: 0, minDepth: 0, optimalMove: null });
+      const result = Object.freeze({ winning: this.mode === 'misere', depth: 0, minDepth: 0, optimalMove: null });
       this.table.set(key, result); return result;
     }
     const children = moves.map(move => ({ move, result: this.solve(applyMove(state, move)) }));

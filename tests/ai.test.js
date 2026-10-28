@@ -8,7 +8,8 @@ import { generateLegalMoves } from '../src/domain/MoveGenerator.js';
 import { isLegalMove } from '../src/domain/RuleEngine.js';
 import { applyMove } from '../src/domain/TransformationSystem.js';
 import { stateId } from '../src/domain/GameState.js';
-import { levels } from '../src/levels/index.js';
+import { levels, levelSets } from '../src/levels/index.js';
+import { defineLevel } from '../src/levels/LevelDefinition.js';
 
 test('AI is legal, deterministic and optimal throughout every reachable level state', () => {
   const solver = new Solver(), ai = new AIController(solver), seen = new Set();
@@ -57,4 +58,27 @@ test('restart while AI is thinking cancels its scheduled response', async () => 
   await new Promise(resolve=>setImmediate(resolve));
   assert.equal(game.phase,'thinking'); game.load(2); resume(); await pending;
   assert.equal(game.turn,'player'); assert.equal(game.phase,'ready'); assert.equal(game.history.length,0);
+});
+
+test('misère: full controller play wins all ten "last one loses" levels; taking the last piece loses', async () => {
+  const solvers = { normal: new Solver(), misere: new Solver({ mode: 'misere' }) };
+  const storage = new Map(), save = new SaveStore({ getItem: k => storage.get(k) ?? null, setItem: (k, v) => storage.set(k, v) });
+  save.setMode('misere');
+  const renderer = { draw() {}, cancel() {}, async animate() {}, async pause() {} };
+  const game = new GameController({ levels, solver: solvers.normal, solvers, levelSets, save, renderer, ai: new AIController(solvers.normal) });
+  for (const level of levelSets.misere) {
+    assert(game.load(level.id));
+    assert.equal(game.mode, 'misere');
+    while (game.phase !== 'ended') await game.play(solvers.misere.solve(game.state).optimalMove);
+    assert.equal(game.winner, 'player');
+    assert.equal(game.history.at(-1).actor, 'ai', 'the computer must be the one forced to take the last piece');
+  }
+  assert.equal(save.data.misere.completed.length, 10);
+  assert.deepEqual(save.data.completed, [], 'normal progress is untouched');
+  // Taking the only piece of a one-piece board loses in misère.
+  const one = defineLevel(1, 'ONE', ['#'], 'static', '', '', {}, { mode: 'misere' });
+  game.start(one); await game.play([0]);
+  assert.equal(game.winner, 'ai');
+  const restored = new SaveStore({ getItem: k => storage.get(k) ?? null, setItem() {} });
+  assert.equal(restored.mode, 'misere'); assert.equal(restored.progress.completed.length, 10);
 });

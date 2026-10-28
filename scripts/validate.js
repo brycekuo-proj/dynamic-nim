@@ -10,15 +10,23 @@ import { nimAnalysis } from '../src/domain/Nim.js';
 import { applyMove, transition } from '../src/domain/TransformationSystem.js';
 import { CORE_MOVE_RULES } from '../src/domain/RuleEngine.js';
 export function validateLevels(input = levels) {
-  const solver = new Solver();
+  const solvers = { normal: new Solver(), misere: new Solver({ mode: 'misere' }) };
   return input.map(level => {
+    const solver = solvers[level.mode];
     assert.strictEqual(level.moveRules, CORE_MOVE_RULES, `L${level.id}: level must inherit the global L1–L30 move rules`);
     assert(level.id >= CORE_MOVE_RULES.levelRange.min && level.id <= CORE_MOVE_RULES.levelRange.max, `L${level.id}: level id is outside the supported L1–L30 range`);
-    const state = level.initial, a = solver.analyze(state), nim = nimAnalysis(state);
+    // XOR certificates describe normal play only; misère levels rely on the game tree.
+    const state = level.initial, a = solver.analyze(state), nim = level.mode === 'normal' ? nimAnalysis(state) : null;
     assert(a.winning, `L${level.id}: initial state must be N`);
     assert(a.winningMoves.length <= level.constraints.maxWinning, `L${level.id}: too many winning choices`);
     if (nim) assert.equal(a.winning, nim.xor !== 0);
     const constraints = level.constraints;
+    if (constraints.normalLoses) assert.equal(solvers.normal.solve(state).winning, false, `L${level.id}: must be lost under normal rules`);
+    if (constraints.normalTrap) {
+      const misereWins = new Set(a.winningMoves.map(m => m.move.join(',')));
+      const normalWins = solvers.normal.analyze(state).winningMoves;
+      assert(normalWins.length && normalWins.every(m => !misereWins.has(m.move.join(','))), `L${level.id}: a normal-play winning move must not also win here`);
+    }
     const optimalTransition = transition(state, a.optimalMove);
     if (constraints.minDepth) assert(a.depth >= constraints.minDepth, `L${level.id}: strategy too shallow`);
     if (constraints.everyOpeningFalls) for (const candidate of a.moves) assert(transition(state, candidate.move).falls.some(f => f.from !== f.to), 'FALL must visibly fall on every opening');
@@ -47,8 +55,10 @@ export function validateLevels(input = levels) {
     // Every possible AI reply to the chosen P-position has a verified response.
     const replyCertificate = generateLegalMoves(optimalTransition.state).map(aiMove => {
       const afterAI = applyMove(optimalTransition.state, aiMove);
-      const playerMove = solver.solve(afterAI).optimalMove;
       assert(solver.solve(afterAI).winning, 'P-position must have only N successors');
+      // Misère: the AI just took the last piece, so it has already lost.
+      if (!afterAI.mask) return { aiMove, afterAI: snapshot(afterAI), playerMove: null, afterPlayer: null };
+      const playerMove = solver.solve(afterAI).optimalMove;
       const afterPlayer = applyMove(afterAI, playerMove);
       assert.equal(solver.solve(afterPlayer).winning, false);
       return { aiMove, afterAI: snapshot(afterAI), playerMove, afterPlayer: snapshot(afterPlayer) };
