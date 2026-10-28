@@ -3,86 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#7a4f2e">
-  <meta name="description" content="Dynamic Nim：沿橫、直或 45° 斜線，每回合拿走 1–3 顆籌碼。拿走最後一顆的人獲勝。">
-  <title>Dynamic Nim</title>
-  <link rel="icon" type="image/png" href="/dynamic-nim/assets/kenney/chip-blue.png">
-  <script type="module" crossorigin src="/dynamic-nim/assets/index-C0S1iVL4.js"></script>
-  <link rel="stylesheet" crossorigin href="/dynamic-nim/assets/index-DKu0CX35.css">
+  <meta name="theme-color" content="#f7c6d6">
+  <meta name="description" content="Sweetie Nim：沿橫、直或 45° 斜線，每回合拿走 1–3 顆甜甜圈。拿走最後一顆的人獲勝。">
+  <title>Sweetie Nim</title>
+  <link rel="icon" type="image/webp" href="/dynamic-nim/assets/candy/donut.webp">
+  <script type="module" crossorigin src="/dynamic-nim/assets/index-yMlBOwJP.js"></script>
+  <link rel="stylesheet" crossorigin href="/dynamic-nim/assets/index-DHQpgNpY.css">
 </head>
 <body>
 <main class="page">
-  <img class="decor decor-die-a" src="/dynamic-nim/assets/kenney/die-5.png" alt="" aria-hidden="true">
-  <img class="decor decor-die-b" src="/dynamic-nim/assets/kenney/die-3.png" alt="" aria-hidden="true">
-  <img class="decor decor-pawn" src="/dynamic-nim/assets/kenney/pawn-purple.png" alt="" aria-hidden="true">
-  <img class="decor decor-house" src="/dynamic-nim/assets/kenney/house-orange.png" alt="" aria-hidden="true">
-  <img class="decor decor-stack" src="/dynamic-nim/assets/kenney/chip-blue-side.png" alt="" aria-hidden="true">
+  <img class="decor decor-jar" src="/dynamic-nim/assets/candy/jar.webp" alt="" aria-hidden="true">
+  <img class="decor decor-lollipop" src="/dynamic-nim/assets/candy/lollipop.webp" alt="" aria-hidden="true">
+  <img class="decor decor-gingerbread" src="/dynamic-nim/assets/candy/gingerbread.webp" alt="" aria-hidden="true">
+  <img class="decor decor-wrapped" src="/dynamic-nim/assets/candy/wrapped.webp" alt="" aria-hidden="true">
 
   <header class="topbar">
-    <span class="wordmark"><img src="/dynamic-nim/assets/kenney/meeple-yellow.png" alt="" aria-hidden="true">Dynamic Nim</span>
+    <h1 class="wordmark"><img src="/dynamic-nim/assets/candy/logo.webp" alt="Sweetie Nim" width="900" height="300"></h1>
     <nav class="topbar-actions" aria-label="遊戲選單">
-      <button id="levels-button" class="pill">關卡 <span id="progress">01 / 10</span></button>
-      <button id="math-button" class="pill" aria-pressed="false">數學 <kbd>D</kbd></button>
-      <button id="sound-button" class="pill" aria-pressed="true">音效 開</button>
-      <button id="effects-button" class="pill" aria-pressed="true">動畫 開</button>
+      <button id="levels-button" class="pill"><img class="pill-icon" src="/dynamic-nim/assets/candy/icon-star.webp" alt=""><span class="pill-text">關卡 <span id="progress">01 / 10</span></span></button>
+      <button id="math-button" class="pill" aria-pressed="false"><img class="pill-icon" src="/dynamic-nim/assets/candy/icon-calc.webp" alt=""><span class="pill-text">數學 <kbd>D</kbd></span></button>
+      <button id="sound-button" class="pill" aria-pressed="true"><img class="pill-icon when-on" src="/dynamic-nim/assets/candy/icon-note.webp" alt=""><img class="pill-icon when-off" src="/dynamic-nim/assets/candy/icon-mute.webp" alt=""><span class="pill-text label">音效 開</span></button>
+      <button id="effects-button" class="pill" aria-pressed="true"><img class="pill-icon" src="/dynamic-nim/assets/candy/icon-play.webp" alt=""><span class="pill-text label">動畫 開</span></button>
     </nav>
   </header>
 
   <div class="layout">
     <section class="game" aria-label="遊戲區域">
-      <div class="level-card">
-        <p id="chapter" class="eyebrow"></p>
+      <div class="level-card cookie">
+        <div class="card-head"><p id="chapter" class="eyebrow"></p><button id="mode-chip" class="mode-chip" type="button" aria-haspopup="dialog"></button></div>
         <div class="level-title">
-          <h1><span id="level-number"></span><span id="level-name"></span></h1>
+          <h2><span id="level-number"></span><span id="level-name"></span></h2>
           <span id="world" class="world"></span>
         </div>
         <p id="lesson" class="lesson"></p>
       </div>
 
       <div class="mat">
-        <svg id="board" role="application" aria-label="籌碼盤面：可沿水平、垂直或 45 度斜線拖曳，每回合最多移除 3 顆；鍵盤方向鍵移動，Q/E/Z/C 斜向移動，空白鍵起點，Enter 移除，Escape 取消" tabindex="0"></svg>
-        <div id="chapter-transition" class="chapter-transition" hidden><span>第二章</span><strong>重力 ↓</strong><span>每一步之後，籌碼都會往下掉。</span></div>
+        <svg id="board" role="application" aria-label="甜甜圈盤面：可沿水平、垂直或 45 度斜線拖曳，每回合最多拿走 3 顆；鍵盤方向鍵移動，Q/E/Z/C 斜向移動，空白鍵起點，Enter 拿走，Escape 取消" tabindex="0"></svg>
+        <img class="box-bow" src="/dynamic-nim/assets/candy/bow.webp" alt="" aria-hidden="true">
+        <div id="chapter-transition" class="chapter-transition" hidden><span>第二章</span><strong>重力 ↓</strong><span>每一步之後，甜甜圈都會往下掉。</span></div>
         <div id="burst" class="burst" aria-hidden="true"></div>
       </div>
 
       <div class="turn-bar"><span id="status" role="status" aria-live="polite"></span><span id="piece-count"></span></div>
       <p id="verdict" class="verdict" hidden></p>
 
-      <div id="outcome" class="outcome" hidden>
+      <div id="outcome" class="outcome cookie" hidden>
+        <img class="outcome-trophy" src="/dynamic-nim/assets/candy/trophy.webp" alt="" aria-hidden="true">
         <p id="outcome-text"></p>
-        <div class="outcome-actions"><button id="next-button" class="button primary">下一關 →</button><button id="analyze-button" class="button">回合紀錄</button></div>
+        <div class="outcome-actions"><button id="next-button" class="button jelly pink">下一關 →</button><button id="analyze-button" class="button">回合紀錄</button></div>
       </div>
       <div class="controls">
-        <button id="restart-button" class="button"><span aria-hidden="true">↺</span> 重新開始</button>
-        <button id="hint-button" class="button" aria-expanded="false">提示</button>
+        <button id="restart-button" class="button jelly pink"><img class="button-icon" src="/dynamic-nim/assets/candy/icon-restart.webp" alt="">重新開始</button>
+        <button id="hint-button" class="button jelly blue" aria-expanded="false"><img class="button-icon" src="/dynamic-nim/assets/candy/icon-bulb.webp" alt="">提示</button>
       </div>
       <p id="hint" class="hint" hidden></p>
 
-      <section id="math" class="card math" hidden aria-label="數學分析"><h2 class="eyebrow">數學 · 本機解題器</h2><pre id="math-data"></pre></section>
-      <section id="analysis" class="card analysis" hidden aria-label="回合紀錄"><h2 class="eyebrow">回合紀錄</h2><p class="small">N = 輪到這一方可以必勝 · P = 輪到這一方必敗</p><ol id="trace"></ol></section>
+      <section id="math" class="card cookie math" hidden aria-label="數學分析"><h2 class="eyebrow">數學 · 本機解題器</h2><pre id="math-data"></pre></section>
+      <section id="analysis" class="card cookie analysis" hidden aria-label="回合紀錄"><h2 class="eyebrow">回合紀錄</h2><p class="small">N = 輪到這一方可以必勝 · P = 輪到這一方必敗</p><ol id="trace"></ol></section>
     </section>
 
     <aside class="side" aria-label="規則與進度">
-      <details id="rules" class="card rules">
-        <summary>規則</summary>
+      <details id="rules" class="card cookie rules">
+        <summary><span class="summary-title"><img src="/dynamic-nim/assets/candy/icon-book.webp" alt="" aria-hidden="true">規則</span></summary>
         <ol class="rule-list">
-          <li>兩人輪流，每回合拿走 <b>1–3 顆</b>相鄰的籌碼。</li>
+          <li>兩人輪流，每回合拿走 <b>1–3 顆</b>相鄰的甜甜圈。</li>
           <li>必須在同一條直線上：<b>橫、直或 45° 斜</b>。不能跳過空格，也不能轉彎。</li>
-          <li>拿走<b>最後一顆</b>的人獲勝。</li>
-          <li>第二章開啟重力：每一步之後，上方的籌碼會直直落下。</li>
+          <li id="rule-win">拿走<b>最後一顆</b>的人獲勝。</li>
+          <li>第二章開啟重力：每一步之後，上方的甜甜圈會直直落下。</li>
         </ol>
       </details>
-      <section class="card progress-card" aria-label="遊戲進度">
+      <section class="card cookie progress-card" aria-label="遊戲進度">
         <div class="progress-head"><span class="eyebrow">進度</span><span id="completed-count" class="small">00 / 10 完成</span></div>
         <div id="mission-track" class="mission-track" aria-label="關卡解鎖進度"></div>
         <p class="small">第一章 01–05 靜態 · 第二章 06–10 重力</p>
       </section>
     </aside>
   </div>
-  <footer class="footer">對手是本機解題器：沒有運氣，只有策略。 · 素材：Kenney（CC0）</footer>
+  <footer class="footer">對手是本機解題器：沒有運氣，只有策略。 · 音效：Kenney（CC0） <button id="privacy-button" class="link-button" type="button">隱私設定</button></footer>
 </main>
-<dialog id="level-dialog" aria-label="關卡選單">
-  <div class="dialog-heading"><h2>選擇關卡</h2><button id="close-levels" class="icon-button" aria-label="關閉關卡選單">×</button></div>
+<dialog id="level-dialog" aria-label="模式與關卡選單">
+  <div class="dialog-heading"><h2>選擇模式</h2><button id="close-levels" class="icon-button" aria-label="關閉選單">×</button></div>
+  <div class="mode-picker" role="radiogroup" aria-label="遊戲模式">
+    <button id="mode-normal" class="mode-card" role="radio" data-mode="normal"><img src="/dynamic-nim/assets/candy/trophy.webp" alt=""><span class="mode-name">拿最後一顆<b>贏</b></span><span class="mode-rule">把最後一顆搶到手</span><span class="mode-progress"></span></button>
+    <button id="mode-misere" class="mode-card" role="radio" data-mode="misere"><img src="/dynamic-nim/assets/candy/gingerbread.webp" alt=""><span class="mode-name">拿最後一顆<b>輸</b></span><span class="mode-rule">把最後一顆留給電腦</span><span class="mode-progress"></span></button>
+  </div>
+  <h2 class="dialog-subheading">選擇關卡</h2>
   <p class="small">第一章 01–05 靜態 · 第二章 06–10 重力</p>
   <div id="level-list"></div>
 </dialog>
