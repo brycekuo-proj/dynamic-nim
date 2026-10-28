@@ -3,6 +3,6 @@
   "appName": "Sweetie Nim",
   "webDir": "dist",
   "android": {
-    "backgroundColor": "#8a5a35"
+    "backgroundColor": "#f9d6c4"
   }
 }
