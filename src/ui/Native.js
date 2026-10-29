@@ -22,12 +22,15 @@ export async function shareText(text) {
 // on every launch and after each daily solve skips a day that is already solved and
 // means nobody is nagged forever by an app they stopped opening.
 const IDS = [1001, 1002, 1003, 1004, 1005, 1006, 1007];
-async function plugin() { return (await import('@capacitor/local-notifications')).LocalNotifications; }
+// The plugin proxy answers every property, including `then`, so it must not be the
+// value an async function resolves to — wrap it, or awaiting it throws
+// "LocalNotifications.then() is not implemented".
+async function plugin() { return { ln: (await import('@capacitor/local-notifications')).LocalNotifications }; }
 
 export async function requestReminderPermission() {
   if (!isNative()) return false;
   try {
-    const ln = await plugin();
+    const { ln } = await plugin();
     let { display } = await ln.checkPermissions();
     if (display !== 'granted') ({ display } = await ln.requestPermissions());
     return display === 'granted';
@@ -38,7 +41,7 @@ export async function requestReminderPermission() {
 export async function planReminders({ on, time, solvedToday, text }) {
   if (!isNative()) return;
   try {
-    const ln = await plugin();
+    const { ln } = await plugin();
     await ln.cancel({ notifications: IDS.map(id => ({ id })) });
     if (!on || (await ln.checkPermissions()).display !== 'granted') return;
     const [hour, minute] = time.split(':').map(Number), now = new Date(), notifications = [];
