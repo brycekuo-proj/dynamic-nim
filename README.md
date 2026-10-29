@@ -33,6 +33,7 @@ npm run check    # 依序執行 test、validate、test:e2e、build
 - 托盤貼合每關的格子數，每格有最大尺寸（小盤面不會把甜甜圈放大），大盤面則撐滿可用寬度。
 - 卡片是奶油餅乾、按鈕是果凍質感；圖示與裝飾都是糖果。背景、標誌、甜甜圈、紙杯、圖示與 App 圖示由 ChatGPT 為本遊戲生成（見 `public/assets/CREDITS.md`）。
 - 音效全部在程式裡用 Web Audio 合成（`src/ui/Sound.js`）：「啵」、「咔滋」、落地、答對答錯與過關小音樂，沒有音效檔。
+- 背景音樂（`src/ui/Music.js`）：闖關／每日一題／無限挑戰放〈Gem Waltz〉（Haley Halcyon，CC BY 4.0，頁尾標示作者），雙人對戰放〈Sunny Side Up〉（Pro Sensory，CC0）；贏、輸時改播 Gem Waltz 附的過關／失敗短曲。第一次點擊後才開始播，頁面或 App 切到背景就暫停。選單「設定」可單獨關音樂，上方「音效」按鈕會連音樂一起關。
 - 字型：中文 jf open 粉圓（Huninn，OFL，只保留用到的字；新增文字後依 `scripts/subset-fonts.md` 重做子集），英數 Fredoka（OFL）。
 - 語言：繁體中文與英文，依瀏覽器／手機語言自動選擇，頁尾可切換（`src/i18n.js`）。
 

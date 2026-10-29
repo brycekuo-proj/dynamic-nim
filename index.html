@@ -78,7 +78,7 @@
       </section>
     </aside>
   </div>
-  <footer class="footer"><span data-i18n="footer.text">對手是本機解題器：沒有運氣，只有策略。</span> <button id="lang-button" class="link-button lang" type="button" lang="en">English</button> <button id="privacy-button" class="link-button privacy" type="button" data-i18n="footer.privacy">隱私設定</button></footer>
+  <footer class="footer"><span data-i18n="footer.text">對手是本機解題器：沒有運氣，只有策略。</span> <span class="credit" data-i18n="footer.music">音樂</span> <button id="lang-button" class="link-button lang" type="button" lang="en">English</button> <button id="privacy-button" class="link-button privacy" type="button" data-i18n="footer.privacy">隱私設定</button></footer>
 </main>
 <dialog id="level-dialog" data-i18n-aria="menu.title">
   <div class="dialog-heading"><h2 data-i18n="menu.rule">規則</h2><button id="close-levels" class="icon-button" data-i18n-aria="menu.close">×</button></div>
@@ -118,6 +118,12 @@
       <button class="button choice" data-duo="large" data-i18n="duo.large">大盤</button>
     </div>
   </section>
+  <h2 class="dialog-subheading" data-i18n="menu.settings">設定</h2>
+  <div class="settings-row">
+    <button id="music-button" class="button choice" aria-pressed="true"><img class="button-icon" src="/assets/candy/icon-note.webp" alt=""><span class="label">音樂 開</span></button>
+    <button id="menu-lang-button" class="button choice" type="button">English</button>
+  </div>
+  <p class="small" data-i18n="settings.note">上方的「音效」按鈕會一起關掉音樂。</p>
 </dialog>
 <script type="module" src="/src/main.js"></script>
 </body>

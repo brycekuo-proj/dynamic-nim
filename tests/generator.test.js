@@ -52,7 +52,7 @@ test('endless progress and the daily streak are saved per rule', () => {
   // Older saves without these fields still load.
   map.set('dynamic-nim:v1', JSON.stringify({ highestUnlocked: 3, currentLevel: 2, completed: [1, 2], settings: { effects: true } }));
   const old = new SaveStore(storage);
-  assert.equal(old.data.endless.normal.easy, 0); assert.equal(old.data.settings.lang, null); assert.equal(old.progress.currentLevel, 2);
+  assert.equal(old.data.endless.normal.easy, 0); assert.equal(old.data.settings.lang, null); assert.equal(old.data.settings.music, true); assert.equal(old.progress.currentLevel, 2);
   assert.match(todayKey(new Date(2026, 0, 5)), /^2026-01-05$/);
 });
 

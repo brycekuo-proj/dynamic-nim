@@ -7,14 +7,16 @@ const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
 export class UIController {
   // levelSets: one ten-level campaign per rule ('normal' = last one wins, 'misere' = last one loses).
-  constructor(game, save, levelSets, sound = null, ads = null) {
+  constructor(game, save, levelSets, sound = null, ads = null, music = null) {
     if (Array.isArray(levelSets)) levelSets = { normal: levelSets };
-    Object.assign(this, { game, save, levelSets, sound, ads });
+    Object.assign(this, { game, save, levelSets, sound, ads, music });
     this.math = false; this.chapterEpoch = 0; this.announced = null; this.panel = 'campaign';
     setLang(save.data.settings.lang ?? detectLang()); applyStatic();
     $('privacy-button').onclick = () => this.ads?.showPrivacyOptions();
     $('lang-button').onclick = () => this.setLanguage(getLang() === 'zh' ? 'en' : 'zh');
-    $('sound-button').onclick = () => { save.setSound(!save.data.settings.sound); this.effects(); this.sound?.play('click'); };
+    $('sound-button').onclick = () => { save.setSound(!save.data.settings.sound); this.effects(); this.music?.apply(); this.sound?.play('click'); };
+    $('music-button').onclick = () => { save.setMusic(!save.data.settings.music); this.effects(); this.music?.apply(); };
+    $('menu-lang-button').onclick = () => this.setLanguage(getLang() === 'zh' ? 'en' : 'zh');
     document.addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.id !== 'sound-button') this.sound?.play('click', 0.5); });
     $('restart-button').onclick = () => this.restart();
     $('math-button').onclick = () => this.toggleMath();
@@ -49,7 +51,10 @@ export class UIController {
     const sound = this.save.data.settings.sound;
     $('sound-button').querySelector('.label').textContent = t(sound ? 'btn.sound.on' : 'btn.sound.off');
     $('sound-button').setAttribute('aria-pressed', String(sound));
-    $('lang-button').textContent = t('lang.switch'); $('lang-button').lang = getLang() === 'zh' ? 'en' : 'zh-Hant';
+    const music = this.save.data.settings.music;
+    $('music-button').querySelector('.label').textContent = t(music ? 'btn.music.on' : 'btn.music.off');
+    $('music-button').setAttribute('aria-pressed', String(music));
+    for (const id of ['lang-button', 'menu-lang-button']) { $(id).textContent = t('lang.switch'); $(id).lang = getLang() === 'zh' ? 'en' : 'zh-Hant'; }
     const summary = $('rules').querySelector('summary');
     summary.dataset.open = t('rules.close'); summary.dataset.closed = t('rules.open');
   }
@@ -79,7 +84,9 @@ export class UIController {
     this.announced.add(key);
     if (g.phase === 'ended') {
       // In two-player games somebody always wins, so always celebrate.
-      if (g.winner === 'player' || g.opponent === 'human') { this.sound?.play('win', 0.8); this.burst(); } else this.sound?.play('wrong', 0.8);
+      // With music on, Gem Waltz's own win/lose stings play over the ducked loop.
+      if (g.winner === 'player' || g.opponent === 'human') { if (!this.music?.sting('cleared')) this.sound?.play('win', 0.8); this.burst(); }
+      else if (!this.music?.sting('gameover')) this.sound?.play('wrong', 0.8);
     } else if (verdict) this.sound?.play(verdict.ok ? 'right' : 'wrong', 0.7);
   }
   reset() {
@@ -234,6 +241,7 @@ export class UIController {
     $('mode-chip').setAttribute('aria-label', t('chip.aria', { rule: t(misere ? 'rule.misere' : 'rule.normal') }));
     $('rule-win').innerHTML = t(misere ? 'rules.win.misere' : 'rules.win.normal');
     document.body.dataset.mode = g.mode; document.body.dataset.kind = g.kind;
+    this.music?.setTrack(g.kind === 'duo' ? 'sunny' : 'waltz');
     $('world').textContent = t(`world.${l.world}`);
     $('world').dataset.world = l.world;
     $('lesson').textContent = h.lesson; $('hint').textContent = h.hint;

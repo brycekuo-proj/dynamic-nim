@@ -6,7 +6,7 @@ const freshProgress = () => ({ highestUnlocked: 1, currentLevel: 1, completed: [
 const freshEndless = () => ({ easy: 0, normal: 0, hard: 0 });   // puzzles solved per difficulty
 const freshDaily = () => ({ last: '', streak: 0, best: 0 });     // last solved day (YYYY-MM-DD)
 const freshExtras = () => ({ endless: { normal: freshEndless(), misere: freshEndless() }, daily: { normal: freshDaily(), misere: freshDaily() } });
-const fresh = () => ({ ...freshProgress(), mode: 'normal', misere: freshProgress(), ...freshExtras(), settings: { effects: true, sound: true, lang: null } });
+const fresh = () => ({ ...freshProgress(), mode: 'normal', misere: freshProgress(), ...freshExtras(), settings: { effects: true, sound: true, music: true, lang: null } });
 const count = n => Number.isInteger(n) && n >= 0 ? n : 0;
 const readEndless = raw => ({ easy: count(raw?.easy), normal: count(raw?.normal), hard: count(raw?.hard) });
 const readDaily = raw => ({ last: /^\d{4}-\d{2}-\d{2}$/.test(raw?.last ?? '') ? raw.last : '', streak: count(raw?.streak), best: count(raw?.best) });
@@ -26,7 +26,7 @@ export class SaveStore {
         ...normal, mode: raw.mode === 'misere' ? 'misere' : 'normal', misere: readProgress(raw.misere) ?? freshProgress(),
         endless: { normal: readEndless(raw.endless?.normal), misere: readEndless(raw.endless?.misere) },
         daily: { normal: readDaily(raw.daily?.normal), misere: readDaily(raw.daily?.misere) },
-        settings: { effects: raw.settings?.effects !== false, sound: raw.settings?.sound !== false, lang: ['zh', 'en'].includes(raw.settings?.lang) ? raw.settings.lang : null },
+        settings: { effects: raw.settings?.effects !== false, sound: raw.settings?.sound !== false, music: raw.settings?.music !== false, lang: ['zh', 'en'].includes(raw.settings?.lang) ? raw.settings.lang : null },
       };
     } catch { this.available = false; return fresh(); }
   }
@@ -57,5 +57,6 @@ export class SaveStore {
   }
   setLang(lang) { this.data.settings.lang = ['zh', 'en'].includes(lang) ? lang : null; this.persist(); }
   setEffects(enabled) { this.data.settings.effects = Boolean(enabled); this.persist(); }
+  setMusic(enabled) { this.data.settings.music = Boolean(enabled); this.persist(); }
   setSound(enabled) { this.data.settings.sound = Boolean(enabled); this.persist(); }
 }

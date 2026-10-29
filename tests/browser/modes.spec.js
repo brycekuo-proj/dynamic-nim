@@ -111,3 +111,24 @@ test('English UI follows the browser language and can be switched', async ({ bro
   await expect(page.locator('.play-tab[data-play="endless"]')).toContainText('Endless');
   await context.close();
 });
+
+test('background music loads after the first tap, switches for two players and can be turned off', async ({ page }) => {
+  await page.goto('/');
+  const waltz = page.waitForRequest(/assets\/music\/gem-waltz\.mp3$/);
+  await page.locator('#rules summary').click();
+  await waltz;
+  await page.locator('#levels-button').click();
+  await expect(page.locator('#music-button')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#music-button')).toContainText('音樂 開');
+  await page.locator('#music-button').click();
+  await expect(page.locator('#music-button')).toContainText('音樂 關');
+  await page.reload();
+  await page.locator('#levels-button').click();
+  await expect(page.locator('#music-button')).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('.footer .credit')).toContainText('Gem Waltz');
+  const missing = []; page.on('response', r => { if (!r.ok()) missing.push(r.url()); });
+  for (const f of ['gem-waltz.mp3', 'gem-waltz-cleared.mp3', 'gem-waltz-gameover.mp3', 'sunny-side-up.mp3']) {
+    expect((await page.request.get(`/assets/music/${f}`)).ok()).toBe(true);
+  }
+  expect(missing).toEqual([]);
+});
