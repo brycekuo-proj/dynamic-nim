@@ -7,8 +7,8 @@
   <meta name="description" content="Sweetie Nim：沿橫、直或 45° 斜線，每回合拿走 1–3 顆甜甜圈。拿走最後一顆贏，或拿走最後一顆輸。">
   <title>Sweetie Nim</title>
   <link rel="icon" type="image/webp" href="/dynamic-nim/assets/candy/donut.webp">
-  <script type="module" crossorigin src="/dynamic-nim/assets/index-BKs9ZHkg.js"></script>
-  <link rel="stylesheet" crossorigin href="/dynamic-nim/assets/index-Dnon7Og-.css">
+  <script type="module" crossorigin src="/dynamic-nim/assets/index-CRs8qP4G.js"></script>
+  <link rel="stylesheet" crossorigin href="/dynamic-nim/assets/index-DHU4GdPl.css">
 </head>
 <body>
 <main class="page">
@@ -43,6 +43,7 @@
         <img class="box-bow" src="/dynamic-nim/assets/candy/bow.webp" alt="" aria-hidden="true">
         <div id="chapter-transition" class="chapter-transition" hidden><span data-i18n="chapter2.small">第二章</span><strong data-i18n="chapter2.big">重力 ↓</strong><span data-i18n="chapter2.text">每一步之後，甜甜圈都會往下掉。</span></div>
         <div id="burst" class="burst" aria-hidden="true"></div>
+        <div id="coach" class="coach" hidden aria-hidden="true"><span class="coach-finger"></span><span class="coach-text"></span></div>
       </div>
 
       <div class="turn-bar"><span id="status" role="status" aria-live="polite"></span><span id="piece-count"></span></div>
@@ -50,8 +51,10 @@
 
       <div id="outcome" class="outcome cookie" hidden>
         <img class="outcome-trophy" src="/dynamic-nim/assets/candy/trophy.webp" alt="" aria-hidden="true">
+        <p id="outcome-stars" class="stars" hidden></p>
         <p id="outcome-text"></p>
-        <div class="outcome-actions"><button id="next-button" class="button jelly pink">下一關 →</button><button id="analyze-button" class="button" data-i18n="btn.analyze">回合紀錄</button></div>
+        <p id="outcome-tip" class="small" hidden></p>
+        <div class="outcome-actions"><button id="next-button" class="button jelly pink">下一關 →</button><button id="share-button" class="button jelly blue" hidden data-i18n="btn.share">分享成績</button><button id="remind-prompt" class="button" hidden data-i18n="remind.prompt">每天提醒我</button><button id="analyze-button" class="button" data-i18n="btn.analyze">回合紀錄</button></div>
       </div>
       <div class="controls">
         <button id="restart-button" class="button jelly pink"><img class="button-icon" src="/dynamic-nim/assets/candy/icon-restart.webp" alt=""><span data-i18n="btn.restart">重新開始</span></button>
@@ -80,7 +83,7 @@
       </section>
     </aside>
   </div>
-  <footer class="footer"><span data-i18n="footer.text">對手是本機解題器：沒有運氣，只有策略。</span> <button id="lang-button" class="link-button lang" type="button" lang="en">English</button> <button id="privacy-button" class="link-button privacy" type="button" data-i18n="footer.privacy">隱私設定</button></footer>
+  <footer class="footer"><span data-i18n="footer.text">對手是本機解題器：沒有運氣，只有策略。</span> <span class="credit" data-i18n="footer.music">音樂</span> <button id="lang-button" class="link-button lang" type="button" lang="en">English</button> <button id="privacy-button" class="link-button privacy" type="button" data-i18n="footer.privacy">隱私設定</button></footer>
 </main>
 <dialog id="level-dialog" data-i18n-aria="menu.title">
   <div class="dialog-heading"><h2 data-i18n="menu.rule">規則</h2><button id="close-levels" class="icon-button" data-i18n-aria="menu.close">×</button></div>
@@ -103,6 +106,7 @@
     <p class="small" data-i18n="play.daily.desc">每天一題，大家同一題</p>
     <p id="daily-status" class="panel-status"></p>
     <button id="daily-button" class="button jelly pink wide">開始今天的題目</button>
+    <button id="daily-share" class="button jelly blue wide" hidden data-i18n="daily.share">分享今天的成績</button>
   </section>
   <section class="play-panel" data-panel="endless" role="tabpanel" hidden>
     <p class="small" data-i18n="play.endless.desc">電腦出題，玩不完</p>
@@ -120,6 +124,17 @@
       <button class="button choice" data-duo="large" data-i18n="duo.large">大盤</button>
     </div>
   </section>
+  <h2 class="dialog-subheading" data-i18n="menu.settings">設定</h2>
+  <div class="settings-row">
+    <button id="music-button" class="button choice" aria-pressed="true"><img class="button-icon" src="/dynamic-nim/assets/candy/icon-note.webp" alt=""><span class="label">音樂 開</span></button>
+    <button id="menu-lang-button" class="button choice" type="button">English</button>
+  </div>
+  <div class="settings-row native-only">
+    <button id="remind-button" class="button choice" aria-pressed="false"><span class="label">每日提醒 關</span></button>
+    <label class="time-field"><span data-i18n="remind.time">提醒時間</span><input id="remind-time" type="time" value="20:00"></label>
+  </div>
+  <p class="small" data-i18n="settings.note">上方的「音效」按鈕會一起關掉音樂。</p>
 </dialog>
+<div id="toast" class="toast" role="status" hidden></div>
 </body>
 </html>
