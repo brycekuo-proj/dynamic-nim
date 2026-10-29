@@ -27,3 +27,4 @@ ui.input = new InputController(renderer.svg, renderer, game);
 const bookPuzzle = parsePuzzle(new URLSearchParams(location.search).get('p'));
 if (bookPuzzle) ui.loadBook(bookPuzzle); else ui.load(save.progress.currentLevel);
 void ads.start(); // no-op outside the Android app
+void ui.planReminders(); // refresh the coming week of daily reminders (Android only)

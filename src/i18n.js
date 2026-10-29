@@ -62,6 +62,14 @@ const zh = {
   'next.retry': '重新挑戰 ↺', 'next.book': '前往主線關卡 →', 'next.menu': '選擇關卡 →', 'next.ch2': '進入第二章 ↓',
   'next.next': '下一關 →', 'next.endless': '下一題 →', 'next.daily': '回到選單 →', 'next.duo': '再來一局 ↺',
   'who.you': '你', 'who.ai': '電腦', 'who.p': '玩家 {n}',
+  'stars.aria': '{n} 顆星', 'stars.tip1': '不開提示，就能多拿一顆星。', 'stars.tip2': '每一步都下在必勝的位置，就能拿到三顆星。', 'stars.tip3': '完美！每一步都是必勝走法。',
+  'btn.share': '分享成績', 'daily.share': '分享今天的成績',
+  'share.daily': 'Sweetie Nim 每日一題 {date}（{rule}）\n{stars} 第 {tries} 次挑戰解開\n🔥 連續 {streak} 天\n{url}',
+  'toast.copied': '已複製，貼到聊天室分享吧！', 'toast.failed': '沒辦法分享，請稍後再試。',
+  'remind.on': '每日提醒 開', 'remind.off': '每日提醒 關', 'remind.time': '提醒時間', 'remind.prompt': '每天提醒我 🔔',
+  'remind.denied': '沒有通知權限，請到手機設定開啟。', 'remind.set': '好！每天 {time} 提醒你。',
+  'remind.title': 'Sweetie Nim 每日一題', 'remind.body': '今天的甜甜圈謎題出爐了！', 'remind.bodyStreak': '已經連續 {n} 天了，今天也別斷掉！',
+  'coach.tap': '點一下甜甜圈', 'coach.swipe': '沿著直線劃過去',
 };
 
 const en = {
@@ -124,6 +132,14 @@ const en = {
   'next.retry': 'Try again ↺', 'next.book': 'Go to the levels →', 'next.menu': 'Choose a level →', 'next.ch2': 'On to chapter 2 ↓',
   'next.next': 'Next level →', 'next.endless': 'Next puzzle →', 'next.daily': 'Back to the menu →', 'next.duo': 'Play again ↺',
   'who.you': 'You', 'who.ai': 'Computer', 'who.p': 'Player {n}',
+  'stars.aria': '{n} stars', 'stars.tip1': 'Skip the hint to earn another star.', 'stars.tip2': 'Make every move a winning move to earn three stars.', 'stars.tip3': 'Perfect! Every move was a winning move.',
+  'btn.share': 'Share', 'daily.share': "Share today's result",
+  'share.daily': 'Sweetie Nim daily puzzle {date} ({rule})\n{stars} solved on try #{tries}\n🔥 {streak}-day streak\n{url}',
+  'toast.copied': 'Copied — paste it anywhere to share!', 'toast.failed': "Couldn't share. Please try again later.",
+  'remind.on': 'Daily reminder on', 'remind.off': 'Daily reminder off', 'remind.time': 'Reminder time', 'remind.prompt': 'Remind me daily 🔔',
+  'remind.denied': 'Notifications are blocked. Turn them on in the phone settings.', 'remind.set': "Done! We'll remind you at {time} every day.",
+  'remind.title': 'Sweetie Nim daily puzzle', 'remind.body': "Today's donut puzzle is ready!", 'remind.bodyStreak': "You're on a {n}-day streak — keep it going today!",
+  'coach.tap': 'Tap the donut', 'coach.swipe': 'Swipe along the line',
 };
 
 // English lessons and hints for the twenty campaign levels ("mode:id": [lesson, hint]).

@@ -46,7 +46,8 @@ test('endless progress and the daily streak are saved per rule', () => {
   save.recordPuzzle({ kind: 'daily', mode: 'normal', date: '2026-10-28' });
   const restored = new SaveStore(storage);
   assert.equal(restored.data.endless.misere.hard, 3); assert.equal(restored.data.endless.normal.hard, 0);
-  assert.deepEqual(restored.data.daily.normal, { last: '2026-10-28', streak: 2, best: 2 });
+  const { last, streak, best } = restored.data.daily.normal;
+  assert.deepEqual({ last, streak, best }, { last: '2026-10-28', streak: 2, best: 2 });
   save.recordPuzzle({ kind: 'daily', mode: 'normal', date: '2026-10-31' });
   assert.equal(save.data.daily.normal.streak, 1); assert.equal(save.data.daily.normal.best, 2);
   // Older saves without these fields still load.
@@ -62,4 +63,19 @@ test('every Chinese text has an English version, including all twenty level less
     const en = LEVEL_TEXT_EN[`${mode}:${level.id}`];
     assert(en && en[0] && en[1], `missing English text for ${mode}:${level.id}`);
   }
+});
+
+test('stars: hint used = 1, a slip = 2, every move winning = 3; best result kept per rule; daily tries counted', () => {
+  const map = new Map(), save = new SaveStore({ getItem: k => map.get(k) ?? null, setItem: (k, v) => map.set(k, v) });
+  save.complete(1, 2); save.complete(1, 1); save.complete(2, 3);
+  assert.deepEqual(save.data.stars, { 1: 2, 2: 3 });
+  save.setMode('misere'); save.complete(1, 3);
+  assert.deepEqual(save.data.misere.stars, { 1: 3 }); assert.deepEqual(save.data.stars, { 1: 2, 2: 3 });
+  assert.equal(save.dailyTry('normal', '2026-10-29'), 1); assert.equal(save.dailyTry('normal', '2026-10-29'), 2);
+  assert.equal(save.dailyTry('normal', '2026-10-30'), 1);
+  save.recordPuzzle({ kind: 'daily', mode: 'normal', date: '2026-10-30' }, { stars: 2 });
+  const back = new SaveStore({ getItem: k => map.get(k) ?? null, setItem() {} });
+  assert.equal(back.data.daily.normal.lastStars, 2); assert.equal(back.data.daily.normal.tries.n, 1);
+  assert.deepEqual(back.data.misere.stars, { 1: 3 });
+  assert.deepEqual(back.data.settings.reminder, { on: false, time: '20:00', asked: false });
 });
