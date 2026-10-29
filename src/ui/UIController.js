@@ -4,6 +4,7 @@ import { moveName, PIECE_URL } from './Renderer.js';
 import { t, levelText, applyStatic, setLang, getLang, detectLang } from '../i18n.js';
 import { generatePuzzle, generateDuoBoard, hashSeed, todayKey } from '../game/Generator.js';
 import { isNative, shareText, requestReminderPermission, planReminders } from './Native.js';
+import { fillCredits } from './credits.js';
 const SITE = 'https://brycekuo-proj.github.io/dynamic-nim/';
 const starText = n => '⭐'.repeat(n) + '☆'.repeat(3 - n);
 const $ = id => document.getElementById(id);
@@ -46,6 +47,9 @@ export class UIController {
     for (const b of document.querySelectorAll('[data-duo]')) b.onclick = () => { $('level-dialog').close(); this.startDuo(b.dataset.duo); };
     $('daily-button').onclick = () => { $('level-dialog').close(); this.startDaily(); };
     $('close-levels').onclick = () => $('level-dialog').close();
+    const openCredits = async () => { $('level-dialog').close(); await fillCredits($('credits-body')); $('credits-dialog').showModal(); };
+    $('credits-button').onclick = openCredits; $('credits-link').onclick = openCredits;
+    $('close-credits').onclick = () => $('credits-dialog').close();
     $('mission-track').replaceChildren(...Array.from({ length: 10 }, () => document.createElement('span')));
     // Rules start open where there is room beside the board, folded on phones.
     try { $('rules').open = matchMedia('(min-width: 900px)').matches; } catch { /* no matchMedia */ }

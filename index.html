@@ -81,7 +81,7 @@
       </section>
     </aside>
   </div>
-  <footer class="footer"><span data-i18n="footer.text">對手是本機解題器：沒有運氣，只有策略。</span> <span class="credit" data-i18n="footer.music">音樂</span> <button id="lang-button" class="link-button lang" type="button" lang="en">English</button> <button id="privacy-button" class="link-button privacy" type="button" data-i18n="footer.privacy">隱私設定</button></footer>
+  <footer class="footer"><span data-i18n="footer.text">對手是本機解題器：沒有運氣，只有策略。</span> <span class="credit" data-i18n="footer.music">音樂</span> <button id="lang-button" class="link-button lang" type="button" lang="en">English</button> <button id="privacy-button" class="link-button privacy" type="button" data-i18n="footer.privacy">隱私設定</button> <button id="credits-link" class="link-button credits" type="button" data-i18n="credits.open">授權聲明</button></footer>
 </main>
 <dialog id="level-dialog" data-i18n-aria="menu.title">
   <div class="dialog-heading"><h2 data-i18n="menu.rule">規則</h2><button id="close-levels" class="icon-button" data-i18n-aria="menu.close">×</button></div>
@@ -132,6 +132,13 @@
     <label class="time-field"><span data-i18n="remind.time">提醒時間</span><input id="remind-time" type="time" value="20:00"></label>
   </div>
   <p class="small" data-i18n="settings.note">上方的「音效」按鈕會一起關掉音樂。</p>
+  <div class="settings-row">
+    <button id="credits-button" class="button choice" type="button" data-i18n="credits.open">授權聲明</button>
+  </div>
+</dialog>
+<dialog id="credits-dialog" data-i18n-aria="credits.title">
+  <div class="dialog-heading"><h2 data-i18n="credits.title">授權聲明</h2><button id="close-credits" class="icon-button" data-i18n-aria="credits.close">×</button></div>
+  <div id="credits-body" class="credits-body"></div>
 </dialog>
 <div id="toast" class="toast" role="status" hidden></div>
 <script type="module" src="/src/main.js"></script>

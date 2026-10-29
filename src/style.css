@@ -246,7 +246,7 @@ kbd { font: 500 11px var(--f-latin); border: 1px solid rgba(91, 47, 27, .25); bo
 .mission-track span.current { box-shadow: 0 0 0 2.5px var(--pink); }
 
 .link-button { display: none; border: 0; background: none; color: inherit; text-decoration: underline; cursor: pointer; font-size: 13px; }
-body.privacy-options .link-button.privacy, .link-button.lang { display: inline; }
+body.privacy-options .link-button.privacy, .link-button.lang, .link-button.credits { display: inline; }
 .link-button.lang { font-weight: 700; color: var(--pink-deep); }
 .footer {
   margin: 22px auto 0; width: fit-content; max-width: 100%; padding: 4px 12px; border-radius: 999px;
@@ -368,3 +368,11 @@ body.native .settings-row.native-only { display: grid !important; }
   0% { transform: translate(0, 0) scale(1); opacity: 0; } 12% { opacity: 1; transform: translate(0, 0) scale(.8); }
   70% { transform: translate(var(--dx), var(--dy)) scale(.8); opacity: 1; } 85%, 100% { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; }
 }
+
+/* credits dialog ------------------------------------------------------------------- */
+#credits-dialog { max-height: calc(100vh - 32px); overflow: auto; }
+.credits-body h3 { margin: 14px 0 4px; font-size: 17px; font-weight: 400; }
+.credits-body p { margin: 4px 0; font-size: 13px; white-space: pre-line; }
+.credits-studio { font-weight: 700; }
+.credits-name { font-weight: 700; }
+.credits-text { margin: 4px 0 10px; padding: 8px; max-height: 180px; overflow: auto; font: 10px/1.35 ui-monospace, Menlo, monospace; white-space: pre-wrap; background: rgba(255,255,255,.55); border-radius: 10px; }
