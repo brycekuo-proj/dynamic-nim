@@ -3,24 +3,39 @@ import { nimAnalysis } from '../domain/Nim.js';
 import { moveName, PIECE_URL } from './Renderer.js';
 import { t, levelText, applyStatic, setLang, getLang, detectLang } from '../i18n.js';
 import { generatePuzzle, generateDuoBoard, hashSeed, todayKey } from '../game/Generator.js';
+import { isNative, shareText, requestReminderPermission, planReminders } from './Native.js';
+const SITE = 'https://brycekuo-proj.github.io/dynamic-nim/';
+const starText = n => '⭐'.repeat(n) + '☆'.repeat(3 - n);
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
 export class UIController {
   // levelSets: one ten-level campaign per rule ('normal' = last one wins, 'misere' = last one loses).
-  constructor(game, save, levelSets, sound = null, ads = null) {
+  constructor(game, save, levelSets, sound = null, ads = null, music = null) {
     if (Array.isArray(levelSets)) levelSets = { normal: levelSets };
-    Object.assign(this, { game, save, levelSets, sound, ads });
+    Object.assign(this, { game, save, levelSets, sound, ads, music });
     this.math = false; this.chapterEpoch = 0; this.announced = null; this.panel = 'campaign';
     setLang(save.data.settings.lang ?? detectLang()); applyStatic();
     $('privacy-button').onclick = () => this.ads?.showPrivacyOptions();
     $('lang-button').onclick = () => this.setLanguage(getLang() === 'zh' ? 'en' : 'zh');
-    $('sound-button').onclick = () => { save.setSound(!save.data.settings.sound); this.effects(); this.sound?.play('click'); };
+    $('sound-button').onclick = () => { save.setSound(!save.data.settings.sound); this.effects(); this.music?.apply(); this.sound?.play('click'); };
+    $('music-button').onclick = () => { save.setMusic(!save.data.settings.music); this.effects(); this.music?.apply(); };
+    $('menu-lang-button').onclick = () => this.setLanguage(getLang() === 'zh' ? 'en' : 'zh');
     document.addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.id !== 'sound-button') this.sound?.play('click', 0.5); });
     $('restart-button').onclick = () => this.restart();
     $('math-button').onclick = () => this.toggleMath();
     document.addEventListener('keydown', e => { if (e.key.toLowerCase() === 'd' && !e.ctrlKey && !e.metaKey && !e.altKey && !e.target.closest('dialog')) this.toggleMath(); });
     $('effects-button').onclick = () => { save.setEffects(!save.data.settings.effects); this.effects(); };
-    $('hint-button').onclick = () => { $('hint').hidden = !$('hint').hidden; $('hint-button').setAttribute('aria-expanded', String(!$('hint').hidden)); };
+    $('hint-button').onclick = () => {
+      $('hint').hidden = !$('hint').hidden; $('hint-button').setAttribute('aria-expanded', String(!$('hint').hidden));
+      if (!$('hint').hidden && this.game.phase !== 'ended') this.game.hintUsed = true; // opening the hint costs a star
+    };
+    $('share-button').onclick = () => this.shareDaily();
+    $('daily-share').onclick = () => this.shareDaily();
+    $('remind-prompt').onclick = () => { this.save.setReminder({ asked: true }); this.toggleReminder(true); };
+    $('remind-button').onclick = () => this.toggleReminder(!this.save.data.settings.reminder.on);
+    $('remind-time').onchange = e => { if (/^\d{2}:\d{2}$/.test(e.target.value)) { this.save.setReminder({ time: e.target.value }); this.planReminders(); } };
+    $('board').addEventListener('pointerdown', () => { this.coachSeen = this.game.epoch; $('coach').hidden = true; });
+    document.body.classList.toggle('native', isNative());
     $('next-button').onclick = () => this.next();
     $('analyze-button').onclick = () => { $('analysis').hidden = !$('analysis').hidden; };
     $('levels-button').onclick = () => this.openMenu();
@@ -36,8 +51,35 @@ export class UIController {
     try { $('rules').open = matchMedia('(min-width: 900px)').matches; } catch { /* no matchMedia */ }
     this.effects();
   }
+  toast(text) {
+    const el = $('toast'); el.textContent = text; el.hidden = false;
+    clearTimeout(this.toastTimer); this.toastTimer = setTimeout(() => { el.hidden = true; }, 2600);
+  }
+  async shareDaily() {
+    const mode = this.save.mode, d = this.save.data.daily[mode], date = todayKey();
+    if (d.last !== date) return;
+    const text = t('share.daily', {
+      date: date.slice(5).replace('-', '/'), rule: t(mode === 'misere' ? 'rule.misere' : 'rule.normal'),
+      stars: starText(d.lastStars || 1), tries: Math.max(1, d.tries.date === date ? d.tries.n : 1), streak: d.streak, url: SITE,
+    });
+    const result = await shareText(text);
+    if (result === 'copied') this.toast(t('toast.copied')); else if (result === 'failed') this.toast(t('toast.failed'));
+  }
+  // Reminders: the next week of daily notifications, skipping today once it is solved.
+  planReminders() {
+    const r = this.save.data.settings.reminder, today = todayKey();
+    const solvedToday = ['normal', 'misere'].some(m => this.save.data.daily[m].last === today);
+    const streak = Math.max(this.save.data.daily.normal.streak, this.save.data.daily.misere.streak);
+    return planReminders({ on: r.on, time: r.time, solvedToday, text: () => ({ title: t('remind.title'), body: streak ? t('remind.bodyStreak', { n: streak }) : t('remind.body') }) });
+  }
+  async toggleReminder(on) {
+    if (on && !(await requestReminderPermission())) { this.save.setReminder({ on: false }); this.effects(); this.toast(t('remind.denied')); return; }
+    this.save.setReminder({ on }); this.effects(); await this.planReminders();
+    if (on) this.toast(t('remind.set', { time: this.save.data.settings.reminder.time }));
+    if (this.game.level) this.update(this.game);
+  }
   setLanguage(lang) {
-    this.save.setLang(lang); setLang(lang); applyStatic(); this.effects();
+    this.save.setLang(lang); setLang(lang); applyStatic(); this.effects(); void this.planReminders();
     if (this.game.level) this.update(this.game);
     if ($('level-dialog').open) this.menu();
   }
@@ -49,7 +91,13 @@ export class UIController {
     const sound = this.save.data.settings.sound;
     $('sound-button').querySelector('.label').textContent = t(sound ? 'btn.sound.on' : 'btn.sound.off');
     $('sound-button').setAttribute('aria-pressed', String(sound));
-    $('lang-button').textContent = t('lang.switch'); $('lang-button').lang = getLang() === 'zh' ? 'en' : 'zh-Hant';
+    const music = this.save.data.settings.music;
+    $('music-button').querySelector('.label').textContent = t(music ? 'btn.music.on' : 'btn.music.off');
+    $('music-button').setAttribute('aria-pressed', String(music));
+    const reminder = this.save.data.settings.reminder;
+    $('remind-button').querySelector('.label').textContent = t(reminder.on ? 'remind.on' : 'remind.off');
+    $('remind-button').setAttribute('aria-pressed', String(reminder.on)); $('remind-time').value = reminder.time;
+    for (const id of ['lang-button', 'menu-lang-button']) { $(id).textContent = t('lang.switch'); $(id).lang = getLang() === 'zh' ? 'en' : 'zh-Hant'; }
     const summary = $('rules').querySelector('summary');
     summary.dataset.open = t('rules.close'); summary.dataset.closed = t('rules.open');
   }
@@ -79,7 +127,10 @@ export class UIController {
     this.announced.add(key);
     if (g.phase === 'ended') {
       // In two-player games somebody always wins, so always celebrate.
-      if (g.winner === 'player' || g.opponent === 'human') { this.sound?.play('win', 0.8); this.burst(); } else this.sound?.play('wrong', 0.8);
+      // With music on, Gem Waltz's own win/lose stings play over the ducked loop.
+      if (g.kind === 'daily' && g.winner === 'player') void this.planReminders(); // today is solved: skip today's reminder
+      if (g.winner === 'player' || g.opponent === 'human') { if (!this.music?.sting('cleared')) this.sound?.play('win', 0.8); this.burst(); }
+      else if (!this.music?.sting('gameover')) this.sound?.play('wrong', 0.8);
     } else if (verdict) this.sound?.play(verdict.ok ? 'right' : 'wrong', 0.7);
   }
   reset() {
@@ -115,6 +166,7 @@ export class UIController {
   }
   startDaily() {
     const mode = this.save.mode, date = todayKey();
+    this.save.dailyTry(mode, date);
     const level = generatePuzzle({ mode, difficulty: 'normal', seed: hashSeed(`daily:${mode}:${date}`), kind: 'daily', solver: this.solverFor(mode) });
     this.startLevel(Object.freeze({ ...level, date }));
   }
@@ -125,6 +177,7 @@ export class UIController {
   restart() {
     const g = this.game, kind = g.kind;
     if (kind === 'campaign') return this.load(g.level.id);
+    if (kind === 'daily') this.save.dailyTry(g.mode, g.level.date);
     return this.startLevel(g.level);
   }
   async next() {
@@ -158,12 +211,14 @@ export class UIController {
     const daily = this.save.data.daily[mode], doneToday = daily.last === todayKey();
     $('daily-status').textContent = [doneToday ? t('daily.done') : '', daily.streak ? t('daily.streak', { n: daily.streak, best: daily.best }) : ''].filter(Boolean).join(' · ');
     $('daily-button').textContent = t(doneToday ? 'daily.again' : 'daily.start');
+    $('daily-share').hidden = !doneToday;
     for (const b of document.querySelectorAll('[data-endless]')) b.querySelector('small').textContent = t('endless.solved', { n: this.save.data.endless[mode][b.dataset.endless] });
     $('level-list').replaceChildren(...this.levels.map(level => {
       const button = document.createElement('button');
       const unlocked = level.id <= this.save.progress.highestUnlocked;
       const done = this.save.progress.completed.includes(level.id);
-      button.innerHTML = `<span class="tile-num">${pad(level.id)}</span><span class="tile-name"></span><span class="tile-state">${done ? t('tile.done') : unlocked ? '' : t('tile.locked')}</span>`;
+      const stars = this.save.progress.stars[level.id] ?? 0;
+      button.innerHTML = `<span class="tile-num">${pad(level.id)}</span><span class="tile-name"></span><span class="tile-state">${done ? (stars ? `<span class="tile-stars" aria-label="${t('stars.aria', { n: stars })}">${starText(stars)}</span>` : t('tile.done')) : unlocked ? '' : t('tile.locked')}</span>`;
       button.querySelector('.tile-name').textContent = level.name;
       button.disabled = !unlocked;
       const current = this.game.kind === 'campaign' && level.id === this.game.level?.id;
@@ -190,6 +245,25 @@ export class UIController {
     if (g.kind !== 'book' || !first || first.actor !== 'player') return null;
     const move = moveName(first.before, first.move);
     return first.afterOutcome === 'P' ? { ok: true, text: t('verdict.ok', { move }) } : { ok: false, text: t('verdict.bad', { move }) };
+  }
+  // First-play coach: an animated finger on the first campaign levels until they are won.
+  coach(g) {
+    const l = g.level, el = $('coach');
+    const steps = { 'normal:1': { cells: null, key: 'coach.tap' }, 'normal:2': { cells: [0, 1], key: 'coach.swipe' }, 'misere:1': { cells: null, key: 'coach.tap' } };
+    const step = g.kind === 'campaign' && steps[`${g.mode}:${l.id}`];
+    const show = step && !this.save.progress.completed.includes(l.id) && g.phase === 'ready' && g.turn === 'player' && !g.history.length && this.coachSeen !== g.epoch;
+    el.hidden = !show;
+    if (!show) return;
+    requestAnimationFrame(() => {
+      const cells = step.cells ?? [cellsOf(g.state)[0]];
+      const svg = $('board'), mat = el.parentElement.getBoundingClientRect(), box = svg.getBoundingClientRect(), vb = svg.viewBox.baseVal;
+      const at = cell => { const p = this.input?.renderer?.position(cell) ?? { x: 0, y: 0 }; return { x: box.left - mat.left + p.x / vb.width * box.width, y: box.top - mat.top + p.y / vb.height * box.height }; };
+      const a = at(cells[0]), b = at(cells[cells.length - 1]);
+      el.style.setProperty('--x', `${a.x}px`); el.style.setProperty('--y', `${a.y}px`);
+      el.style.setProperty('--dx', `${b.x - a.x}px`); el.style.setProperty('--dy', `${b.y - a.y}px`);
+      el.dataset.kind = cells.length > 1 ? 'swipe' : 'tap';
+      el.querySelector('.coach-text').textContent = t(step.key);
+    });
   }
   heading(g) {
     const l = g.level, kind = g.kind, world = t(`worldname.${l.world}`);
@@ -234,6 +308,7 @@ export class UIController {
     $('mode-chip').setAttribute('aria-label', t('chip.aria', { rule: t(misere ? 'rule.misere' : 'rule.normal') }));
     $('rule-win').innerHTML = t(misere ? 'rules.win.misere' : 'rules.win.normal');
     document.body.dataset.mode = g.mode; document.body.dataset.kind = g.kind;
+    this.music?.setTrack(g.kind === 'duo' ? 'sunny' : 'waltz');
     $('world').textContent = t(`world.${l.world}`);
     $('world').dataset.world = l.world;
     $('lesson').textContent = h.lesson; $('hint').textContent = h.hint;
@@ -263,6 +338,15 @@ export class UIController {
     $('outcome').dataset.won = String(g.winner === 'player' || g.opponent === 'human');
     $('outcome-text').textContent = g.phase === 'ended' ? this.outcomeText(g) : '';
     $('next-button').textContent = this.nextLabel(g);
+    const won = g.phase === 'ended' && g.winner === 'player' && g.opponent === 'ai';
+    $('outcome-stars').hidden = !won;
+    if (won) { $('outcome-stars').textContent = starText(g.stars); $('outcome-stars').setAttribute('aria-label', t('stars.aria', { n: g.stars })); }
+    $('outcome-tip').hidden = !won;
+    if (won) $('outcome-tip').textContent = t(g.stars === 1 ? 'stars.tip1' : g.stars === 2 ? 'stars.tip2' : 'stars.tip3');
+    $('share-button').hidden = !(won && g.kind === 'daily');
+    const r = this.save.data.settings.reminder;
+    $('remind-prompt').hidden = !(won && g.kind === 'daily' && isNative() && !r.on && !r.asked);
+    this.coach(g);
     $('next-button').disabled = false;
     if (!this.save.available) $('progress').textContent += t('storage.temp');
     if (this.math) {

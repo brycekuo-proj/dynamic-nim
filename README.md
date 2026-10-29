@@ -33,6 +33,7 @@ npm run check    # 依序執行 test、validate、test:e2e、build
 - 托盤貼合每關的格子數，每格有最大尺寸（小盤面不會把甜甜圈放大），大盤面則撐滿可用寬度。
 - 卡片是奶油餅乾、按鈕是果凍質感；圖示與裝飾都是糖果。背景、標誌、甜甜圈、紙杯、圖示與 App 圖示由 ChatGPT 為本遊戲生成（見 `public/assets/CREDITS.md`）。
 - 音效全部在程式裡用 Web Audio 合成（`src/ui/Sound.js`）：「啵」、「咔滋」、落地、答對答錯與過關小音樂，沒有音效檔。
+- 背景音樂（`src/ui/Music.js`）：闖關／每日一題／無限挑戰放〈Gem Waltz〉（Haley Halcyon，CC BY 4.0，頁尾標示作者），雙人對戰放〈Sunny Side Up〉（Pro Sensory，CC0）；贏、輸時改播 Gem Waltz 附的過關／失敗短曲。第一次點擊後才開始播，頁面或 App 切到背景就暫停。選單「設定」可單獨關音樂，上方「音效」按鈕會連音樂一起關。
 - 字型：中文 jf open 粉圓（Huninn，OFL，只保留用到的字；新增文字後依 `scripts/subset-fonts.md` 重做子集），英數 Fredoka（OFL）。
 - 語言：繁體中文與英文，依瀏覽器／手機語言自動選擇，頁尾可切換（`src/i18n.js`）。
 
@@ -45,6 +46,7 @@ npm run check    # 依序執行 test、validate、test:e2e、build
   - 無限挑戰：簡單／普通／困難，由 `src/game/Generator.js` 以種子產生並經 solver 驗證（玩家必勝、必勝走法數量與深度依難度限制）；記錄每個難度解了幾題，關掉再開會接續同一題。
   - 雙人對戰：兩人輪流用同一支手機，小／中／大隨機盤面（靜態或重力）；不影響任何進度。
 - 謎題書連結（`?p=`）一律使用「拿最後一顆贏」，與書上答案一致。
+- **黏著度**：每關與每日一題有 1～3 顆星（贏＝1；沒開提示＝2；每一步都下在必勝位置＝3，由 solver 判定，各規則保留最好成績）；每日一題解完可分享成績文字（星星、第幾次挑戰、連續天數、網址；Android 用 Capacitor Share，網頁用 Web Share 或複製到剪貼簿）；Android 版可在選單「設定」開啟每日提醒（Capacitor Local Notifications，排程未來 7 天、當天已解就跳過、時間可調，第一次解完每日一題時會詢問）；闖關第 1、2 關（以及「拿最後一顆輸」第 1 關）在過關前有手指示範點一下／劃過去。
 
 ## 操作
 

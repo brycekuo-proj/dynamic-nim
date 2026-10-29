@@ -111,3 +111,70 @@ test('English UI follows the browser language and can be switched', async ({ bro
   await expect(page.locator('.play-tab[data-play="endless"]')).toContainText('Endless');
   await context.close();
 });
+
+test('background music loads after the first tap, switches for two players and can be turned off', async ({ page }) => {
+  await page.goto('/');
+  const waltz = page.waitForRequest(/assets\/music\/gem-waltz\.mp3$/);
+  await page.locator('#rules summary').click();
+  await waltz;
+  await page.locator('#levels-button').click();
+  await expect(page.locator('#music-button')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#music-button')).toContainText('音樂 開');
+  await page.locator('#music-button').click();
+  await expect(page.locator('#music-button')).toContainText('音樂 關');
+  await page.reload();
+  await page.locator('#levels-button').click();
+  await expect(page.locator('#music-button')).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('.footer .credit')).toContainText('Gem Waltz');
+  const missing = []; page.on('response', r => { if (!r.ok()) missing.push(r.url()); });
+  for (const f of ['gem-waltz.mp3', 'gem-waltz-cleared.mp3', 'gem-waltz-gameover.mp3', 'sunny-side-up.mp3']) {
+    expect((await page.request.get(`/assets/music/${f}`)).ok()).toBe(true);
+  }
+  expect(missing).toEqual([]);
+});
+
+test('first levels show a tap/swipe coach; wins earn stars shown on the result card and in the level list', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#coach')).toBeVisible();
+  await expect(page.locator('#coach')).toHaveAttribute('data-kind', 'tap');
+  await expect(page.locator('#coach .coach-text')).toHaveText('點一下甜甜圈');
+  await tapCell(page, 0);
+  await expect(page.locator('#status')).toHaveText('你獲勝');
+  await expect(page.locator('#coach')).toBeHidden();
+  await expect(page.locator('#outcome-stars')).toHaveText('⭐⭐⭐');
+  await expect(page.locator('#outcome-tip')).toContainText('完美');
+  await page.locator('#next-button').click();
+  await expect(page.locator('#coach')).toHaveAttribute('data-kind', 'swipe');
+  await page.locator('#hint-button').click();
+  await dragCells(page, [0, 1]);
+  await expect(page.locator('#outcome-stars')).toHaveText('⭐☆☆');
+  await expect(page.locator('#outcome-tip')).toContainText('不開提示');
+  await page.locator('#levels-button').click();
+  await expect(page.locator('#level-list button').nth(0).locator('.tile-stars')).toHaveText('⭐⭐⭐');
+  await expect(page.locator('#level-list button').nth(1).locator('.tile-stars')).toHaveText('⭐☆☆');
+  await expect(page.locator('#remind-button')).toBeHidden(); // reminders are Android-only
+});
+
+test('a solved daily puzzle can be shared as text with stars, tries, streak and link', async ({ page }) => {
+  await page.addInitScript(() => {
+    if (!localStorage.getItem('dynamic-nim:v1')) localStorage.setItem('dynamic-nim:v1', JSON.stringify({ highestUnlocked: 1, currentLevel: 1, completed: [], settings: { effects: false, sound: false } }));
+    Object.defineProperty(navigator, 'share', { value: undefined, configurable: true });
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText: async text => { window.__copied = text; } }, configurable: true });
+  });
+  await page.goto('/');
+  await openPlay(page, 'daily');
+  await page.locator('#daily-button').click();
+  await page.locator('#restart-button').click(); // a second try
+  await solve(page);
+  await expect(page.locator('#share-button')).toBeVisible();
+  await page.locator('#share-button').click();
+  await expect(page.locator('#toast')).toContainText('已複製');
+  const text = await page.evaluate(() => window.__copied);
+  expect(text).toContain('Sweetie Nim 每日一題');
+  expect(text).toContain('第 2 次挑戰解開');
+  expect(text).toContain('連續 1 天');
+  expect(text).toContain('⭐');
+  expect(text).toContain('https://brycekuo-proj.github.io/dynamic-nim/');
+  await page.locator('#next-button').click();
+  await expect(page.locator('#daily-share')).toBeVisible();
+});

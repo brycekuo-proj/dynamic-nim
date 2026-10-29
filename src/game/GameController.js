@@ -27,10 +27,14 @@ export class GameController {
     this.epoch++;
     this.renderer.cancel();
     this.level = level; this.state = this.level.initial;
-    this.turn = 'player'; this.phase = 'ready'; this.winner = null; this.history = [];
+    this.turn = 'player'; this.phase = 'ready'; this.winner = null; this.history = []; this.hintUsed = false; this.stars = 0;
     this.renderer.draw(this.state); this.emit(); return true;
   }
   emit() { this.onChange(this); }
+  // Stars for a win: ★ won; ★★ won without opening the hint; ★★★ also every one of
+  // the player's moves left the computer in a losing position (judged by the solver).
+  get perfect() { return this.history.filter(h => h.actor === 'player').every(h => h.afterOutcome === 'P'); }
+  rateWin() { return this.hintUsed ? 1 : this.perfect ? 3 : 2; }
   async play(move, actor = 'player') {
     if (this.phase !== 'ready' || actor !== this.turn || !isLegalMove(this.state, move)) return false;
     const epoch = this.epoch, before = this.state, result = transition(before, move);
@@ -45,8 +49,9 @@ export class GameController {
       // Normal: whoever took the last piece wins. Misère: whoever took it loses.
       const other = actor === 'player' ? 'ai' : 'player';
       this.winner = this.mode === 'misere' ? other : actor; this.phase = 'ended';
-      if (this.winner === 'player' && this.kind === 'campaign') this.save.complete(this.level.id);
-      if (this.winner === 'player' && (this.kind === 'endless' || this.kind === 'daily')) this.save.recordPuzzle?.(this.level);
+      this.stars = this.winner === 'player' && this.opponent === 'ai' ? this.rateWin() : 0;
+      if (this.winner === 'player' && this.kind === 'campaign') this.save.complete(this.level.id, this.stars);
+      if (this.winner === 'player' && (this.kind === 'endless' || this.kind === 'daily')) this.save.recordPuzzle?.(this.level, { stars: this.stars });
       this.emit(); return true;
     }
     this.turn = actor === 'player' ? 'ai' : 'player'; this.phase = 'ready'; this.emit();

@@ -17,6 +17,8 @@ const zh = {
   'rules.4': '重力盤面：每一步之後，上方的甜甜圈會直直落下。',
   'progress.title': '闖關進度', 'progress.count': '{n} / 10 完成', 'progress.chapters': '第一章 01–05 靜態 · 第二章 06–10 重力',
   'footer.text': '對手是本機解題器：沒有運氣，只有策略。', 'footer.privacy': '隱私設定', 'lang.switch': 'English',
+  'footer.music': '音樂：〈Gem Waltz〉Haley Halcyon（CC BY 4.0）、〈Sunny Side Up〉Pro Sensory（CC0）',
+  'menu.settings': '設定', 'btn.music.on': '音樂 開', 'btn.music.off': '音樂 關', 'settings.note': '上方的「音效」按鈕會一起關掉音樂。',
   'menu.title': '選單', 'menu.close': '關閉選單', 'menu.rule': '規則', 'menu.play': '玩法', 'menu.levels': '選擇關卡',
   'mode.normal.name': '拿最後一顆<b>贏</b>', 'mode.normal.rule': '把最後一顆搶到手',
   'mode.misere.name': '拿最後一顆<b>輸</b>', 'mode.misere.rule': '把最後一顆留給電腦',
@@ -60,6 +62,14 @@ const zh = {
   'next.retry': '重新挑戰 ↺', 'next.book': '前往主線關卡 →', 'next.menu': '選擇關卡 →', 'next.ch2': '進入第二章 ↓',
   'next.next': '下一關 →', 'next.endless': '下一題 →', 'next.daily': '回到選單 →', 'next.duo': '再來一局 ↺',
   'who.you': '你', 'who.ai': '電腦', 'who.p': '玩家 {n}',
+  'stars.aria': '{n} 顆星', 'stars.tip1': '不開提示，就能多拿一顆星。', 'stars.tip2': '每一步都下在必勝的位置，就能拿到三顆星。', 'stars.tip3': '完美！每一步都是必勝走法。',
+  'btn.share': '分享成績', 'daily.share': '分享今天的成績',
+  'share.daily': 'Sweetie Nim 每日一題 {date}（{rule}）\n{stars} 第 {tries} 次挑戰解開\n🔥 連續 {streak} 天\n{url}',
+  'toast.copied': '已複製，貼到聊天室分享吧！', 'toast.failed': '沒辦法分享，請稍後再試。',
+  'remind.on': '每日提醒 開', 'remind.off': '每日提醒 關', 'remind.time': '提醒時間', 'remind.prompt': '每天提醒我 🔔',
+  'remind.denied': '沒有通知權限，請到手機設定開啟。', 'remind.set': '好！每天 {time} 提醒你。',
+  'remind.title': 'Sweetie Nim 每日一題', 'remind.body': '今天的甜甜圈謎題出爐了！', 'remind.bodyStreak': '已經連續 {n} 天了，今天也別斷掉！',
+  'coach.tap': '點一下甜甜圈', 'coach.swipe': '沿著直線劃過去',
 };
 
 const en = {
@@ -77,6 +87,8 @@ const en = {
   'rules.4': 'Gravity boards: after every move, donuts above an empty cup fall straight down.',
   'progress.title': 'Level progress', 'progress.count': '{n} / 10 done', 'progress.chapters': 'Chapter 1: levels 01–05 static · Chapter 2: 06–10 gravity',
   'footer.text': 'Your opponent is an on-device solver: no luck, only strategy.', 'footer.privacy': 'Privacy settings', 'lang.switch': '中文',
+  'footer.music': 'Music: "Gem Waltz" by Haley Halcyon (CC BY 4.0) · "Sunny Side Up" by Pro Sensory (CC0)',
+  'menu.settings': 'Settings', 'btn.music.on': 'Music on', 'btn.music.off': 'Music off', 'settings.note': 'The Sound button at the top also mutes the music.',
   'menu.title': 'Menu', 'menu.close': 'Close menu', 'menu.rule': 'Rule', 'menu.play': 'Play', 'menu.levels': 'Choose a level',
   'mode.normal.name': 'Last one <b>wins</b>', 'mode.normal.rule': 'Grab the last donut',
   'mode.misere.name': 'Last one <b>loses</b>', 'mode.misere.rule': 'Leave the last one to them',
@@ -120,6 +132,14 @@ const en = {
   'next.retry': 'Try again ↺', 'next.book': 'Go to the levels →', 'next.menu': 'Choose a level →', 'next.ch2': 'On to chapter 2 ↓',
   'next.next': 'Next level →', 'next.endless': 'Next puzzle →', 'next.daily': 'Back to the menu →', 'next.duo': 'Play again ↺',
   'who.you': 'You', 'who.ai': 'Computer', 'who.p': 'Player {n}',
+  'stars.aria': '{n} stars', 'stars.tip1': 'Skip the hint to earn another star.', 'stars.tip2': 'Make every move a winning move to earn three stars.', 'stars.tip3': 'Perfect! Every move was a winning move.',
+  'btn.share': 'Share', 'daily.share': "Share today's result",
+  'share.daily': 'Sweetie Nim daily puzzle {date} ({rule})\n{stars} solved on try #{tries}\n🔥 {streak}-day streak\n{url}',
+  'toast.copied': 'Copied — paste it anywhere to share!', 'toast.failed': "Couldn't share. Please try again later.",
+  'remind.on': 'Daily reminder on', 'remind.off': 'Daily reminder off', 'remind.time': 'Reminder time', 'remind.prompt': 'Remind me daily 🔔',
+  'remind.denied': 'Notifications are blocked. Turn them on in the phone settings.', 'remind.set': "Done! We'll remind you at {time} every day.",
+  'remind.title': 'Sweetie Nim daily puzzle', 'remind.body': "Today's donut puzzle is ready!", 'remind.bodyStreak': "You're on a {n}-day streak — keep it going today!",
+  'coach.tap': 'Tap the donut', 'coach.swipe': 'Swipe along the line',
 };
 
 // English lessons and hints for the twenty campaign levels ("mode:id": [lesson, hint]).

@@ -82,3 +82,13 @@ test('misère: full controller play wins all ten "last one loses" levels; taking
   const restored = new SaveStore({ getItem: k => storage.get(k) ?? null, setItem() {} });
   assert.equal(restored.mode, 'misere'); assert.equal(restored.progress.completed.length, 10);
 });
+
+test('stars come from the game: perfect play earns 3, opening the hint caps it at 1', async () => {
+  const solver = new Solver(), save = new SaveStore({ getItem: () => null, setItem() {} });
+  const renderer = { draw() {}, cancel() {}, async animate() {}, async pause() {} };
+  const game = new GameController({ levels, solver, save, renderer, ai: new AIController(solver) });
+  game.load(1); await game.play(solver.solve(game.state).optimalMove);
+  assert.equal(game.winner, 'player'); assert.equal(game.stars, 3); assert.equal(save.data.stars[1], 3);
+  save.complete(1); game.load(2); game.hintUsed = true; await game.play(solver.solve(game.state).optimalMove);
+  assert.equal(game.stars, 1); assert.equal(save.data.stars[2], 1);
+});
