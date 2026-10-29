@@ -374,16 +374,16 @@ body.native .settings-row.native-only { display: grid !important; }
    blurred copy of itself that fills whatever space is left on tall phones and wide screens. */
 .title-screen {
   --fw: min(calc(100vw * 1.08), calc(100vh * .5628)); /* up to 4% cropped per side on tall phones */
-  position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+  position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
   overflow: hidden; background: #f9d6c4; transition: opacity .38s ease, transform .38s ease;
 }
 @supports (height: 100dvh) { .title-screen { --fw: min(calc(100vw * 1.08), calc(100dvh * .5628)); } }
 .title-screen::before {
-  content: ''; position: absolute; inset: -60px; background: url('/assets/candy/title.webp') center / cover;
+  content: ''; position: absolute; top: -60px; right: -60px; bottom: -60px; left: -60px; background: url('/assets/candy/title.webp') center / cover;
   filter: blur(28px) saturate(1.15); opacity: .85;
 }
 /* Portrait: the strips above/below the art are sky and candy path, so a light blur reads as depth. */
-@media (orientation: portrait) { .title-screen::before { inset: -20px; filter: blur(9px) saturate(1.1); opacity: 1; } }
+@media (orientation: portrait) { .title-screen::before { top: -20px; right: -20px; bottom: -20px; left: -20px; filter: blur(9px) saturate(1.1); opacity: 1; } }
 .title-screen.leaving { opacity: 0; transform: scale(1.04); pointer-events: none; }
 .title-frame {
   position: relative; width: var(--fw); height: calc(var(--fw) / .5628);
