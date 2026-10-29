@@ -134,6 +134,14 @@
   <p class="small" data-i18n="settings.note">上方的「音效」按鈕會一起關掉音樂。</p>
 </dialog>
 <div id="toast" class="toast" role="status" hidden></div>
+
+<!-- Start screen: shown on every launch; removed when the player taps Start. -->
+<div id="title-screen" class="title-screen">
+  <div class="title-frame">
+    <img class="title-logo" src="/assets/candy/logo.webp" alt="Sweetie Nim" width="900" height="292">
+    <button id="start-button" class="button jelly pink title-start" type="button"><span data-i18n="btn.start">開始遊戲</span></button>
+  </div>
+</div>
 <script type="module" src="/src/main.js"></script>
 </body>
 </html>

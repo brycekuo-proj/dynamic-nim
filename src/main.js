@@ -26,5 +26,14 @@ game.onChange = g => ui.update(g);
 ui.input = new InputController(renderer.svg, renderer, game);
 const bookPuzzle = parsePuzzle(new URLSearchParams(location.search).get('p'));
 if (bookPuzzle) ui.loadBook(bookPuzzle); else ui.load(save.progress.currentLevel);
+// Start screen. A shared book-puzzle link goes straight to its puzzle, and automated
+// browsers skip it unless the URL asks for it with ?title.
+const title = document.getElementById('title-screen');
+if (bookPuzzle || (navigator.webdriver && !new URLSearchParams(location.search).has('title'))) title.remove();
+else document.getElementById('start-button').addEventListener('click', () => {
+  sound.play('click');
+  title.classList.add('leaving');
+  setTimeout(() => title.remove(), reduced.matches ? 0 : 380);
+}, { once: true });
 void ads.start(); // no-op outside the Android app
 void ui.planReminders(); // refresh the coming week of daily reminders (Android only)

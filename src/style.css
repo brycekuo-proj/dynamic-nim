@@ -368,3 +368,47 @@ body.native .settings-row.native-only { display: grid !important; }
   0% { transform: translate(0, 0) scale(1); opacity: 0; } 12% { opacity: 1; transform: translate(0, 0) scale(.8); }
   70% { transform: translate(var(--dx), var(--dy)) scale(.8); opacity: 1; } 85%, 100% { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; }
 }
+
+/* ---------- Start screen ---------- */
+/* The art is portrait (941×1672). It is shown whole (never cropped), centred over a
+   blurred copy of itself that fills whatever space is left on tall phones and wide screens. */
+.title-screen {
+  --fw: min(calc(100vw * 1.08), calc(100vh * .5628)); /* up to 4% cropped per side on tall phones */
+  position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; background: #f9d6c4; transition: opacity .38s ease, transform .38s ease;
+}
+@supports (height: 100dvh) { .title-screen { --fw: min(calc(100vw * 1.08), calc(100dvh * .5628)); } }
+.title-screen::before {
+  content: ''; position: absolute; inset: -60px; background: url('/assets/candy/title.webp') center / cover;
+  filter: blur(28px) saturate(1.15); opacity: .85;
+}
+/* Portrait: the strips above/below the art are sky and candy path, so a light blur reads as depth. */
+@media (orientation: portrait) { .title-screen::before { inset: -20px; filter: blur(9px) saturate(1.1); opacity: 1; } }
+.title-screen.leaving { opacity: 0; transform: scale(1.04); pointer-events: none; }
+.title-frame {
+  position: relative; width: var(--fw); height: calc(var(--fw) / .5628);
+  background: url('/assets/candy/title.webp') center / cover;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 2.5%, #000 97.5%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 2.5%, #000 97.5%, transparent);
+}
+.title-logo {
+  position: absolute; left: 7%; top: 6%; width: 86%; height: auto;
+  filter: drop-shadow(0 6px 8px rgba(120, 50, 30, .35));
+}
+/* Chunky, readable label: Huninn has one weight, so it is faux-bolded and given a
+   deep-pink outline built from text-shadows (works on old Android WebViews too). */
+.title-start {
+  position: absolute; left: 50%; top: 84.5%; transform: translateX(-50%);
+  width: 60%; height: 7.8%; min-height: 0; padding: 0; border-radius: 999px; border-width: 4px;
+  font: 700 calc(var(--fw) * .085) / 1 var(--f-latin); letter-spacing: .08em; color: #fff;
+  --o: calc(var(--fw) * .006);
+  text-shadow:
+    var(--o) 0 0 var(--pink-deep), calc(var(--o) * -1) 0 0 var(--pink-deep), 0 var(--o) 0 var(--pink-deep), 0 calc(var(--o) * -1) 0 var(--pink-deep),
+    var(--o) var(--o) 0 var(--pink-deep), calc(var(--o) * -1) var(--o) 0 var(--pink-deep), var(--o) calc(var(--o) * -1) 0 var(--pink-deep), calc(var(--o) * -1) calc(var(--o) * -1) 0 var(--pink-deep),
+    0 calc(var(--o) * 3) 0 rgba(120, 20, 60, .45);
+  box-shadow: 0 7px 0 var(--pink-deep), 0 16px 24px -8px rgba(150, 30, 70, .6);
+  animation: title-breathe 1.8s ease-in-out infinite;
+}
+.title-start:active { transform: translateX(-50%) translateY(4px); box-shadow: 0 3px 0 var(--pink-deep); animation: none; }
+@keyframes title-breathe { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.045); } }
+@media (prefers-reduced-motion: reduce) { .title-start { animation: none; } .title-screen { transition: none; } }

@@ -178,3 +178,20 @@ test('a solved daily puzzle can be shared as text with stars, tries, streak and 
   await page.locator('#next-button').click();
   await expect(page.locator('#daily-share')).toBeVisible();
 });
+
+test('the start screen shows on launch and Start reveals the game', async ({ page }) => {
+  await page.goto('/?title');
+  await expect(page.locator('#title-screen')).toBeVisible();
+  await expect(page.locator('#start-button')).toHaveText('開始遊戲');
+  const box = await page.locator('.title-frame').boundingBox(), vp = page.viewportSize();
+  expect(box.height).toBeLessThanOrEqual(vp.height + 1); // the art is never cut off top or bottom
+  await page.locator('#start-button').click({ force: true }); // it gently pulses
+  await expect(page.locator('#title-screen')).toHaveCount(0);
+  await expect(page.locator('#status')).toHaveText('輪到你');
+  // A shared book-puzzle link skips straight to the puzzle.
+  await page.goto('/?title&p=x');
+  await expect(page.locator('#title-screen')).toBeVisible(); // malformed link: normal launch
+  await page.goto('/?title&p=12-s-ooo');
+  await expect(page.locator('#title-screen')).toHaveCount(0);
+  await expect(page.locator('#board')).toBeVisible();
+});
