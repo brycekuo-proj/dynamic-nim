@@ -258,7 +258,7 @@ export class UIController {
       const cells = step.cells ?? [cellsOf(g.state)[0]];
       const svg = $('board'), mat = el.parentElement.getBoundingClientRect(), box = svg.getBoundingClientRect(), vb = svg.viewBox.baseVal;
       const at = cell => { const p = this.input?.renderer?.position(cell) ?? { x: 0, y: 0 }; return { x: box.left - mat.left + p.x / vb.width * box.width, y: box.top - mat.top + p.y / vb.height * box.height }; };
-      const a = at(cells[0]), b = at(cells.at(-1));
+      const a = at(cells[0]), b = at(cells[cells.length - 1]);
       el.style.setProperty('--x', `${a.x}px`); el.style.setProperty('--y', `${a.y}px`);
       el.style.setProperty('--dx', `${b.x - a.x}px`); el.style.setProperty('--dy', `${b.y - a.y}px`);
       el.dataset.kind = cells.length > 1 ? 'swipe' : 'tap';
